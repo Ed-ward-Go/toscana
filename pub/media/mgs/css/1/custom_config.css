@@ -1,0 +1,32 @@
+@import url('//fonts.googleapis.com/css?family=Poppins:300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,900,900italic');@import url('//fonts.googleapis.com/css?family=Libre+Baskerville:300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,900,900italic');body{font-family: "Poppins", arial, tahoma;font-weight: normal;}#mainMenu{font-family: "Poppins";}
+				h1{font-family: "Poppins";}
+				h2{font-family: "Poppins";}
+				h3{font-family: "Poppins";}
+				h4{font-family: "Poppins";}
+				h5{font-family: "Poppins";}
+				h6{font-family: "Poppins";}
+				.price, .price-box .price{font-family: "Poppins";}
+				.btn{font-family: "Poppins";}
+				blockquote,.sub-title, .content-heading .block-note{font-family: "Libre Baskerville";}
+				.top-header-content{background-color: transparent !important;color: #ffffff !important;}.top-header-content a, .top-header-content .dropdown-switcher .switcher-toggle{color: #ffffff !important;}.top-header-content a:hover, .top-header-content .dropdown-switcher .switcher-toggle:hover{color: #56cfe1 !important;}.header .dropdown-switcher .dropdown-menu li > a{color: #8e8e8e !important;}.header .dropdown-switcher .dropdown-menu li > a:hover, .header .dropdown-switcher .dropdown-menu li > a:focus{color: #56cfe1 !important;}.header .search-form .actions-search .action-search,.header .dropdown-toplinks .dropdown-toggle,.header .header-wl a,.minicart-wrapper .action.showcart{color: #ffffff !important;}.header .search-form .actions-search .action-search:hover,.header .dropdown-toplinks .dropdown-toggle:hover,.header .dropdown-toplinks:hover .dropdown-toggle,.header .header-wl a:hover,.header .dropdown-toplinks.open .dropdown-toggle,.minicart-wrapper .action.showcart:hover::before, .minicart-wrapper .action.showcart:active::before{color: #56cfe1 !important;}.minicart-wrapper .action.showcart > .counter.qty,.header .header-wl .count-wl{color: #000000 !important;background-color: #ffffff !important;}#mainMenu .level0 a.level0{color: #ffffff !important;}#mainMenu .level0:hover a.level0{color: #56cfe1 !important;}.use-header2 .page-wrapper {position: relative;}.header.header2 {background-color: rgba(0,0,0,0.7);border: none;}.header.header2 .top-header-content {border-bottom: 1px solid rgba(255,255,255,0.1);}@media(min-width: 992px){.cms-index-index .header.header2:not(.active-sticky) {position: absolute;left: 0;top: 0;right: 0;z-index: 99;}}@media (max-width: 1199px){.header.header2 #mainMenu .level0 > a.level0 {color: #575757 !important;}.header.header2 .action.nav-toggle img {filter: brightness(0) invert(1);-webkit-filter: brightness(0) invert(1);}
+.mgs-quickview-catalog-product-view .product-detail-infomation.col-xs-12 {
+    height: auto !important;
+}
+.header .logo-left-header .logo {
+    display: block;
+    text-align: center;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin: 5px 0;
+    height: 51px;
+}
+.slide-text .big-text,.slide-text h2 {
+    font-size: 50px;
+    font-weight: 700;
+}
