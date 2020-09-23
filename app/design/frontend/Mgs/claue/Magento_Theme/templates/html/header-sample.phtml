@@ -58,9 +58,7 @@
 <?php // Wishlist link ?>
 <?php $htmlWishlist = "" ?>
 <?php if($this->helper('Magento\Wishlist\Helper\Data')->isAllow()): ?>
-    <?php $htmlWishlist = '<div class="header-wl"><a href="'.$this->helper('Magento\Wishlist\Helper\Data')->getListUrl().'"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M11 1L14.09 7.26L21 8.27L16 13.14L17.18 20.02L11 16.77L4.82 20.02L6 13.14L1 8.27L7.91 7.26L11 1Z" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>'; ?>
+    <?php $htmlWishlist = '<div class="header-wl"><a href="'.$this->helper('Magento\Wishlist\Helper\Data')->getListUrl().'"><i class="pe-7s-like"></i>'; ?>
     <?php if($this->helper('Magento\Wishlist\Helper\Data')->getItemCount() > 0): ?>
         <?php $htmlWishlist .= '<span class="count-wl">'. $this->helper('Magento\Wishlist\Helper\Data')->getItemCount() .'</span>'; ?>
     <?php endif ?>
@@ -69,10 +67,7 @@
 <?php endif ?>
 
 <?php // Top Link ?>
-<?php $htmlTopLink = '<div class="dropdown dropdown-toplinks"><button class="dropdown-toggle" type="button" data-toggle="dropdown"><svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M17 19V17C17 15.9391 16.5786 14.9217 15.8284 14.1716C15.0783 13.4214 14.0609 13 13 13H9H5C3.93913 13 2.92172 13.4214 2.17157 14.1716C1.42143 14.9217 1 15.9391 1 17V19" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M9 9C11.2091 9 13 7.20914 13 5C13 2.79086 11.2091 1 9 1C6.79086 1 5 2.79086 5 5C5 7.20914 6.79086 9 9 9Z" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</svg> <span class="label">Account</span></button><div class="dropdown-menu">'. $block->getChildHtml('top.links') .'</div></div>'; ?>
+<?php $htmlTopLink = '<div class="dropdown dropdown-toplinks"><button class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="pe-7s-user"></i> <span class="label">Account</span></button><div class="dropdown-menu">'. $block->getChildHtml('top.links') .'</div></div>'; ?>
 
 <?php // HEADER CONTENT ?>
 <?php if($header == "" || $header == 'header_1' || $header == 'header_2' || $header == 'header_3' || $header == 'header'): ?>
@@ -80,47 +75,60 @@
     <?php $topLeftBlock = $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header_1_top_left_link')->setCanUsePanel($canUsePanel)->toHtml(); ?>
     <?php $topMiddleBlock = $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header_1_top_middle_block')->setCanUsePanel($canUsePanel)->toHtml(); ?>
     
-    <?php $additionalLinksBlock = $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('sucesores_header_additional_links')->setCanUsePanel($canUsePanel)->toHtml(); ?>
-
-    <div >
+    <div class="top-header-content">
         <div class="container<?php if($header != 'header_3'): ?>-fluid<?php endif ?>">
             <div class="row">
-                <?php if($additionalLinksBlock): ?>
-                    <div class="top-additonal-links">
-                        <?php echo $additionalLinksBlock; ?>
-                    </div>
-                <?php endif ?>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <!-- Static block: header_1_top_left_link -->
+                    <?php if($topLeftBlock): ?>
+                        <div class="top-custom-link">
+                            <?php echo $topLeftBlock; ?>
+                        </div>
+                    <?php endif ?>
+                </div>
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <!-- Static block: header_1_top_middle_block -->
+                    <?php if($topMiddleBlock): ?>
+                        <div class="top-middle-header">
+                            <?php echo $topMiddleBlock; ?>
+                        </div>
+                    <?php endif ?>
+                </div>
+                <div class="col-md-4 hidden-sm hidden-xs col-sm-12 col-xs-12">
+                    <?php echo $storeLanguage ?>
+                    <?php echo $currency ?>
+                </div>
             </div>
         </div>
     </div>
     <div class="middle-header-content">
-        <div>
-            <div class="middle-header-container">
-
-                <div class="hamburguer-menu-container">
-
+        <div class="container<?php if($header != 'header_3'): ?>-fluid<?php endif ?>">
+            <div class="row">
+                <div class="col-lg-2 col-md-4 col-sm-4 mobile-item-col">
                     <button class="action nav-toggle hidden-lg"><?php echo $imgToggleMenu ?></button>
-                </div>
-                <div class="logo-container">
-                    <?php echo $logo ?>
-                </div>
-                
-            </div>
-        </div>
-        <div class="user-buttons-container">                        
-            <?php echo $htmlTopLink ?>                            
-            <?php echo $htmlWishlist; ?>               
-            <?php echo $miniCart ?>          
-        </div>
-    </div>
-    <div class="bottom-header-content">
-        <div class="container">
-            <div class="row bottom-header-container">
-                <div class="megamenu-content">
-                        <?php echo $htmlTabMenu ?><?php echo $htmlTabContent ?>
+                    
+                    <div class="visible-lg<?php if($header == 'header_2' || $header == 'header_3'): ?> logo-left-header<?php endif ?>">
+                        <?php echo $header == 'header_2' || $header == 'header_3' ?  $logo : $headerSocialBlock; ?>
+                    </div>
                 </div>
                 
-                <?php echo $topSearch ?>
+                <div class="hidden-lg col-md-4 col-sm-4 logo-header mobile-item-col"><?php echo $logo ?></div>
+                
+                <div class="col-lg-8 col-xs-12 megamenu-content">
+                    <?php echo $htmlTabMenu ?><?php echo $htmlTabContent ?>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 col-sm-4 col-xs-auto mobile-item-col">
+                    <div class="table-icon-menu pull-right">
+                        <?php echo $topSearch ?>
+                        
+                        <?php echo $htmlTopLink ?>
+                        
+                        <?php echo $htmlWishlist; ?>
+                        
+                        <?php echo $miniCart ?>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -665,61 +673,74 @@
     <?php $topLeftBlock = $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header_8_top_left_link')->setCanUsePanel($canUsePanel)->toHtml(); ?>
 
     <?php $topMiddleBlock = $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header_13_top_middle_block')->setCanUsePanel($canUsePanel)->toHtml(); ?>
-
-    <?php $additionalLinksBlock = $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('sucesores_header_additional_links')->setCanUsePanel($canUsePanel)->toHtml(); ?>
-
-        <div class="top-header-content">
-            <div class="container<?php if($header != 'header_3'): ?>-fluid<?php endif ?>">
-                <div class="row">
-                    <?php if($additionalLinksBlock): ?>
-                        <div class="top-additonal-links">
-                            <?php echo $additionalLinksBlock; ?>
+    <div class="top-header-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-xs-12">
+                    <!-- Static block: header_8_top_left_link -->
+                    <?php if($topLeftBlock): ?>
+                        <div class="top-custom-link">
+                            <?php echo $topLeftBlock; ?>
                         </div>
                     <?php endif ?>
                 </div>
+                <div class="col-md-4 hidden-sm hidden-xs col-xs-12">
+                    <?php echo $storeLanguage ?>
+                    <?php echo $currency ?>
+                </div>
             </div>
         </div>
-        <div class="middle-header-content">
-            <div class="container<?php if($header != 'header_3'): ?>-fluid<?php endif ?>">
-                <div class="middle-header-container">
-                    <div class="logo-container">
-                        <?php echo $logo ?>
+    </div>
+    <div class="middle-header-content">
+        <div class="container">
+            <div class="row">
+            
+                <div class="col-lg-3 col-md-3 col-xs-6 logo-header"><?php echo $logo ?></div>
+                
+                <div class="col-lg-6 col-sm-2 parent__megameu">
+                    <div class="megamenu-content">
+                        <?php echo $htmlTabMenu ?><?php echo $htmlTabContent ?>
                     </div>
-                    <div class="hamburguer-menu-container">
-                        <button class="action hidden-lg"><?php echo $imgToggleMenu ?></button>
-                    </div>
-                    <div class="user-buttons-container">
-                        <?php echo $topSearch ?>
-                            
+                    
+                </div>
+                
+                
+                <div class="col-lg-3 col-md-9 col-xs-6">
+                    <div class="table-icon-menu pull-right">
                         <?php echo $htmlTopLink ?>
-                            
+                        
                         <?php echo $htmlWishlist; ?>
-                            
+                        
+                        <div class="text-right hidden-lg">
+                            <button class="action nav-toggle hidden-lg"><?php echo $imgToggleMenu ?></button>
+                        </div>
+
                         <?php echo $miniCart ?>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="bottom-header-content">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3 col-sm-4">
-                        <?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('claue_vertical_menu_header')->setCanUsePanel($canUsePanel)->toHtml(); ?>
-                    </div>
-                    <div class="col-lg-6 col-sm-2 parent__megameu">
-                        <div class="megamenu-content">
-                            <?php echo $htmlTabMenu ?><?php echo $htmlTabContent ?>
+    </div>
+    <div class="bottom-header-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-sm-4">
+                    <?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('claue_vertical_menu_header')->setCanUsePanel($canUsePanel)->toHtml(); ?>
+                </div>
+                <div class="col-lg-6 col-sm-8 col-xs-12 parent__search">
+                    <?php echo $topSearch ?>
+                    <div class="search-form select-search">
+                        <div class="actions-search visible-xs">
+                            <button class="action-search" onclick="showHideFormSearch()"><i class="pe-7s-search"></i></button>
                         </div>
-                        <div class="text-right hidden-lg">
-                            <button class="action nav-toggle hidden-lg"><?php echo $imgToggleMenu ?></button>
-                        </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6 col-xs-12 hidden-xs">
-                        <div class="bottom-header-block"><?php echo $topMiddleBlock; ?></div>
-                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-xs-12 visible-lg">
+                    <div class="bottom-header-block"><?php echo $topMiddleBlock; ?></div>
                 </div>
             </div>
         </div>
+    </div>	
 <?php endif ?>
 
 <?php if(!($header == 'header_5')){echo $subCategories;}?>

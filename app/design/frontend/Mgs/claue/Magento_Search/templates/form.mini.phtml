@@ -21,27 +21,32 @@
 	<div class="form-search">
 		<button class="search-close" onclick="showHideFormSearch()"><i class="pe-7s-close"></i></button>
 		<form class="form minisearch" id="search_mini_form" action="<?php /* @escapeNotVerified */ echo $helper->getResultUrl() ?>" method="get">
+	
 			<input id="search"
-			   data-mage-init='{"quickSearch":{
+			   	data-mage-init='{"quickSearch":{
 					"formSelector":"#search_mini_form",
 					"url":"<?php /* @escapeNotVerified */ echo $block->getUrl('search/ajax/suggest'); ?>",
 					"destinationSelector":"#search_autocomplete"}
-			   }'
-			   type="text"
-			   name="<?php /* @escapeNotVerified */ echo $helper->getQueryParamName() ?>"
-			   value="<?php /* @escapeNotVerified */ echo $helper->getEscapedQueryText() ?>"
-			   class="input-text form-control"
-			   maxlength="<?php /* @escapeNotVerified */ echo $helper->getMaxQueryLength();?>"
-			   placeholder="<?php echo __('Search for...') ?>"
-			   role="combobox"
-			   aria-expanded="true"
-			   aria-haspopup="false"
-			   aria-autocomplete="both"
-			   autocomplete="off"/>
+				}'
+				type="text"
+				name="<?php /* @escapeNotVerified */ echo $helper->getQueryParamName() ?>"
+				value="<?php /* @escapeNotVerified */ echo $helper->getEscapedQueryText() ?>"
+				class="input-text form-control"
+				maxlength="<?php /* @escapeNotVerified */ echo $helper->getMaxQueryLength();?>"
+				placeholder="<?php echo __('Search for...') ?>"
+				role="combobox"
+				aria-expanded="true"
+				aria-haspopup="false"
+				aria-autocomplete="both"
+				autocomplete="off"/>
 				
 			<button type="submit" title="<?php echo $block->escapeHtml(__('Search')) ?>" class="button">
-				<i class="pe-7s-search"></i>
-			</button>	   
+				<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M9 17C13.4183 17 17 13.4183 17 9C17 4.58172 13.4183 1 9 1C4.58172 1 1 4.58172 1 9C1 13.4183 4.58172 17 9 17Z" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+					<path d="M19 18.9999L14.65 14.6499" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+			</button>
+	   
 			<div id="search_autocomplete" class="search-autocomplete" style="display: none;"></div>
 			<?php echo $block->getChildHtml() ?>
 		</form>
