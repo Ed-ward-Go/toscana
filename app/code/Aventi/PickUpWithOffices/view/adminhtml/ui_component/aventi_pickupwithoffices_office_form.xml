@@ -1,0 +1,134 @@
+<?xml version="1.0" ?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+	<argument name="data" xsi:type="array">
+		<item name="js_config" xsi:type="array">
+			<item name="provider" xsi:type="string">aventi_pickupwithoffices_office_form.office_form_data_source</item>
+		</item>
+		<item name="label" translate="true" xsi:type="string">General Information</item>
+		<item name="template" xsi:type="string">templates/form/collapsible</item>
+	</argument>
+	<settings>
+		<buttons>
+			<button class="Aventi\PickUpWithOffices\Block\Adminhtml\Office\Edit\BackButton" name="back"/>
+			<button class="Aventi\PickUpWithOffices\Block\Adminhtml\Office\Edit\DeleteButton" name="delete"/>
+			<button class="Aventi\PickUpWithOffices\Block\Adminhtml\Office\Edit\SaveButton" name="save"/>
+			<button class="Aventi\PickUpWithOffices\Block\Adminhtml\Office\Edit\SaveAndContinueButton" name="save_and_continue"/>
+		</buttons>
+		<namespace>aventi_pickupwithoffices_office_form</namespace>
+		<dataScope>data</dataScope>
+		<deps>
+			<dep>aventi_pickupwithoffices_office_form.office_form_data_source</dep>
+		</deps>
+	</settings>
+	<dataSource name="office_form_data_source">
+		<argument name="data" xsi:type="array">
+			<item name="js_config" xsi:type="array">
+				<item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+			</item>
+		</argument>
+		<settings>
+			<submitUrl path="*/*/save"/>
+		</settings>
+		<dataProvider class="Aventi\PickUpWithOffices\Model\Office\DataProvider" name="office_form_data_source">
+			<settings>
+				<requestFieldName>office_id</requestFieldName>
+				<primaryFieldName>office_id</primaryFieldName>
+			</settings>
+		</dataProvider>
+	</dataSource>
+	<fieldset name="general">
+		<settings>
+			<label/>
+		</settings>
+		<field formElement="textarea" name="title" sortOrder="10">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="source" xsi:type="string">Office</item>
+				</item>
+			</argument>
+			<settings>
+				<dataType>text</dataType>
+				<label translate="true">title</label>
+				<dataScope>title</dataScope>
+				<validation>
+					<rule name="required-entry" xsi:type="boolean">false</rule>
+				</validation>
+			</settings>
+		</field>
+		<field formElement="textarea" name="address" sortOrder="20">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="source" xsi:type="string">Office</item>
+				</item>
+			</argument>
+			<settings>
+				<dataType>text</dataType>
+				<label translate="true">address</label>
+				<dataScope>address</dataScope>
+				<validation>
+					<rule name="required-entry" xsi:type="boolean">false</rule>
+				</validation>
+			</settings>
+		</field>
+		<field formElement="textarea" name="city" sortOrder="30">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="source" xsi:type="string">Office</item>
+				</item>
+			</argument>
+			<settings>
+				<dataType>text</dataType>
+				<label translate="true">city</label>
+				<dataScope>city</dataScope>
+				<validation>
+					<rule name="required-entry" xsi:type="boolean">false</rule>
+				</validation>
+			</settings>
+		</field>
+		<field formElement="textarea" name="schedule" sortOrder="40">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="source" xsi:type="string">Office</item>
+				</item>
+			</argument>
+			<settings>
+				<dataType>text</dataType>
+				<label translate="true">schedule</label>
+				<dataScope>schedule</dataScope>
+				<validation>
+					<rule name="required-entry" xsi:type="boolean">false</rule>
+				</validation>
+			</settings>
+		</field>
+		<field formElement="textarea" name="schedule" sortOrder="40">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="source" xsi:type="string">Code SAP</item>
+				</item>
+			</argument>
+			<settings>
+				<dataType>text</dataType>
+				<label translate="true">sap</label>
+				<dataScope>sap</dataScope>
+				<validation>
+					<rule name="required-entry" xsi:type="boolean">false</rule>
+				</validation>
+			</settings>
+		</field>
+		<field formElement="textarea" name="description" sortOrder="50">
+			<argument name="data" xsi:type="array">
+				<item name="config" xsi:type="array">
+					<item name="source" xsi:type="string">Office</item>
+				</item>
+			</argument>
+			<settings>
+				<dataType>text</dataType>
+				<label translate="true">description</label>
+				<dataScope>description</dataScope>
+				<validation>
+					<rule name="required-entry" xsi:type="boolean">false</rule>
+				</validation>
+			</settings>
+		</field>
+	</fieldset>
+</form>

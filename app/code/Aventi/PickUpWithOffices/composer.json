@@ -1,0 +1,22 @@
+{
+    "name": "aventi/module-pickupwithoffices",
+    "description": "Generate the opcion  pick up with offices",
+    "type": "magento2-module",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Mage2Gen",
+            "email": "info@mage2gen.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Aventi\\PickUpWithOffices\\": ""
+        },
+        "files": [
+            "registration.php"
+        ]
+    }
+}

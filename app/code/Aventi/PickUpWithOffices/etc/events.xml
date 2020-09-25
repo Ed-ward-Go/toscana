@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+	<event name="sales_order_place_after">
+		<observer instance="Aventi\PickUpWithOffices\Observer\Sales\OrderPlaceAfter" name="aventi_pickupwithoffices_observer_sales_orderplaceafter_sales_order_place_after"/>
+	</event>
+	<event name="payment_method_is_active">
+        <observer name="disable_payment" instance="Aventi\PickUpWithOffices\Observer\Payment\PaymentMethodAvailable" />
+    </event>
+</config>

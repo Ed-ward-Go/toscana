@@ -1,0 +1,29 @@
+<div class="checkout-block" id="list-offices">
+    <h4 data-bind="i18n: 'Availability in our offices'"></h4>
+    <p class="sidenote" data-bind="i18n: 'Please, select the nearest pick up pint for your location'"> </p>
+
+    <ul class="offices" data-bind="foreach: { data: getOffices(), as: 'item' }">
+        <li>
+            <h5 data-bind="text: item.category"></h5>
+            <ul class="offices-container" data-bind="foreach: { data: offices, as: 'office' }">
+                <li class="offices-row js-click">
+                    <div class="logo">
+                        <div class="img">
+                            <img data-bind="attr: {src: office.img}" />
+                        </div>
+                    </div>
+                    <div class="address">
+                        <span class="title" data-bind="text: office.title"></span>
+                        <span class="address" data-bind="html: office.address"></span>
+                    </div>
+                    <div class="shedule">
+                        <strong>Horario de atención</strong>
+                        <span class="" data-bind="text: office.schedule"></span>
+                    </div>
+                    <div class="selection"></div>
+                    <input type="hidden" data-bind="value: office.id"/>
+                </li>
+            </div>
+        </li>
+    </ul>
+</div>

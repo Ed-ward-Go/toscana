@@ -1,0 +1,460 @@
+<!--@subject {{trans "Nueva solicitud de registro"}} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<h2>Solicitud de Registro</h2>
+
+<p>Su solicitud de registro de Siglo21 ha sido enviada de forma correcta. Más abajo puedes <b>revisar y comprobar los datos que se enviaron como solicitud.</b></p>
+
+<hr>
+<h3 class="register-table-heading">Información Comercial</h3>
+<table class="register-table" width="100%">
+	<tr>
+		<td width="40%" class="table-left-side table-side">Razon Social/Nombre de la empresa</td>
+		<td width="60%" class="table-right-side table-side">{{var company_name}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">RUC</td>
+		<td width="60%" class="table-right-side table-side">{{var ruc}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Direccion Comercial</td>
+		<td width="60%" class="table-right-side table-side">{{var dir_comercial}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Telefono/Oficina</td>
+		<td width="60%" class="table-right-side table-side">{{var tel_of}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Fax/Oficina</td>
+		<td width="60%" class="table-right-side table-side">{{var fax_of}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Local es</td>
+		<td width="60%" class="table-right-side table-side">{{var local_type}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Tiempo en local</td>
+		<td width="60%" class="table-right-side table-side">{{var age_local}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Ciudad</td>
+		<td width="60%" class="table-right-side table-side">{{var city}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Provincia</td>
+		<td width="60%" class="table-right-side table-side">{{var province}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Email Corporativo</td>
+		<td width="60%" class="table-right-side table-side">{{var email_corps}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Contribuyente especial</td>
+		<td width="60%" class="table-right-side table-side">{{var taxpayer}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Tipo Cliente</td>
+		<td width="60%" class="table-right-side table-side">{{var customer_type}} </td>
+	</tr>
+</table>
+
+{{depend product1}}
+<hr>
+<h3 class="register-table-heading">Productos que comercializa</h3>
+{{/depend}}
+<table class="" width="100%">
+	<tr>
+		{{depend product1}}<td width="50%" class="register-table-product"> <p>{{var product1}}</p></td>{{/depend}}
+		{{depend product2}}<td width="50%" class="register-table-product"> <p>{{var product2}}</p></td>{{/depend}}
+	</tr>
+	<tr>
+		{{depend product3}}<td width="50%" class="register-table-product"> <p>{{var product3}}</p></td>{{/depend}}
+		{{depend product4}}<td width="50%" class="register-table-product"> <p>{{var product4}}</p></td>{{/depend}}
+	</tr>
+	<tr>
+		{{depend product5}}<td width="50%" class="register-table-product"> <p>{{var product5}}</p></td>{{/depend}}
+		{{depend product6}}<td width="50%" class="register-table-product"> <p>{{var product6}}</p></td>{{/depend}}
+	</tr>
+	<tr>
+		{{depend product7}}<td width="50%" class="register-table-product"> <p>{{var product7}}</p></td>{{/depend}}
+		{{depend product8}}<td width="50%" class="register-table-product"> <p>{{var product8}}</p></td>{{/depend}}
+	</tr>
+	<tr>
+		{{depend product9}}<td width="50%" class="register-table-product"> <p>{{var product9}}</p></td>{{/depend}}
+		{{depend product10}}<td width="50%" class="register-table-product"> <p>{{var product10}}</p></td>{{/depend}}
+	</tr>
+</table>
+
+<hr>
+<h3 class="register-table-heading">Datos Informativos</h3>
+<table class="register-table" width="100%">
+	<tr>
+		<td width="40%" class="table-left-side table-side">Email promociones</td>
+		<td width="60%" class="table-right-side table-side">{{var oferta_email}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Años en el mercado</td>
+		<td width="60%" class="table-right-side table-side">{{var age_company}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Cantidad sucursales</td>
+		<td width="60%" class="table-right-side table-side">{{var cant_sucur_info}} </td>
+	</tr>
+</table>
+
+<hr>
+<h3 class="register-table-heading">Datos Representante Legal</h3>
+<table class="register-table" width="100%">
+	<tr>
+		<td width="40%" class="table-left-side table-side">Nombre</td>
+		<td width="60%" class="table-right-side table-side">{{var rep_name}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Cedula/Pasaporte</td>
+		<td width="60%" class="table-right-side table-side">{{var nit}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Direccion Residencia</td>
+		<td width="60%" class="table-right-side table-side">{{var dir_rep}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Tipo Vivienda</td>
+		<td width="60%" class="table-right-side table-side">{{var house_type}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Tiempo</td>
+		<td width="60%" class="table-right-side table-side">{{var house_age}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Tel. Residencia</td>
+		<td width="60%" class="table-right-side table-side">{{var tel_rep}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Tel. Celular</td>
+		<td width="60%" class="table-right-side table-side">{{var phone_rep}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Email</td>
+		<td width="60%" class="table-right-side table-side">{{var email_rep}} </td>
+	</tr>
+</table>
+
+<hr>
+<h3 class="register-table-heading">Facturación Electrónica</h3>
+<p class="register-note">El usuario autoriza el estudio crediticio.</p>
+
+<table class="register-table" width="100%">
+	<tr>
+		<td width="40%" class="table-left-side table-side">Razón Social</td>
+		<td width="60%" class="table-right-side table-side">{{var fac_elec_rs}}</td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">RUC</td>
+		<td width="60%" class="table-right-side table-side">{{var fac_elec_ruc}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Nombre</td>
+		<td width="60%" class="table-right-side table-side">{{var fac_elec_name}} </td>
+	</tr>
+</table>
+
+<hr>
+<h3 class="register-table-heading">Referencias Comerciales</h3>
+<h4 class="register-table-heading4">Referencia 1</h4>
+<table class="register-table" width="100%">
+	<tr>
+		<td width="40%" class="table-left-side table-side">Empresa</td>
+		<td width="60%" class="table-right-side table-side">{{var refs_company_1}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Contacto</td>
+		<td width="60%" class="table-right-side table-side">{{var refs_contact_1}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Monto</td>
+		<td width="60%" class="table-right-side table-side">{{var refs_monto_1}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Teléfono</td>
+		<td width="60%" class="table-right-side table-side">{{var refs_phone_1}} </td>
+	</tr>
+</table>
+{{depend refs_company_2}}
+<h4 class="register-table-heading4">Referencia 2</h4>
+<table class="register-table" width="100%">
+	<tr>
+		<td width="40%" class="table-left-side table-side">Empresa</td>
+		<td width="60%" class="table-right-side table-side">{{var refs_company_2}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Contacto</td>
+		<td width="60%" class="table-right-side table-side">{{var refs_contact_2}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Monto</td>
+		<td width="60%" class="table-right-side table-side">{{var refs_monto_2}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Teléfono</td>
+		<td width="60%" class="table-right-side table-side">{{var refs_phone_2}} </td>
+	</tr>
+</table>
+{{/depend}}
+{{depend refs_company_3}}
+<h4 class="register-table-heading4">Referencia 3</h4>
+<table class="register-table" width="100%">
+	<tr>
+		<td width="40%" class="table-left-side table-side">Empresa</td>
+		<td width="60%" class="table-right-side table-side">{{var refs_company_3}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Contacto</td>
+		<td width="60%" class="table-right-side table-side">{{var refs_contact_3}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Monto</td>
+		<td width="60%" class="table-right-side table-side">{{var refs_monto_3}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Teléfono</td>
+		<td width="60%" class="table-right-side table-side">{{var refs_phone_3}} </td>
+	</tr>
+</table>
+{{/depend}} 
+<hr>
+<h3 class="register-table-heading">Referencias Familiares</h3>
+<h4 class="register-table-heading4">Referencia 1</h4>
+<table class="register-table" width="100%">
+	<tr>
+		<td width="40%" class="table-left-side table-side">Nombre / Parentesco</td>
+		<td width="60%" class="table-right-side table-side">{{var refs_fam_name_1}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Dirección</td>
+		<td width="60%" class="table-right-side table-side">{{var refs_fam_dir_1}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Tel. Residencia</td>
+		<td width="60%" class="table-right-side table-side">{{var refs_fam_telh_1}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Te. Oficina</td>
+		<td width="60%" class="table-right-side table-side">{{var refs_fam_telw_1}} </td>
+	</tr>
+</table>
+{{depend refs_fam_name_2}}
+<h4 class="register-table-heading4">Referencia 2</h4>
+<table class="register-table" width="100%">
+	<tr>
+		<td width="40%" class="table-left-side table-side">Nombre / Parentesco</td>
+		<td width="60%" class="table-right-side table-side">{{var refs_fam_name_2}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Dirección</td>
+		<td width="60%" class="table-right-side table-side">{{var refs_fam_dir_2}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Tel. Residencia</td>
+		<td width="60%" class="table-right-side table-side">{{var refs_fam_telh_2}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Tel. Oficina</td>
+		<td width="60%" class="table-right-side table-side">{{var refs_fam_telw_2}} </td>
+	</tr>
+</table>
+{{/depend}}
+{{depend refs_fam_name_3}}
+<h4 class="register-table-heading4">Referencia 3</h4>
+<table class="register-table" width="100%">
+	<tr>
+		<td width="40%" class="table-left-side table-side">Nombre / Parentesco</td>
+		<td width="60%" class="table-right-side table-side">{{var refs_fam_name_3}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Dirección</td>
+		<td width="60%" class="table-right-side table-side">{{var refs_fam_dir_3}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Tel. Residencia</td>
+		<td width="60%" class="table-right-side table-side">{{var refs_fam_telh_3}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Tel. Oficina</td>
+		<td width="60%" class="table-right-side table-side">{{var refs_fam_telw_3}} </td>
+	</tr>
+</table>
+{{/depend}} 
+
+<hr>
+<h3 class="register-table-heading">Información Empresarial</h3>
+<h4 class="register-table-heading4">Gerente General</h4>
+<table class="register-table" width="100%">
+	<tr>
+		<td width="40%" class="table-left-side table-side">Nombre Completo</td>
+		<td width="60%" class="table-right-side table-side">{{var ger_gen_name}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Fecha de Nacimiento</td>
+		<td width="60%" class="table-right-side table-side">{{var ger_gen_date}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Tel. Oficina</td>
+		<td width="60%" class="table-right-side table-side">{{var ger_gen_tel}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Email Corporativo</td>
+		<td width="60%" class="table-right-side table-side">{{var ger_gen_ema}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Celular</td>
+		<td width="60%" class="table-right-side table-side">{{var ger_gen_cel}}</td>
+	</tr>
+</table>
+
+<h4 class="register-table-heading4">Gerente Financiero</h4>
+<table class="register-table" width="100%">
+	<tr>
+		<td width="40%" class="table-left-side table-side">Nombre Completo</td>
+		<td width="60%" class="table-right-side table-side">{{var ger_fin_name}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Fecha de Nacimiento</td>
+		<td width="60%" class="table-right-side table-side">{{var ger_fin_date}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Tel. Oficina</td>
+		<td width="60%" class="table-right-side table-side">{{var ger_fin_tel}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Email Corporativo</td>
+		<td width="60%" class="table-right-side table-side">{{var ger_fin_ema}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Celular</td>
+		<td width="60%" class="table-right-side table-side">{{var ger_fin_cel}} </td>
+	</tr>
+</table>
+
+<h4 class="register-table-heading4">Jefe de Compras</h4>
+<table class="register-table" width="100%">
+	<tr>
+		<td width="40%" class="table-left-side table-side">Nombre Completo</td>
+		<td width="60%" class="table-right-side table-side">{{var jefe_comp_name}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Fecha de Nacimiento</td>
+		<td width="60%" class="table-right-side table-side">{{var jefe_comp_date}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Tel. Oficina</td>
+		<td width="60%" class="table-right-side table-side">{{var jefe_comp_tel}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Email Corporativo</td>
+		<td width="60%" class="table-right-side table-side">{{var jefe_comp_ema}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Celular</td>
+		<td width="60%" class="table-right-side table-side">{{var jefe_comp_cel}} </td>
+	</tr>
+</table>
+
+<h4 class="register-table-heading4">Jefe de Ventas</h4>
+<table class="register-table" width="100%">
+	<tr>
+		<td width="40%" class="table-left-side table-side">Nombre Completo</td>
+		<td width="60%" class="table-right-side table-side">{{var jefe_ven_name}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Fecha de Nacimiento</td>
+		<td width="60%" class="table-right-side table-side">{{var jefe_ven_date}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Tel. Oficina</td>
+		<td width="60%" class="table-right-side table-side">{{var jefe_ven_tel}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Email Corporativo</td>
+		<td width="60%" class="table-right-side table-side">{{var jefe_ven_ema}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Celular</td>
+		<td width="60%" class="table-right-side table-side">{{var jefe_ven_cel}} </td>
+	</tr>
+</table>
+
+<h4 class="register-table-heading4">Comprador</h4>
+<table class="register-table" width="100%">
+	<tr>
+		<td width="40%" class="table-left-side table-side">Nombre Completo</td>
+		<td width="60%" class="table-right-side table-side">{{var comp_name}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Fecha de Nacimiento</td>
+		<td width="60%" class="table-right-side table-side">{{var comp_date}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Tel. Oficina</td>
+		<td width="60%" class="table-right-side table-side">{{var comp_tel}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Email Corporativo</td>
+		<td width="60%" class="table-right-side table-side">{{var comp_ema}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Celular</td>
+		<td width="60%" class="table-right-side table-side">{{var comp_cel}} </td>
+	</tr>
+</table>
+
+<h4 class="register-table-heading4">Vendedor 1</h4>
+<table class="register-table" width="100%">
+	<tr>
+		<td width="40%" class="table-left-side table-side">Nombre Completo</td>
+		<td width="60%" class="table-right-side table-side">{{var ven_1_name}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Fecha de Nacimiento</td>
+		<td width="60%" class="table-right-side table-side">{{var ven_1_date}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Tel. Oficina</td>
+		<td width="60%" class="table-right-side table-side">{{var ven_1_tel}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Email Corporativo</td>
+		<td width="60%" class="table-right-side table-side">{{var ven_1_ema}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Celular</td>
+		<td width="60%" class="table-right-side table-side">{{var ven_1_cel}} </td>
+	</tr>
+</table>
+
+<h4 class="register-table-heading4">Vendedor 2</h4>
+<table class="register-table" width="100%">
+	<tr>
+		<td width="40%" class="table-left-side table-side">Nombre Completo</td>
+		<td width="60%" class="table-right-side table-side">{{var ven_2_name}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Fecha de Nacimiento</td>
+		<td width="60%" class="table-right-side table-side">{{var ven_2_date}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Tel. Oficina</td>
+		<td width="60%" class="table-right-side table-side">{{var ven_2_tel}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Email Corporativo</td>
+		<td width="60%" class="table-right-side table-side">{{var ven_2_ema}} </td>
+	</tr>
+	<tr>
+		<td width="40%" class="table-left-side table-side">Celular</td>
+		<td width="60%" class="table-right-side table-side">{{var ven_2_cel}} </td>
+	</tr>
+</table>
+
+
+{{template config_path="design/email/footer_template"}}

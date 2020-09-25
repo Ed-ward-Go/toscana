@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+		<!--
+		<add id="Aventi::top_level" module="Aventi_PickUpWithOffices" resource="Magento_Backend::content" sortOrder="9999" title="Aventi"/>
+	-->
+		<add action="aventi_pickupwithoffices/office/index" id="Aventi_PickUpWithOffices::aventi_pickupwithoffices_office" module="Aventi_PickUpWithOffices" parent="Magento_Sales::sales" resource="Magento_Backend::content" sortOrder="9999" title="Offices"/>
+	</menu>
+</config>

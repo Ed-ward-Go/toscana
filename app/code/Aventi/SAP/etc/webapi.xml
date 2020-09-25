@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route method="PUT" url="/V1/aventi-sap/identification">
+        <service class="Aventi\SAP\Api\IdentificationManagementInterface" method="putIdentification"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+</routes>

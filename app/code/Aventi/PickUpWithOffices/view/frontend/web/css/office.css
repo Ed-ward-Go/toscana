@@ -1,0 +1,130 @@
+#list-offices {
+    margin-bottom: 1rem;
+    display: none;
+    border: 1px solid transparent;
+}
+
+#list-offices h4 {
+    font-size: 16px;
+    color: #333;
+}
+#list-offices .offices {
+    cursor: pointer;
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+}
+
+#list-offices .offices .offices-row.active,
+#list-offices .offices .offices-row:hover {
+    border: 2px solid #ed1c24;
+    background-color: #eaeaea;
+    
+}
+#list-offices .offices .offices-row.active .logo .img,
+#list-offices .offices .offices-row:hover .logo .img {
+    filter: saturate(1);
+}
+#list-offices .offices .offices-row {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    width: 175px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 5px;
+    border: 2px solid #E1E1E1;
+    transition: all .5s ease;
+
+}
+
+#list-offices .offices .offices-container {
+    display: flex;
+    overflow-x: auto;
+}
+
+
+#list-offices .logo .img {
+    height: 60px;
+    width: 150px;
+    filter: saturate(0);
+    background: url(../img/tienda-quito-c-com.png);
+    margin-top: 0;
+    background-size: cover;
+    background-position: center;
+    transition: filter .5s ease;
+}
+
+
+#list-offices .offices h5 {
+    flex: 1;
+    margin: 1rem 0 0.5rem;
+    display: inline-block;
+    padding: 10px;
+    background: #ed1c24;
+    color: white;
+}
+
+#list-offices .offices li {
+    list-style: none;
+}
+
+#list-offices .logo {
+    flex: 0.1;
+    margin: 0;
+}
+
+
+#list-offices .offices .address span {
+    display: block;
+    color: #828282;
+    text-transform: lowercase;
+}
+
+#list-offices .offices .address span.title {
+    font-weight: 600;
+    color: #333333;
+    margin-top: 9px;
+    text-transform: capitalize;
+}
+
+
+#list-offices .offices .shedule * {
+    display: block;
+}
+
+@media screen and (max-width: 767px) {
+    #list-offices .logo {
+        display: none;
+    }
+
+    #list-offices .offices .address {
+        flex: 2 100%;
+        padding-bottom: 0.5rem;
+    }
+
+    #list-offices .offices .shedule {
+        flex: 1 50%;
+    }
+
+    #list-offices .offices .selection {
+        flex: 1 50%;
+        text-align: center;
+    }
+}
+
+
+.blink_me {
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    50% { border: 1px solid #ed1c24; }
+}
+
+
+.sidenote {
+    font-size: 14px;
+    color: #666;
+}
