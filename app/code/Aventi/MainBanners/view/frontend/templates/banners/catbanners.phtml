@@ -1,0 +1,107 @@
+<?php	
+	if ($block->getCustomCSS()) {
+		echo '<link rel="stylesheet" type="text/css" media="all" href="'.$block->getCustomCSS().'" />';
+	}
+?>
+
+
+<div class="category-banners-container">
+	<a class="category-banner active" id="special" style="background-image: url('<?php echo $block->getUrl("pub/media/main_banners/")?>alimentacion.jpg');">
+		<h2><span>Alimentación</span></h2>
+		<div class="actions">
+			<div class="view">
+				<svg width="24" height="18" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M1 9C1 9 5 1 12 1C19 1 23 9 23 9C23 9 19 17 12 17C5 17 1 9 1 9Z" stroke="#1A8C43" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+					<path d="M12 12C13.6569 12 15 10.6569 15 9C15 7.34315 13.6569 6 12 6C10.3431 6 9 7.34315 9 9C9 10.6569 10.3431 12 12 12Z" stroke="#1A8C43" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+				<div class="cat-label">Ver categoría</div>
+			</div>
+		</div>
+		<div class="brands">
+			<div class="brands__alimentacion">
+				<?php
+					echo $this->getLayout()
+					->createBlock('Magento\Cms\Block\Block')
+					->setBlockId('sucesores_mainbanners_brands_alimentacion')
+					->toHtml();
+				?>
+			</div>
+		</div>
+	</a>
+	<a class="category-banner" style="background-image: url('<?php echo $block->getUrl("pub/media/main_banners/")?>bebidas.jpg');">
+		<h2><span>Bebidas</span></h2>
+		<div class="actions">
+			<div class="view">
+				<svg width="24" height="18" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M1 9C1 9 5 1 12 1C19 1 23 9 23 9C23 9 19 17 12 17C5 17 1 9 1 9Z" stroke="#1A8C43" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+					<path d="M12 12C13.6569 12 15 10.6569 15 9C15 7.34315 13.6569 6 12 6C10.3431 6 9 7.34315 9 9C9 10.6569 10.3431 12 12 12Z" stroke="#1A8C43" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+				<div class="cat-label">Ver categoría</div>
+			</div>
+		</div>
+		<div class="brands">
+			<div class="brands__bebidas">
+				<?php
+					echo $this->getLayout()
+					->createBlock('Magento\Cms\Block\Block')
+					->setBlockId('sucesores_mainbanners_brands_bebidas')
+					->toHtml();
+				?>
+			</div>
+		</div>
+	</a>
+	<a class="category-banner" style="background-image: url('<?php echo $block->getUrl("pub/media/main_banners/")?>cuidado-personal.jpg');">
+		<h2><span>Higiene y cuidado<br>personal</span></h2>
+		<div class="actions">
+			<div class="view">
+				<svg width="24" height="18" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M1 9C1 9 5 1 12 1C19 1 23 9 23 9C23 9 19 17 12 17C5 17 1 9 1 9Z" stroke="#1A8C43" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+					<path d="M12 12C13.6569 12 15 10.6569 15 9C15 7.34315 13.6569 6 12 6C10.3431 6 9 7.34315 9 9C9 10.6569 10.3431 12 12 12Z" stroke="#1A8C43" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+				<div class="cat-label">Ver categoría</div>
+			</div>
+		</div>
+		<div class="brands">
+			<div class="brands__cuidado">
+				<?php
+					echo $this->getLayout()
+					->createBlock('Magento\Cms\Block\Block')
+					->setBlockId('sucesores_mainbanners_brands_cuidado')
+					->toHtml();
+				?>
+			</div>
+		</div>
+	</a>
+	<a class="category-banner" style="background-image: url('<?php echo $block->getUrl("pub/media/main_banners/")?>limpieza.jpg');">
+		<h2><span>Hogar y limpieza</span></h2>
+		<div class="actions">
+			<div class="view">
+				<svg width="24" height="18" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M1 9C1 9 5 1 12 1C19 1 23 9 23 9C23 9 19 17 12 17C5 17 1 9 1 9Z" stroke="#1A8C43" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+					<path d="M12 12C13.6569 12 15 10.6569 15 9C15 7.34315 13.6569 6 12 6C10.3431 6 9 7.34315 9 9C9 10.6569 10.3431 12 12 12Z" stroke="#1A8C43" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+				<div class="cat-label">Ver categoría</div>
+			</div>
+		</div>
+		<div class="brands">
+			<div class="brands__limpieza">
+				<?php
+					echo $this->getLayout()
+					->createBlock('Magento\Cms\Block\Block')
+					->setBlockId('sucesores_mainbanners_brands_limpieza')
+					->toHtml();
+				?>
+			</div>
+		</div>
+	</a>
+</div>
+
+
+<script type="text/x-magento-init">
+    {
+        ".category-banners-container": {
+            "Aventi_MainBanners/ban":{
+			}
+        }
+    }        
+</script>

@@ -995,6 +995,39 @@ body.cms-index-index .message > div {
 .visible-builder {
 	display: none !important;
 }
+
+// CUSTOM FOOTER
+.custom-footer {
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+	padding: 40px 20px;
+	&__logo {
+		margin-bottom: 10px;
+	}
+	&__social {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		img {
+			padding: 0 10px;
+		}
+	}
+	&__policies {
+		text-decoration: underline;
+		font-weight: bold;
+		margin: 10px 0;
+		a {
+			color: #333;
+		}
+	}
+	&__copyright {
+		font-weight: 500;
+		font-size: 12px;
+		text-align: center;
+		color: #333333;
+	}
+}
 // Footer
 .footer {
 	margin-top: 70px;
@@ -1701,6 +1734,9 @@ dl.product.options.list {
 					border-radius: 10px;
 					background: #3EB049;
 					li {
+						&:not(:last-child) a:not(.no-display) {
+							border-bottom: 1px solid white;
+						}
 						&:first-child,
 						&:nth-child(2) {
 							border-radius: 10px 10px 0 0;
@@ -1715,7 +1751,6 @@ dl.product.options.list {
 							background: #333;
 						}
 						a:not(.no-display) {
-							border-bottom: 1px solid white;
 							padding: 12px 15px 8px;
 							color: white;
 							font-weight: 700;
