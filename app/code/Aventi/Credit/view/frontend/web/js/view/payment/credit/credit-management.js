@@ -3,8 +3,9 @@
  */
 
 define([
-    'Magento_Catalog/js/price-utils'
-], function (priceUtils) {
+    'Magento_Catalog/js/price-utils',
+    'Aventi_Credit/js/view/payment/credit/check-pay-order'
+], function (priceUtils, checkPayOrder) {
     "use strict";
 
     /**
@@ -31,6 +32,14 @@ define([
          */
         getAvailableCredit: function () {
             return this.formatPrice(this.getAvailableCreditPure());
+        },
+
+        /**
+         *
+         * @returns {*}
+         */
+        canPayOrder: function(){
+            return checkPayOrder(paymentData);
         },
 
         /**

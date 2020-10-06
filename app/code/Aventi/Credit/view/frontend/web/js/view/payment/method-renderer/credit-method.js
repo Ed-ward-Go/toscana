@@ -18,13 +18,13 @@ define(
             },
             getAvailableCreditBalance: function () {
                 console.log(window.checkoutConfig.payment);
-                return $t('Disponible: ') + CreditManagment.getAvailableCredit();
+                return $t('Available: ') + CreditManagment.getAvailableCredit();
             },
             canPayOrder: function () {
-                return false;
+                return CreditManagment.canPayOrder();
             },
             getNotPayMessage: function () {
-                return $t('Insufficient credit funds');
+                return $t('If you exceed your credit limit you still can pay with cash.');
             },
             isActionToolbarVisible: function () {
                 return this.canPayOrder();

@@ -8364,11 +8364,11 @@ Home,"Inicio"
 "Something went wrong with the subscription.", "Algo salió mal con la suscripción."
 "Adding...", "Añadiendo..."
 "Sign in with %1", "Iniciar con %1"
-'If you have questions about your order, you can email us at <a href="mailto:%store_email">%store_email</a>','Si usted tiene preguntas acerca de su pedido, puede enviarnos un email a <a href=""mailto:%store_email""> %store_email</a>' 
+'If you have questions about your order, you can email us at <a href="mailto:%store_email">%store_email</a>','Si usted tiene preguntas acerca de su pedido, puede enviarnos un email a <a href=""mailto:%store_email""> %store_email</a>'
 "Forgot Your Password","Recuperar su contraseña"
 "Create an account successfully. Please wait...", "Cuenta creada con éxito. Espera por favor..."
 "Once your package ships we will send an email with a link to track your order.", "Una vez que se envíe su pedido, le enviaremos un correo electrónico con un enlace para rastrear su pedido."
-"Higher price to free shipping", "Precio para envío gratis"	
+"Higher price to free shipping", "Precio para envío gratis"
 "Price special to Medellin and Bogota", "Precio especial para Medellín y Bogotá"
 "Price special to Cali", "Precio especial para Cali"
 "Minor price to Cali, Bogota and Medellin", "Precio menor para Cali, Bogotá y Medellín"
@@ -8410,4 +8410,6 @@ Home,"Inicio"
 "Purchase Order Number","Número orden de compra.",module,Aheadworks_CreditLimit
 "You added %1 to your <a href=""%2"">shopping cart</a>.","Añadiste %1 a tu <a href=""%2"">carrito de compras</a>."
 'Your company has been approved', 'Tu compañía ha sido aprovada - Siglo21',
-"Have not available units", "No tiene unidades disponibles"
+"Have not available units", "No tiene unidades disponibles",
+"Available: ", "Disponible: "
+"If you exceed your credit limit you still can pay with cash.", "Si excedes el crédito, puedes pagar en efectivo."

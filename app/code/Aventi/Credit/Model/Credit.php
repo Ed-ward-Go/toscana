@@ -13,12 +13,10 @@ use Magento\Framework\Api\DataObjectHelper;
 
 class Credit extends \Magento\Framework\Model\AbstractModel
 {
-
     protected $creditDataFactory;
 
     protected $_eventPrefix = 'aventi_credit_credit';
     protected $dataObjectHelper;
-
 
     /**
      * @param \Magento\Framework\Model\Context $context
@@ -50,15 +48,14 @@ class Credit extends \Magento\Framework\Model\AbstractModel
     public function getDataModel()
     {
         $creditData = $this->getData();
-        
+
         $creditDataObject = $this->creditDataFactory->create();
         $this->dataObjectHelper->populateWithArray(
             $creditDataObject,
             $creditData,
             CreditInterface::class
         );
-        
+
         return $creditDataObject;
     }
 }
-

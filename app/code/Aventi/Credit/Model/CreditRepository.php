@@ -16,10 +16,16 @@ use Aventi\Credit\Model\ResourceModel\Credit\CollectionFactory as CreditCollecti
 use Magento\Framework\Api\DataObjectHelper;
 use Magento\Framework\Api\ExtensibleDataObjectConverter;
 use Magento\Framework\Api\ExtensionAttribute\JoinProcessorInterface;
+use Magento\Framework\Api\FilterBuilder;
+use Magento\Framework\Api\Search\FilterGroupBuilder;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
+use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\DB\Select;
+use Magento\Framework\EntityManager\EntityManager;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Model\ResourceModel\Db\Context as DbContext;
 use Magento\Framework\Reflection\DataObjectProcessor;
 use Magento\Store\Model\StoreManagerInterface;
 
@@ -49,6 +55,18 @@ class CreditRepository implements CreditRepositoryInterface
 
     private $registryByCustomerId = [];
 
+    /**
+     * @var SearchCriteriaBuilder
+     */
+    private $searchCriteriaBuilder;
+    /**
+     * @var FilterBuilder
+     */
+    private $filterBuilder;
+    /**
+     * @var FilterGroupBuilder
+     */
+    private $filterGroupBuilder;
 
     /**
      * @param ResourceCredit $resource
@@ -62,6 +80,9 @@ class CreditRepository implements CreditRepositoryInterface
      * @param CollectionProcessorInterface $collectionProcessor
      * @param JoinProcessorInterface $extensionAttributesJoinProcessor
      * @param ExtensibleDataObjectConverter $extensibleDataObjectConverter
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param FilterBuilder $filterBuilder
+     * @param FilterGroupBuilder $filterGroupBuilder
      */
     public function __construct(
         ResourceCredit $resource,
@@ -74,7 +95,10 @@ class CreditRepository implements CreditRepositoryInterface
         StoreManagerInterface $storeManager,
         CollectionProcessorInterface $collectionProcessor,
         JoinProcessorInterface $extensionAttributesJoinProcessor,
-        ExtensibleDataObjectConverter $extensibleDataObjectConverter
+        ExtensibleDataObjectConverter $extensibleDataObjectConverter,
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        FilterBuilder $filterBuilder,
+        FilterGroupBuilder $filterGroupBuilder
     ) {
         $this->resource = $resource;
         $this->creditFactory = $creditFactory;
@@ -87,6 +111,9 @@ class CreditRepository implements CreditRepositoryInterface
         $this->collectionProcessor = $collectionProcessor;
         $this->extensionAttributesJoinProcessor = $extensionAttributesJoinProcessor;
         $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->filterBuilder = $filterBuilder;
+        $this->filterGroupBuilder = $filterGroupBuilder;
     }
 
     /**
@@ -138,12 +165,12 @@ class CreditRepository implements CreditRepositoryInterface
     public function getByCustomerId($customerId, $reload = false)
     {
         if (!isset($this->registryByCustomerId[$customerId]) || $reload) {
-            $creditData = $this->resource->loadByCustomerId($customerId);
+            $creditData = $this->loadByCustomerId($customerId);
             if (!$creditData) {
                 throw NoSuchEntityException::singleField(CreditInterface::CUSTOMER_ID, $customerId);
             }
             $creditSummary = $this->prepareDataObjectFromRowData($creditData);
-            if ($creditSummary->getSummaryId()) {
+            if ($creditSummary->getCreditId()) {
                 $this->registry[$creditSummary->getCreditId()] = $creditSummary;
             }
             $this->registryByCustomerId[$customerId] = $creditSummary;
@@ -204,6 +231,86 @@ class CreditRepository implements CreditRepositoryInterface
     public function deleteById($creditId)
     {
         return $this->delete($this->get($creditId));
+    }
+
+    /**
+     * Retrieves data object from model
+     *
+     * @param CreditSummary|DataObject|array $model
+     * @return CreditInterface
+     */
+    private function prepareDataObjectFromModel($model)
+    {
+        /** @var CreditInterface $object */
+        $object = $this->dataCreditFactory->create();
+        $this->dataObjectHelper->populateWithArray(
+            $object,
+            is_array($model) ? $model : $model->getData(),
+            CreditInterface::class
+        );
+
+        return $object;
+    }
+
+    /**
+     * Prepare data object from row data array
+     *
+     * @param array $dataArray
+     * @return CreditInterface
+     */
+    private function prepareDataObjectFromRowData($dataArray)
+    {
+        $notFormattedDataObject = $this->prepareDataObjectFromModel($dataArray);
+        $formattedData = $this->dataObjectProcessor->buildOutputDataArray(
+            $notFormattedDataObject,
+            CreditInterface::class
+        );
+
+        return $this->prepareDataObjectFromModel($formattedData);
+    }
+
+    /**
+     * Get credit limit summary by customer ID
+     *
+     * @param int $customerId
+     * @return array
+     * @throws Select
+     */
+    public function loadByCustomerId($customerId)
+    {
+        $filter1 = $this->filterBuilder
+            ->setField("customer_id")
+            ->setValue($customerId)
+            ->setConditionType("eq")->create();
+
+        $filterGroup1 = $this->filterGroupBuilder
+            ->addFilter($filter1)->create();
+
+        $filter2 = $this->filterBuilder
+            ->setField("credit")
+            ->setValue(0)
+            ->setConditionType("neq")->create();
+
+        $filterGroup2 = $this->filterGroupBuilder
+            ->addFilter($filter2)->create();
+
+        $searchCriteria = $this->searchCriteriaBuilder
+            ->setFilterGroups([$filterGroup1, $filterGroup2])
+            ->create();
+        $items = $this->getList($searchCriteria)->getItems();
+
+        $result = [];
+        foreach ($items as $item) {
+            $result = [
+                'credit_id' => $item->getCreditId(),
+                'credit' => $item->getCredit(),
+                'available' => ($item->getCredit() + $item->getBalance()),
+                'balance' => $item->getBalance(),
+                'customer_id' => $item->getCustomerId()
+            ];
+        }
+
+        return $result;
     }
 }
 
