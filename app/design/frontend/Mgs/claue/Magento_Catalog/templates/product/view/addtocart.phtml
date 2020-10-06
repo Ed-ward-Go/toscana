@@ -64,45 +64,81 @@
 						title="<?php /* @escapeNotVerified */ echo $buttonTitle ?>"
 						class="action primary tocart"
 						id="product-addtocart-button">
+						<svg width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M4 1L1 5V19C1 19.5304 1.21071 20.0391 1.58579 20.4142C1.96086 20.7893 2.46957 21 3 21H17C17.5304 21 18.0391 20.7893 18.4142 20.4142C18.7893 20.0391 19 19.5304 19 19V5L16 1H4Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+							<path d="M1 5H19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+							<path d="M14 9C14 10.0609 13.5786 11.0783 12.8284 11.8284C12.0783 12.5786 11.0609 13 10 13C8.93913 13 7.92172 12.5786 7.17157 11.8284C6.42143 11.0783 6 10.0609 6 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+
 					<span><?php /* @escapeNotVerified */ echo $buttonTitle ?></span>
 				</button>
 				<?php
 					$_wishlistSubmitParams = $this->helper('Magento\Wishlist\Helper\Data')->getAddParams($_product);
 					$compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare');
 				?>
+				<?php
+				$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+				$session = $objectManager->get('Magento\Customer\Model\Session');
+				$customer_id = $session->getCustomer()->getId(); 				
+				?>
+
+
+
+				<?php
+				$isInWishlist = $this->helper('\Magento\Wishlist\Helper\Data')->getWishlistItemCollection()
+                ->addFieldToFilter('product_id', $_product->getId())->setOrder('created_at', 'ASC');
+				?>
+
+							
+				<div class="actions action-add-to">
+					<?php if ($themeHelper->getStoreConfig('mpanel/product_details/wishlist') && $this->helper('Magento\Wishlist\Helper\Data')->isAllow()) : ?>
+						<button type="button" class="action towishlist
+						<?php
+						$wishlist_collection = $objectManager->get('Magento\Wishlist\Model\Wishlist')->loadByCustomerId($customer_id, true)->getItemCollection();
+						$current_product =  $objectManager->get('Magento\Framework\Registry')->registry('current_product');
+						foreach ($wishlist_collection as $item) {
+							if($current_product->getId() == $item->getProduct()->getId())
+							{
+								echo 'active';
+							} else {
+								echo '';
+							}
+						}			
+						?>
+						"
+							data-post='<?php /* @escapeNotVerified */ echo $_wishlistSubmitParams; ?>'
+							data-action="add-to-wishlist"
+							title="<?php /* @escapeNotVerified */ echo __('Add to Wish List') ?>">
+							<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M11 1L14.09 7.26L21 8.27L16 13.14L17.18 20.02L11 16.77L4.82 20.02L6 13.14L1 8.27L7.91 7.26L11 1Z" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+							</svg>	
+							<!-- <span class="pe-7s-like"></span> -->
+						</button>
+						<script type="text/x-magento-init">
+							{
+								"body": {
+									"addToWishlist": <?php /* @escapeNotVerified */ echo $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($block->getWishlistOptions())?>
+								}
+							}
+						</script>
+					<?php endif; ?>
+					
+					<?php if($themeHelper->getStoreConfig('mpanel/product_details/compare')): ?>
+						<button type="button" class="action tocompare" 
+							data-post='<?php /* @escapeNotVerified */ echo $compareHelper->getPostDataParams($_product);?>'
+							data-role="add-to-links"
+							title="<?php /* @escapeNotVerified */ echo __('Add to Compare') ?>">
+								<span class="pe-7s-graph3"></span>
+						</button>
+					<?php endif ?>
+					
+					<?php if ($block->canEmailToFriend()): ?>
+						<button type="button" onclick="setLocation('<?php /* @escapeNotVerified */ echo $this->helper('Magento\Catalog\Helper\Product')->getEmailToFriendUrl($_product) ?>')" 
+					class="action mailto friend" title="<?php /* @escapeNotVerified */ echo __('Send Email to Friend') ?>"><span class="pe-7s-mail"></span></button>
+					<?php endif; ?>
+					<div class="clearfix"></div>
+				</div>
 			</div>
-		</div>
-		<div class="actions action-add-to">
-			<?php if ($themeHelper->getStoreConfig('mpanel/product_details/wishlist') && $this->helper('Magento\Wishlist\Helper\Data')->isAllow()) : ?>
-				<button type="button" class="action towishlist"
-					data-post='<?php /* @escapeNotVerified */ echo $_wishlistSubmitParams; ?>'
-					data-action="add-to-wishlist"
-					title="<?php /* @escapeNotVerified */ echo __('Add to Wish List') ?>">
-						<span class="pe-7s-like"></span>
-				</button>
-				<script type="text/x-magento-init">
-					{
-						"body": {
-							"addToWishlist": <?php /* @escapeNotVerified */ echo $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode($block->getWishlistOptions())?>
-						}
-					}
-				</script>
-			<?php endif; ?>
-			
-			<?php if($themeHelper->getStoreConfig('mpanel/product_details/compare')): ?>
-				<button type="button" class="action tocompare" 
-					data-post='<?php /* @escapeNotVerified */ echo $compareHelper->getPostDataParams($_product);?>'
-					data-role="add-to-links"
-					title="<?php /* @escapeNotVerified */ echo __('Add to Compare') ?>">
-						<span class="pe-7s-graph3"></span>
-				</button>
-			<?php endif ?>
-			
-			<?php if ($block->canEmailToFriend()): ?>
-				<button type="button" onclick="setLocation('<?php /* @escapeNotVerified */ echo $this->helper('Magento\Catalog\Helper\Product')->getEmailToFriendUrl($_product) ?>')" 
-			   class="action mailto friend" title="<?php /* @escapeNotVerified */ echo __('Send Email to Friend') ?>"><span class="pe-7s-mail"></span></button>
-			<?php endif; ?>
-			<div class="clearfix"></div>
 		</div>
 		<div class="clearfix"></div>
 	</div>

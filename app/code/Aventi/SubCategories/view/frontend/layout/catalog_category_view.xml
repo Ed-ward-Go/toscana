@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+		<css src="Aventi_SubCategories::css/subcats.css"/>
+	</head>
+    <body>
+        <referenceContainer name="columns.top">
+            <referenceContainer name="category.view.container" htmlTag="div" htmlClass="category-view">                
+                <block class="Magento\Catalog\Block\Category\View" name="category.subcategories" template="Aventi_SubCategories::category/subcategories.phtml"/>
+            </referenceContainer>
+        </referenceContainer>        
+    </body>
+</page>
