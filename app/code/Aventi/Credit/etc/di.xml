@@ -3,7 +3,8 @@
 	<preference for="Aventi\Credit\Api\CreditRepositoryInterface" type="Aventi\Credit\Model\CreditRepository"/>
 	<preference for="Aventi\Credit\Api\Data\CreditInterface" type="Aventi\Credit\Model\Data\Credit"/>
 	<preference for="Aventi\Credit\Api\Data\CreditSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
-	<virtualType name="Aventi\Credit\Model\ResourceModel\Credit\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+    <preference for="Aventi\Credit\Api\CreditManagementInterface" type="Aventi\Credit\Model\Service\CreditService"/>
+    <virtualType name="Aventi\Credit\Model\ResourceModel\Credit\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
 		<arguments>
 			<argument name="mainTable" xsi:type="string">aventi_credit_credit</argument>
 			<argument name="resourceModel" xsi:type="string">Aventi\Credit\Model\ResourceModel\Credit\Collection</argument>

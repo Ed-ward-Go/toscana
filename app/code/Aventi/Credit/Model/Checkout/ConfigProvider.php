@@ -14,6 +14,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Payment\Helper\Data as PaymentHelper;
 use Magento\Quote\Model\Quote;
 use Magento\Store\Model\StoreManagerInterface;
+use Aventi\Credit\Model\Service\CreditService;
 
 /**
  * Class ConfigProvider
@@ -43,6 +44,11 @@ class ConfigProvider implements ConfigProviderInterface
     private $storeManager;
 
     /**
+     * @var CreditService
+     */
+    private $creditService;
+
+    /**
      * @param CheckoutSession $session
      * @param PaymentHelper $paymentHelper
      * @param StoreManagerInterface $storeManager
@@ -50,11 +56,13 @@ class ConfigProvider implements ConfigProviderInterface
     public function __construct(
         CheckoutSession $session,
         PaymentHelper $paymentHelper,
-        StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager,
+        CreditService $creditService
     ) {
         $this->session = $session;
         $this->paymentHelper = $paymentHelper;
         $this->storeManager = $storeManager;
+        $this->creditService = $creditService;
     }
 
     /**
@@ -85,7 +93,9 @@ class ConfigProvider implements ConfigProviderInterface
         $store = $this->storeManager->getStore($quote->getStoreId());
 
         return [
-            CreditInterface::AVAILABLE => 50000
+            CreditInterface::AVAILABLE => $this->creditService->getCreditAvailableAmount(
+                $quote->getCustomerId()
+            )
         ];
     }
 }
