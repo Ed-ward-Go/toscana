@@ -39,7 +39,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
     /**
      * @inheritdoc
      */
-    protected function setUp(): void
+    protected function setUp()
     {
         $this->objectManager = Bootstrap::getObjectManager();
         $this->urlFinder = $this->objectManager->create(UrlFinderInterface::class);

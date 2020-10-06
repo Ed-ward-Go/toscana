@@ -74,7 +74,7 @@ class IndexHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp(): void
+    protected function setUp()
     {
         $connectionManager = Bootstrap::getObjectManager()->create(ConnectionManager::class);
         $this->client = $connectionManager->getConnection();
@@ -96,7 +96,7 @@ class IndexHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * Make sure that correct engine is set
      */
-    protected function assertPreConditions(): void
+    protected function assertPreConditions()
     {
         $currentEngine = Bootstrap::getObjectManager()->get(EngineResolverInterface::class)->getCurrentSearchEngine();
         $this->assertEquals($this->getInstalledSearchEngine(), $currentEngine);

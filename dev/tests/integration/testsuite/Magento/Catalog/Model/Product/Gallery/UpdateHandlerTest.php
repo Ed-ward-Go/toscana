@@ -82,7 +82,7 @@ class UpdateHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * @inheritdoc
      */
-    protected function setUp(): void
+    protected function setUp()
     {
         $this->fileName = 'image.txt';
         $this->objectManager = Bootstrap::getObjectManager();
@@ -140,7 +140,7 @@ class UpdateHandlerTest extends \PHPUnit\Framework\TestCase
         $this->updateHandler->execute($product);
         $productImages = $this->galleryResource->loadProductGalleryByAttributeId($product, $this->mediaAttributeId);
         $updatedImage = reset($productImages);
-        $this->assertIsArray($updatedImage);
+        $this->assertTrue(is_array($updatedImage));
         $this->assertEquals('New image', $updatedImage['label']);
         $this->assertEquals('New image', $updatedImage['label_default']);
         $this->assertEquals('1', $updatedImage['disabled']);
@@ -342,7 +342,7 @@ class UpdateHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * @inheritdoc
      */
-    protected function tearDown(): void
+    protected function tearDown()
     {
         parent::tearDown();
         $this->mediaDirectory->getDriver()->deleteFile($this->mediaDirectory->getAbsolutePath($this->fileName));

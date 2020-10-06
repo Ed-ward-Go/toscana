@@ -22,7 +22,7 @@ class DeleteTest extends AbstractBackendController
     /**
      * @var WriteInterface
      */
-    protected $varDirectory;
+    private $varDirectory;
 
     /**
      * @var string
@@ -42,7 +42,7 @@ class DeleteTest extends AbstractBackendController
     /**
      * @inheritdoc
      */
-    protected function setUp(): void
+    protected function setUp()
     {
         parent::setUp();
 
@@ -83,7 +83,7 @@ class DeleteTest extends AbstractBackendController
      * @param $destinationFilePath
      * @return void
      */
-    protected function copyFile($destinationFilePath): void
+    private function copyFile($destinationFilePath): void
     {
         //Refers to application root directory
         $rootDirectory = $this->fileSystem->getDirectoryWrite(DirectoryList::ROOT);
@@ -106,7 +106,7 @@ class DeleteTest extends AbstractBackendController
     /**
      * @inheritdoc
      */
-    public static function tearDownAfterClass(): void
+    public static function tearDownAfterClass()
     {
         $filesystem = Bootstrap::getObjectManager()->get(Filesystem::class);
         /** @var WriteInterface $directory */

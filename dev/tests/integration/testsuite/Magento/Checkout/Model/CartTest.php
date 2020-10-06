@@ -20,7 +20,7 @@ class CartTest extends \PHPUnit\Framework\TestCase
      */
     private $productRepository;
 
-    protected function setUp(): void
+    protected function setUp()
     {
         $this->cart = Bootstrap::getObjectManager()->create(Cart::class);
         $this->productRepository = Bootstrap::getObjectManager()->create(ProductRepositoryInterface::class);

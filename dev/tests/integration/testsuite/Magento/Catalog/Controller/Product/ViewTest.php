@@ -67,7 +67,7 @@ class ViewTest extends AbstractController
     /**
      * @inheritdoc
      */
-    protected function setUp(): void
+    protected function setUp()
     {
         parent::setUp();
 
@@ -336,7 +336,7 @@ class ViewTest extends AbstractController
     {
         $logger = $this->getMockBuilder(LoggerInterface::class)
             ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
+            ->getMock();
         $this->_objectManager->addSharedInstance($logger, MagentoMonologLogger::class);
 
         return $logger;

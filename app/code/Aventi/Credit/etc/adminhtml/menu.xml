@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+		<add id="Aventi::top_level" module="Aventi_Credit" resource="Magento_Backend::content" sortOrder="9999" title="Aventi"/>
+		<add action="aventi_credit/credit/index" id="Aventi_Credit::aventi_credit_credit" module="Aventi_Credit" parent="Aventi::top_level" resource="Magento_Backend::content" sortOrder="9999" title="Credit"/>
+	</menu>
+</config>

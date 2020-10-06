@@ -56,14 +56,8 @@ class ProductRepositoryTest extends \PHPUnit\Framework\TestCase
     /**
      * Sets up common objects
      */
-    protected function setUp(): void
+    protected function setUp()
     {
-        Bootstrap::getObjectManager()->configure([
-            'preferences' => [
-                \Magento\Catalog\Model\Product\Attribute\LayoutUpdateManager::class =>
-                    \Magento\TestFramework\Catalog\Model\ProductLayoutUpdateManager::class
-            ]
-        ]);
         $this->productRepository = Bootstrap::getObjectManager()->create(ProductRepositoryInterface::class);
         $this->searchCriteriaBuilder = Bootstrap::getObjectManager()->get(SearchCriteriaBuilder::class);
         $this->productFactory = Bootstrap::getObjectManager()->get(ProductFactory::class);

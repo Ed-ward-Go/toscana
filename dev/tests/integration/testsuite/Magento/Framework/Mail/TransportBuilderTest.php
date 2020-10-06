@@ -34,7 +34,7 @@ class TransportBuilderTest extends TestCase
      */
     protected $template;
 
-    protected function setUp(): void
+    protected function setUp()
     {
         $this->di = Bootstrap::getObjectManager();
         $this->builder = $this->di->get(TransportBuilder::class);

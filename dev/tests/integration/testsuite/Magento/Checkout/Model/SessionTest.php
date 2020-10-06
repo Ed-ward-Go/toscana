@@ -18,7 +18,7 @@ use Magento\Quote\Model\Quote;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**
- * Checkout Session model test.
+ * Class SessionTest
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -47,7 +47,7 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    protected function setUp(): void
+    protected function setUp()
     {
         $this->objectManager = Bootstrap::getObjectManager();
         $this->customerRepository = $this->objectManager->create(CustomerRepositoryInterface::class);

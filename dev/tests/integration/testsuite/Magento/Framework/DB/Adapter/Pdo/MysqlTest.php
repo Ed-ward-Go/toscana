@@ -17,7 +17,7 @@ class MysqlTest extends \PHPUnit\Framework\TestCase
      */
     private $resourceConnection;
 
-    protected function setUp(): void
+    protected function setUp()
     {
         set_error_handler(null);
         $this->resourceConnection = Bootstrap::getObjectManager()
@@ -25,7 +25,7 @@ class MysqlTest extends \PHPUnit\Framework\TestCase
         CacheCleaner::cleanAll();
     }
 
-    protected function tearDown(): void
+    protected function tearDown()
     {
         restore_error_handler();
     }
@@ -187,11 +187,7 @@ class MysqlTest extends \PHPUnit\Framework\TestCase
         //Test default value with expression
         $this->assertEquals('created_at', $dateColumn['COLUMN_NAME'], 'Incorrect column name');
         $this->assertEquals(Table::TYPE_DATETIME, $dateColumn['DATA_TYPE'], 'Incorrect column type');
-        $this->assertMatchesRegularExpression(
-            '/(CURRENT_TIMESTAMP|current_timestamp\(\))/',
-            $dateColumn['DEFAULT'],
-            'Incorrect column default expression value'
-        );
+        $this->assertEquals('CURRENT_TIMESTAMP', $dateColumn['DEFAULT'], 'Incorrect column default expression value');
 
         //Test default value with integer value
         $this->assertEquals('integer_column', $intColumn['COLUMN_NAME'], 'Incorrect column name');

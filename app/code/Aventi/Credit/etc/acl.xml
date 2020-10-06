@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+	<acl>
+		<resources>
+			<resource id="Magento_Backend::admin">
+				<resource id="Aventi_Credit::Credit" sortOrder="10" title="Credit">
+					<resource id="Aventi_Credit::Credit_save" sortOrder="10" title="Save Credit"/>
+					<resource id="Aventi_Credit::Credit_delete" sortOrder="20" title="Delete Credit"/>
+					<resource id="Aventi_Credit::Credit_update" sortOrder="30" title="Update Credit"/>
+					<resource id="Aventi_Credit::Credit_view" sortOrder="40" title="View Credit"/>
+				</resource>
+			</resource>
+		</resources>
+	</acl>
+</config>

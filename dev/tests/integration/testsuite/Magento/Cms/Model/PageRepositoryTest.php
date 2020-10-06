@@ -32,14 +32,8 @@ class PageRepositoryTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp(): void
+    protected function setUp()
     {
-        Bootstrap::getObjectManager()->configure([
-            'preferences' => [
-                \Magento\Cms\Model\Page\CustomLayoutManagerInterface::class =>
-                    \Magento\TestFramework\Cms\Model\CustomLayoutManager::class
-            ]
-        ]);
         $this->repo = Bootstrap::getObjectManager()->get(PageRepositoryInterface::class);
         $this->retriever = Bootstrap::getObjectManager()->get(GetPageByIdentifierInterface::class);
     }

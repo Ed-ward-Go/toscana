@@ -40,7 +40,7 @@ class AbstractTest extends \PHPUnit\Framework\TestCase
      */
     protected static $isStubClass = false;
 
-    protected function setUp(): void
+    protected function setUp()
     {
         if (!self::$isStubClass) {
             $this->getMockForAbstractClass(
@@ -123,7 +123,7 @@ class AbstractTest extends \PHPUnit\Framework\TestCase
         );
         $html = $this->block->getReviewsSummaryHtml($this->product, false, true);
         $this->assertNotEmpty($html);
-        $this->assertStringContainsString('review', $html);
+        $this->assertContains('review', $html);
     }
 
     public function testGetProduct()

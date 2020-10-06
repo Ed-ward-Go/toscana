@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<preference for="Aventi\Credit\Api\CreditRepositoryInterface" type="Aventi\Credit\Model\CreditRepository"/>
+	<preference for="Aventi\Credit\Api\Data\CreditInterface" type="Aventi\Credit\Model\Data\Credit"/>
+	<preference for="Aventi\Credit\Api\Data\CreditSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+	<virtualType name="Aventi\Credit\Model\ResourceModel\Credit\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+		<arguments>
+			<argument name="mainTable" xsi:type="string">aventi_credit_credit</argument>
+			<argument name="resourceModel" xsi:type="string">Aventi\Credit\Model\ResourceModel\Credit\Collection</argument>
+		</arguments>
+	</virtualType>
+	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+		<arguments>
+			<argument name="collections" xsi:type="array">
+				<item name="aventi_credit_credit_listing_data_source" xsi:type="string">Aventi\Credit\Model\ResourceModel\Credit\Grid\Collection</item>
+			</argument>
+		</arguments>
+	</type>
+</config>

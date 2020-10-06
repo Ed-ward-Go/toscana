@@ -47,7 +47,7 @@ class ConfigurableProductPriceTest extends TestCase
     /**
      * @inheritdoc
      */
-    protected function setUp(): void
+    protected function setUp()
     {
         parent::setUp();
 
@@ -63,7 +63,7 @@ class ConfigurableProductPriceTest extends TestCase
     /**
      * @inheritdoc
      */
-    protected function tearDown(): void
+    protected function tearDown()
     {
         $this->registry->unregister('product');
         $this->registry->unregister('current_product');
@@ -188,7 +188,7 @@ class ConfigurableProductPriceTest extends TestCase
     {
         $regexp = '/<span class="price-label">As low as<\/span>.*';
         $regexp .= '<span.*data-price-amount="%s".*<span class="price">\$%.2f<\/span><\/span>/';
-        $this->assertMatchesRegularExpression(
+        $this->assertRegExp(
             sprintf($regexp, round($expectedPrice, 2), $expectedPrice),
             preg_replace('/[\n\r]/', '', $priceBlockHtml)
         );

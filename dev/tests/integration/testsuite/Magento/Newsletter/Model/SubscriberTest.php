@@ -8,8 +8,6 @@ declare(strict_types=1);
 namespace Magento\Newsletter\Model;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
-use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\Mail\Template\TransportBuilderMock;
@@ -37,7 +35,7 @@ class SubscriberTest extends TestCase
     /**
      * @inheritdoc
      */
-    protected function setUp(): void
+    protected function setUp()
     {
         $this->objectManager = Bootstrap::getObjectManager();
         $this->subscriberFactory = $this->objectManager->get(SubscriberFactory::class);
@@ -57,7 +55,7 @@ class SubscriberTest extends TestCase
         $subscriber = $this->subscriberFactory->create();
         $subscriber->subscribe('customer_confirm@example.com');
         // confirmationCode 'ysayquyajua23iq29gxwu2eax2qb6gvy' is taken from fixture
-        $this->assertStringContainsString(
+        $this->assertContains(
             '/newsletter/subscriber/confirm/id/' . $subscriber->getSubscriberId()
             . '/code/ysayquyajua23iq29gxwu2eax2qb6gvy',
             $this->transportBuilder->getSentMessage()->getBody()->getParts()[0]->getRawContent()
@@ -89,27 +87,18 @@ class SubscriberTest extends TestCase
         $subscriber = $this->subscriberFactory->create();
         $this->assertSame($subscriber, $subscriber->loadByCustomerId(1));
         $this->assertEquals($subscriber, $subscriber->unsubscribe());
-        $this->assertStringContainsString(
+        $this->assertContains(
             'You have been unsubscribed from the newsletter.',
-            $this->getFilteredRawMessage($this->transportBuilder)
+            $this->transportBuilder->getSentMessage()->getRawMessage()
         );
         $this->assertEquals(Subscriber::STATUS_UNSUBSCRIBED, $subscriber->getSubscriberStatus());
         // Subscribe and verify
         $this->assertEquals(Subscriber::STATUS_SUBSCRIBED, $subscriber->subscribe('customer@example.com'));
         $this->assertEquals(Subscriber::STATUS_SUBSCRIBED, $subscriber->getSubscriberStatus());
-        $this->assertStringContainsString(
+        $this->assertContains(
             'You have been successfully subscribed to our newsletter.',
-            $this->getFilteredRawMessage($this->transportBuilder)
+            $this->transportBuilder->getSentMessage()->getRawMessage()
         );
-    }
-
-    /**
-     * @param TransportBuilderMock $transportBuilderMock
-     * @return string
-     */
-    private function getFilteredRawMessage(TransportBuilderMock $transportBuilderMock): string
-    {
-        return $transportBuilderMock->getSentMessage()->getBody()->getParts()[0]->getRawContent();
     }
 
     /**
@@ -125,16 +114,16 @@ class SubscriberTest extends TestCase
         // Unsubscribe and verify
         $this->assertSame($subscriber, $subscriber->unsubscribeCustomerById(1));
         $this->assertEquals(Subscriber::STATUS_UNSUBSCRIBED, $subscriber->getSubscriberStatus());
-        $this->assertStringContainsString(
+        $this->assertContains(
             'You have been unsubscribed from the newsletter.',
-            $this->getFilteredRawMessage($this->transportBuilder)
+            $this->transportBuilder->getSentMessage()->getRawMessage()
         );
         // Subscribe and verify
         $this->assertSame($subscriber, $subscriber->subscribeCustomerById(1));
         $this->assertEquals(Subscriber::STATUS_SUBSCRIBED, $subscriber->getSubscriberStatus());
-        $this->assertStringContainsString(
+        $this->assertContains(
             'You have been successfully subscribed to our newsletter.',
-            $this->getFilteredRawMessage($this->transportBuilder)
+            $this->transportBuilder->getSentMessage()->getRawMessage()
         );
     }
 
@@ -152,9 +141,9 @@ class SubscriberTest extends TestCase
         $subscriber->subscribe($customerEmail);
         $subscriber->loadByEmail($customerEmail);
         $subscriber->confirm($subscriber->getSubscriberConfirmCode());
-        $this->assertStringContainsString(
+        $this->assertContains(
             'You have been successfully subscribed to our newsletter.',
-            $this->getFilteredRawMessage($this->transportBuilder)
+            $this->transportBuilder->getSentMessage()->getRawMessage()
         );
     }
 
@@ -163,8 +152,6 @@ class SubscriberTest extends TestCase
      * @magentoDataFixture Magento/Newsletter/_files/newsletter_unconfirmed_customer.php
      *
      * @return void
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
      */
     public function testSubscribeUnconfirmedCustomerWithSubscription(): void
     {
@@ -179,8 +166,6 @@ class SubscriberTest extends TestCase
      * @magentoDataFixture Magento/Customer/_files/unconfirmed_customer.php
      *
      * @return void
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
      */
     public function testSubscribeUnconfirmedCustomerWithoutSubscription(): void
     {

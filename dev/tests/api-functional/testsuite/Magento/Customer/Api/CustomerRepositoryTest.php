@@ -8,8 +8,6 @@ namespace Magento\Customer\Api;
 
 use Magento\Customer\Api\Data\CustomerInterface as Customer;
 use Magento\Customer\Api\Data\AddressInterface as Address;
-use Magento\Framework\Api\FilterBuilder;
-use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Api\SortOrder;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\LocalizedException;
@@ -92,7 +90,7 @@ class CustomerRepositoryTest extends WebapiAbstract
     /**
      * Execute per test initialization.
      */
-    protected function setUp(): void
+    public function setUp()
     {
         $this->customerRegistry = Bootstrap::getObjectManager()->get(
             \Magento\Customer\Model\CustomerRegistry::class
@@ -124,7 +122,7 @@ class CustomerRepositoryTest extends WebapiAbstract
         );
     }
 
-    protected function tearDown(): void
+    public function tearDown()
     {
         if (!empty($this->currentCustomerId)) {
             foreach ($this->currentCustomerId as $customerId) {
@@ -151,11 +149,10 @@ class CustomerRepositoryTest extends WebapiAbstract
     /**
      * Validate update by invalid customer.
      *
+     * @expectedException \Exception
      */
     public function testInvalidCustomerUpdate()
     {
-        $this->expectException(\Exception::class);
-
         //Create first customer and retrieve customer token.
         $firstCustomerData = $this->_createCustomer();
 
@@ -253,7 +250,7 @@ class CustomerRepositoryTest extends WebapiAbstract
 
             $this->fail("Expected exception");
         } catch (\SoapFault $e) {
-            $this->assertStringContainsString(
+            $this->assertContains(
                 $expectedMessage,
                 $e->getMessage(),
                 "SoapFault does not contain expected message."
@@ -342,7 +339,7 @@ class CustomerRepositoryTest extends WebapiAbstract
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail("Expected exception.");
         } catch (\SoapFault $e) {
-            $this->assertStringContainsString(
+            $this->assertContains(
                 $expectedMessage,
                 $e->getMessage(),
                 "SoapFault does not contain expected message."
@@ -393,7 +390,7 @@ class CustomerRepositoryTest extends WebapiAbstract
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail("Expected exception.");
         } catch (\SoapFault $e) {
-            $this->assertStringContainsString(
+            $this->assertContains(
                 $expectedMessage,
                 $e->getMessage(),
                 "SoapFault does not contain expected message."
@@ -485,17 +482,11 @@ class CustomerRepositoryTest extends WebapiAbstract
 
     /**
      * Test with a single filter
-     *
-     * @param bool $subscribeStatus
-     * @return void
-     *
-     * @dataProvider subscriptionDataProvider
      */
-    public function testSearchCustomers(bool $subscribeStatus): void
+    public function testSearchCustomers()
     {
-        $builder = Bootstrap::getObjectManager()->create(FilterBuilder::class);
-        $subscribeData = $this->buildSubscriptionData($subscribeStatus);
-        $customerData = $this->_createCustomer($subscribeData);
+        $builder = Bootstrap::getObjectManager()->create(\Magento\Framework\Api\FilterBuilder::class);
+        $customerData = $this->_createCustomer();
         $filter = $builder
             ->setField(Customer::EMAIL)
             ->setValue($customerData[Customer::EMAIL])
@@ -503,13 +494,13 @@ class CustomerRepositoryTest extends WebapiAbstract
         $this->searchCriteriaBuilder->addFilters([$filter]);
         $searchData = $this->dataObjectProcessor->buildOutputDataArray(
             $this->searchCriteriaBuilder->create(),
-            SearchCriteriaInterface::class
+            \Magento\Framework\Api\SearchCriteriaInterface::class
         );
         $requestData = ['searchCriteria' => $searchData];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/search' . '?' . http_build_query($requestData),
-                'httpMethod' => Request::HTTP_METHOD_GET,
+                'httpMethod' => \Magento\Framework\Webapi\Rest\Request::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
@@ -520,35 +511,6 @@ class CustomerRepositoryTest extends WebapiAbstract
         $searchResults = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals(1, $searchResults['total_count']);
         $this->assertEquals($customerData[Customer::ID], $searchResults['items'][0][Customer::ID]);
-        $this->assertEquals($subscribeStatus, $searchResults['items'][0]['extension_attributes']['is_subscribed']);
-    }
-
-    /**
-     * Build subscription extension attributes data
-     *
-     * @param bool $status
-     * @return array
-     */
-    private function buildSubscriptionData(bool $status): array
-    {
-        return [
-            'extension_attributes' => [
-                'is_subscribed' => $status,
-            ],
-        ];
-    }
-
-    /**
-     * Subscription customer data provider
-     *
-     * @return array
-     */
-    public function subscriptionDataProvider(): array
-    {
-        return [
-            'subscribed user' => [true],
-            'not subscribed user' => [false],
-        ];
     }
 
     /**
@@ -851,8 +813,7 @@ class CustomerRepositoryTest extends WebapiAbstract
         $customerLoadedData = $this->_webApiCall($serviceInfo, ['customerId' => $customerData[Customer::ID]]);
         self::assertGreaterThanOrEqual($customerData[Customer::UPDATED_AT], $customerLoadedData[Customer::UPDATED_AT]);
         unset($customerData[Customer::UPDATED_AT]);
-        unset($customerLoadedData[Customer::UPDATED_AT], $customerLoadedData[Customer::CONFIRMATION]);
-        self::assertEquals($customerData, $customerLoadedData);
+        self::assertArraySubset($customerData, $customerLoadedData);
 
         $revokeToken = $customerTokenService->revokeCustomerAccessToken($customerData[Customer::ID]);
         self::assertTrue($revokeToken);
@@ -869,7 +830,7 @@ class CustomerRepositoryTest extends WebapiAbstract
         try {
             $this->_webApiCall($serviceInfo, ['customerId' => $customerData[Customer::ID]]);
         } catch (\SoapFault $e) {
-            $this->assertStringContainsString(
+            $this->assertContains(
                 $expectedMessage,
                 $e->getMessage(),
                 'SoapFault does not contain expected message.'
@@ -896,12 +857,11 @@ class CustomerRepositoryTest extends WebapiAbstract
     }
 
     /**
-     * @param array|null $additionalData
      * @return array|bool|float|int|string
      */
-    protected function _createCustomer(?array $additionalData = [])
+    protected function _createCustomer()
     {
-        $customerData = $this->customerHelper->createSampleCustomer($additionalData);
+        $customerData = $this->customerHelper->createSampleCustomer();
         $this->currentCustomerId[] = $customerData['id'];
         return $customerData;
     }
