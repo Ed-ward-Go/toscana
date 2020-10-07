@@ -70,6 +70,10 @@ define([], function(){
     nextButton.style.opacity = '1';
     prevButton.style.opacity = opacityButtons;
 
+    // if (subCategories.length == 0) {
+    //     document.querySelector(".subcats").style.display = "none";
+    // }
+
     function getTranslateX(element) {
         var style = window.getComputedStyle(element);
         var matrix = new WebKitCSSMatrix(style.webkitTransform);
