@@ -1,16 +1,22 @@
+<?php
+$totalList = $block->getTotalList();
 
-<div class="block block-dashboard-credit">
-    <div class="block-title"><strong><?= __('Portfolio Information') ?></strong></div>
-    <div class="block-content">
-        <div class="box box-information">
-            <div class="box-content">
-                <?php foreach ($block->getTotalList() as $key => $total) :  ?>
-                    <div class="content-total">
-                        <h4><?php echo __($key); ?></h4>
-                        <p><?php echo __($total); ?></p>
-                    </div>
-                <?php endforeach; ?>
+
+?>
+<?php if (is_array($totalList)) : ?>
+    <div class="block block-dashboard-credit">
+        <div class="block-title"><strong><?= __('Portfolio Information') ?></strong></div>
+        <div class="block-content">
+            <div class="box box-information">
+                <div class="box-content">
+                    <?php foreach ($totalList as $key => $total) :  ?>
+                        <div class="content-total">
+                            <h4><?php echo __($key); ?></h4>
+                            <p><?php echo __($total); ?></p>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
             </div>
         </div>
     </div>
-</div>
+<?php endif; ?>
