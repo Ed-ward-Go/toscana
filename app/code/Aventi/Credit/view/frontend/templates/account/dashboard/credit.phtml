@@ -4,7 +4,12 @@
     <div class="block-content">
         <div class="box box-information">
             <div class="box-content">
-                FUNCA
+                <?php foreach ($block->getTotalList() as $key => $total) :  ?>
+                    <div class="content-total">
+                        <h4><?php echo __($key); ?></h4>
+                        <p><?php echo __($total); ?></p>
+                    </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>

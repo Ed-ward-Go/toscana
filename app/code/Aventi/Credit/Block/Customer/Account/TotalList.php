@@ -2,7 +2,6 @@
 
 namespace Aventi\Credit\Block\Customer\Account;
 
-use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 class TotalList extends \Magento\Framework\View\Element\Template
@@ -19,11 +18,17 @@ class TotalList extends \Magento\Framework\View\Element\Template
     protected $currentCustomer;
 
     /**
+     * @var \Aventi\Credit\Helper\Data
+     */
+    protected $helperData;
+
+    /**
      * Constructor
      *
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
      * @param \Magento\Customer\Helper\View $helperView
+     * @param \Aventi\Credit\Helper\Data $helperData
      * @param array $data
      */
 
@@ -31,18 +36,19 @@ class TotalList extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         \Magento\Customer\Helper\View $helperView,
+        \Aventi\Credit\Helper\Data $helperData,
         array $data = []
     ) {
         $this->currentCustomer = $currentCustomer;
         $this->_helperView = $helperView;
+        $this->helperData = $helperData;
         parent::__construct($context, $data);
     }
 
-
     public function getTotalList()
     {
-
-        return '';
+        $data = $this->helperData->getTotalList($this->getCustomerId());
+        return $data;
     }
 
     /**
