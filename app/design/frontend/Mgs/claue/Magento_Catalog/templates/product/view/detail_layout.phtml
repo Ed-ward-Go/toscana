@@ -114,33 +114,35 @@
 				<div class="product-detail-infomation-content<?php if($themeHelper->getStoreConfig('mgstheme/general/sticky_menu') && $themeHelper->getStoreConfig('mgstheme/general/header') != 'header_5'): ?> has-sticky-menu<?php endif ?>">
 					<?php echo $block->getChildHtml('alert_urls') ?>
 					<div class="product-info-main">
+						<div class="product-details-main-info">
+							<?php echo $block->getChildHtml('product.info.name') ?>
+								<div class="product-info-stock-sku">
+									<?php echo $block->getChildHtml('product.info.type') ?>
+								</div>
+							<!-- <?php echo $block->getChildHtml('product.info.review') ?> -->
+							<?php echo $block->getChildHtml('product.info.price') ?>
+							<?php echo $block->getChildHtml('product.price.tier') ?>
+							<?php echo $block->getChildHtml('product.info.overview') ?>
 
-						<?php echo $block->getChildHtml('product.info.name') ?>
-						<?php echo $block->getChildHtml('product.info.review') ?>
-						<?php echo $block->getChildHtml('product.info.price') ?>
-						<?php echo $block->getChildHtml('product.price.tier') ?>
-						<?php echo $block->getChildHtml('product.info.overview') ?>
+							<?php echo $block->getChildHtml('product.info.main') ?>
+							<?php echo $block->getChildHtml('bundle.options.container') ?>
+							<?php echo $block->getChildHtml('product.info') ?>
+						</div>
 
-						<?php echo $block->getChildHtml('product.info.main') ?>
-						<?php echo $block->getChildHtml('bundle.options.container') ?>
-						<?php echo $block->getChildHtml('product.info') ?>
-						<?php echo $block->getChildHtml('custom.product.detail.top.static.block') ?>
-
-						<div class="product-sub-infomation">
-							<div class="product-info-stock-sku">
-								<?php echo $block->getChildHtml('product.info.type') ?>
-							</div>
+						<!-- <?php echo $block->getChildHtml('custom.product.detail.top.static.block') ?> 
+						 <div class="product-sub-infomation">
 							<?php echo $block->getChildHtml('product.info.sku') ?>
 							<?php echo $block->getChildHtml('product.brand.name') ?>
 
 							<?php if($themeHelper->getStoreConfig('mpanel/share_config/share_product_detail')): ?>
 								<?php echo $block->getChildHtml('product.detail.sharethis') ?>
 							<?php endif ?>
+						</div> -->
+						<div class="product-details-additional-info">
+							<?php if($themeHelper->getStoreConfig('protabs/general/position')): ?>
+								<?php echo $block->getChildHtml('product.info.details') ?>
+							<?php endif ?>
 						</div>
-
-						<?php if($themeHelper->getStoreConfig('protabs/general/position')): ?>
-							<?php echo $block->getChildHtml('product.info.details') ?>
-						<?php endif ?>
 					</div>
 				</div>
 			</div>
