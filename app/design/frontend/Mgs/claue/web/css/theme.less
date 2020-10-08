@@ -5008,6 +5008,146 @@ body:not(.page-layout-1column) .category-product-actions .toolbar.toolbar-produc
 	}
 }
 
+
+// PROGRESS BAR
+.opc-progress-bar {
+	width: 100vw !important;
+    padding: 40px 20%;
+	margin: 0 0 32px;
+	counter-reset: i;
+	display: flex;
+    align-items: center;
+    justify-content: center;
+	font-size: 0;
+	margin-left: ~"calc(((-100vw + 1170px) / 2))";
+	background-image: url('../images/checkout-background.jpg');
+	background-size: cover;
+    background-repeat: repeat-y;
+    background-position: center center;
+    background-attachment: scroll;
+	.opc-progress-bar-item {
+		margin: 0 0 10px;
+		width: 50%;
+		display: inline-block;
+		position: relative;
+		text-align: center;
+		vertical-align: top;
+		opacity: .3;
+		> span {
+			display: inline-block;
+			padding-top: 45px;
+			width: 100%;
+			word-wrap: break-word;
+			color: white;
+			font-size: 16px;
+			&:after, &:before {
+				left: 50%;
+				position: absolute;
+				.border-radius(50%);
+				.transition( all 300ms);
+			}
+			&:after {
+				background: #fff;
+				height: 26px;
+				margin-left: -13px;
+				top: 6px;
+				width: 26px;
+				content: counter(i);
+				counter-increment: i;
+				color: #333;
+				font-size: 15px;
+				line-height: 26px;
+				color: @sucesores-dark-green;
+			}
+			&:before {
+				background: white;
+				height: 38px;
+				margin-left: -19px;
+				width: 38px;
+				content: '';
+				top: 0;
+			}
+		}
+		&:before {
+			background: white;
+			top: 19px;
+			.transition( all 300ms);
+			content: '';
+			height: 7px;
+			left: 0;
+			position: absolute;
+			width: 100%;
+		}
+		&._active {
+			opacity: 1;
+			&:before {
+				background: white;
+			}
+			> span {
+				color: white;
+				&:before {
+					background: white;
+				}
+				&:after {
+					color: @sucesores-light-green;
+				}
+			}
+		}
+		&._complete {
+			
+			&:before {
+				background: white;
+			}
+			> span {
+				color: white;
+				&:before {
+					background: white;
+				}
+				&:after {
+					color: @sucesores-dark-green;
+					font-family: 'FontAwesome';
+					content: '\f00c';
+				}
+			}
+			&:hover {
+				&:before {
+					background: white;
+				}
+				> span {
+					color: white;
+					&:before {
+						background: white;
+					}
+					&:after {
+						color: @sucesores-light-green;
+					}
+				}
+			}
+		}
+	}	
+}
+
+@media (max-width: 1200px) {
+	.opc-progress-bar {
+		margin-left: ~"calc(((-100vw + 940px) / 2))";
+		padding: 40px 10%;
+	}
+}
+
+@media (max-width: 992px) {
+	.opc-progress-bar {
+		margin-left: ~"calc(((-100vw + 720px) / 2))";
+	}
+}
+
+@media (max-width: 765px) {
+	.opc-progress-bar {
+		width: 100% !important;
+		margin-left: 0;
+	}
+}
+
+
 // CHECKOUT
 .checkout-index-index {
 	.modal-popup {
@@ -6035,6 +6175,75 @@ form.payments > .fieldset {
 		}
 	}
 }
+
+
+// CUSTOM CHECKOUT SUCCESS
+.checkout-onepage-success {
+	.breadcrumbs,
+	 .page-title-wrapper {
+		display: none;
+	}
+}
+
+.multicheckout.success,
+.checkout-success {
+	border: none;
+    border-radius: 0;
+	padding: 20px 0;
+	.confirmation-data {
+		max-width: 500px;
+		margin: 0 auto;
+		> p {
+			font-size: 16px;
+			color: @sucesores-gray1;
+			padding: 20px 10px;
+			
+		}
+	}
+	.confirmation-data-content {
+		background: @sucesores-light-green;
+		padding: 20px 30px;
+		margin-top: -10px;
+		p,
+		a {
+			color: white;
+		}
+		p {
+			font-size: 16px;
+			font-weight: 400;
+			margin: 0;
+		}
+		a {
+			font-size: 30px;
+			font-weight: bold;
+		}
+		.note {
+			font-size: 12px;
+		}
+	}
+	.contact-info {
+		margin: 0 auto;
+		max-width: 300px;
+		> p {
+			font-weight: bold;
+			color: @sucesores-dark-green;
+			font-size: 16px;
+		}
+		.email-container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: 20px;
+			font-size: 20px;
+			font-weight: 400;
+			color: @sucesores-dark-green;
+		}
+	}
+	.actions-toolbar {
+		margin-top: 20px;
+	}
+}
+
 
 // Sidebar
 .sidebar {
