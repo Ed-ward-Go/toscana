@@ -1,57 +1,56 @@
-<div class="subcats">
-	<div class="subcats__container">
-		<?php
-		$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-		$category = $block->getCurrentCategory();//get current category
-		if ($category) {
-			$subcats = $category->getChildrenCategories(); ?>				
-			<ul class="subcats__container__content">
-				<?php foreach ($subcats as $subcat) {
-					if ($subcat->getIsActive()) {	
-						$_category = $objectManager->create('Magento\Catalog\Model\Category')->load($subcat->getId());
-						$_outputhelper = $this->helper('Magento\Catalog\Helper\Output');
-						$subcaturl = $subcat->getUrl();
-						$_imgHtml = '';
-						if ($_imgUrl = $_category->getImageUrl()) {
-	
-							$_imgHtml = '<div class="subcat-item-image" style="background-image: url(' . $_imgUrl . ')" ></div>';
-							// $_imgHtml = '<img src="' . $this->getBaseUrl() . '' . $_imgUrl . '" />';
-							$_imgHtml = $_outputhelper->categoryAttribute($_category, $_imgHtml, 'image');
-	
-							/* @escapeNotVerified */
-							echo 
-							'<li class="subcat-item">
-							<a href="' . $subcaturl . '" title="' . $subcat->getName() . '">
-								<div>'
-									. $_imgHtml . '
-									<div class="subcat-item-text">
-										<p>'. $subcat->getName() .'</p>
-									</div>
-								</div>
-							</a>
-							</li>';
-	
-						}
-					}
-				} ?>
-				
-			</ul>
-		<?php } ?>
-	</div>
-	<div class="actions">
-		<div id="prev">
-			<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-				<path d="M0.292893 7.29289C-0.0976314 7.68342 -0.0976315 8.31658 0.292893 8.70711L6.65685 15.0711C7.04738 15.4616 7.68054 15.4616 8.07107 15.0711C8.46159 14.6805 8.46159 14.0474 8.07107 13.6569L2.41421 8L8.07107 2.34315C8.46159 1.95262 8.46159 1.31946 8.07107 0.928932C7.68054 0.538407 7.04738 0.538407 6.65685 0.928932L0.292893 7.29289ZM13.5 7L1 7L1 9L13.5 9L13.5 7Z" fill="#333"/>
-			</svg>
-		</div>
-		<div id="next">
-			<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-				<path d="M13.2071 8.70711C13.5976 8.31658 13.5976 7.68342 13.2071 7.29289L6.84315 0.928932C6.45262 0.538408 5.81946 0.538408 5.42893 0.928932C5.03841 1.31946 5.03841 1.95262 5.42893 2.34315L11.0858 8L5.42893 13.6569C5.03841 14.0474 5.03841 14.6805 5.42893 15.0711C5.81946 15.4616 6.45262 15.4616 6.84315 15.0711L13.2071 8.70711ZM0 9H12.5V7H0V9Z" fill="#333"/>
-			</svg>
-		</div>
-	</div>
-</div>
 
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$category = $block->getCurrentCategory();//get current category
+if ($category) {
+	$subcats = $category->getChildrenCategories(); ?>
+	<?php  
+	if($subcats->getSize() > 0)  {
+	?> 
+		<div class="subcats">
+			<div class="subcats__container">								
+				<ul class="subcats__container__content">
+					<?php foreach ($subcats as $subcat) {
+						if ($subcat->getIsActive()) {	
+							$_category = $objectManager->create('Magento\Catalog\Model\Category')->load($subcat->getId());
+							$_outputhelper = $this->helper('Magento\Catalog\Helper\Output');
+							$subcaturl = $subcat->getUrl();
+							$_imgHtml = '';
+							if ($_imgUrl = $_category->getImageUrl()) {				
+								$_imgHtml = '<div class="subcat-item-image" style="background-image: url(' . $_imgUrl . ')" ></div>';
+								$_imgHtml = $_outputhelper->categoryAttribute($_category, $_imgHtml, 'image');				
+								/* @escapeNotVerified */
+								echo 
+									'<li class="subcat-item">
+										<a href="' . $subcaturl . '" title="' . $subcat->getName() . '">
+											<div>'
+												. $_imgHtml . '
+												<div class="subcat-item-text">
+													<p>'. $subcat->getName() .'</p>
+												</div>
+											</div>
+										</a>
+									</li>';					
+							}
+						}
+					} ?>							
+				</ul>
+			</div>
+			<div class="actions">
+				<div id="prev">
+					<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M0.292893 7.29289C-0.0976314 7.68342 -0.0976315 8.31658 0.292893 8.70711L6.65685 15.0711C7.04738 15.4616 7.68054 15.4616 8.07107 15.0711C8.46159 14.6805 8.46159 14.0474 8.07107 13.6569L2.41421 8L8.07107 2.34315C8.46159 1.95262 8.46159 1.31946 8.07107 0.928932C7.68054 0.538407 7.04738 0.538407 6.65685 0.928932L0.292893 7.29289ZM13.5 7L1 7L1 9L13.5 9L13.5 7Z" fill="#333"/>
+					</svg>
+				</div>
+				<div id="next">
+					<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M13.2071 8.70711C13.5976 8.31658 13.5976 7.68342 13.2071 7.29289L6.84315 0.928932C6.45262 0.538408 5.81946 0.538408 5.42893 0.928932C5.03841 1.31946 5.03841 1.95262 5.42893 2.34315L11.0858 8L5.42893 13.6569C5.03841 14.0474 5.03841 14.6805 5.42893 15.0711C5.81946 15.4616 6.45262 15.4616 6.84315 15.0711L13.2071 8.70711ZM0 9H12.5V7H0V9Z" fill="#333"/>
+					</svg>
+				</div>
+			</div>
+		</div>
+	<?php } ?>
+<?php } ?>
 
  <script type="text/x-magento-init">
     {
