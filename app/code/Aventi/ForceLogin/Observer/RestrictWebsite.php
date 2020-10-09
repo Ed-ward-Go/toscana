@@ -15,9 +15,13 @@ class RestrictWebsite implements ObserverInterface
 
     /**
      * RestrictWebsite constructor.
+     * @param \Magento\Framework\App\Response\Http $response
+     * @param \Magento\Framework\UrlFactory $urlFactory
+     * @param \Magento\Framework\App\Http\Context $context
+     * @param \Magento\Framework\App\ActionFlag $actionFlag
+     * @param \Aventi\ForceLogin\Helper\Data $helper
      */
     public function __construct(
-        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\App\Response\Http $response,
         \Magento\Framework\UrlFactory $urlFactory,
         \Magento\Framework\App\Http\Context $context,
