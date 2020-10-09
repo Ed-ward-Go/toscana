@@ -1,4 +1,13 @@
-@base-color : #56cfe1;
+@sucesores-light-green: #3EB049;
+@base-color : @sucesores-light-green;
+
+@sucesores-dark-green: #1A8C43;
+@sucesores-yellow: #E1BE64;
+@sucesores-gray1: #333333;
+@sucesores-gray2: #4F4F4F;
+@sucesores-gray3: #828282;
+@sucesores-gray4: #EEEEEE;
+@sucesores-gray5: #f4f4f4;
 
 .border-radius (@radius) {
     border-radius: @radius;
@@ -764,117 +773,6 @@ body:not(.page-layout-1column) {
 // CHECKOUT
 @media (min-width:992px){
 	.opc-estimated-wrapper {
-		display: none;
-	}
-}
-
-// PROGRESS BAR
-.opc-progress-bar {
-	@media (min-width: 992px) {
-		margin: 0 0 32px;
-		counter-reset: i;
-		display: block;
-		font-size: 0;
-		width: calc(~'66.66666667% - 15px');
-		.opc-progress-bar-item {
-			margin: 0 0 10px;
-			width: 50%;
-			display: inline-block;
-			position: relative;
-			text-align: center;
-			vertical-align: top;
-			> span {
-				display: inline-block;
-				padding-top: 45px;
-				width: 100%;
-				word-wrap: break-word;
-				color: #c2c2c2;
-				font-size: 16px;
-				&:after, &:before {
-					left: 50%;
-					position: absolute;
-					.border-radius(50%);
-					.transition( all 300ms);
-				}
-				&:after {
-					background: #fff;
-					height: 26px;
-					margin-left: -13px;
-					top: 6px;
-					width: 26px;
-					content: counter(i);
-					counter-increment: i;
-					color: #333;
-					font-size: 15px;
-					line-height: 26px;
-					color: #c2c2c2;
-				}
-				&:before {
-					background: #c2c2c2;
-					height: 38px;
-					margin-left: -19px;
-					width: 38px;
-					content: '';
-					top: 0;
-				}
-			}
-			&:before {
-				background: #c2c2c2;
-				top: 19px;
-				.transition( all 300ms);
-				content: '';
-				height: 7px;
-				left: 0;
-				position: absolute;
-				width: 100%;
-			}
-			&._active {
-				&:before {
-					background: #eb5202;
-				}
-				> span {
-					color: #eb5202;
-					&:before {
-						background: #eb5202;
-					}
-					&:after {
-						color: #eb5202;
-					}
-				}
-			}
-			&._complete {
-				&:before {
-					background: #14ab00;
-				}
-				> span {
-					color: #14ab00;
-					&:before {
-						background: #14ab00;
-					}
-					&:after {
-						color: #14ab00;
-						font-family: 'FontAwesome';
-						content: '\f00c';
-					}
-				}
-				&:hover {
-					&:before {
-						background: #c2c2c2;
-					}
-					> span {
-						color: #c2c2c2;
-						&:before {
-							background: #c2c2c2;
-						}
-						&:after {
-							color: #c2c2c2;
-						}
-					}
-				}
-			}
-		}
-	}
-	@media (max-width: 991px) {
 		display: none;
 	}
 }
