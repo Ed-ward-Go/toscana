@@ -4309,6 +4309,155 @@ body:not(.page-layout-1column) .category-product-actions .toolbar.toolbar-produc
 	}
 }
 
+// LOGIN ACCESS PAGE
+.customer-account-login {
+	margin-top: -40px;
+	background: #FBFBFB;
+	header,
+	#placeholder-header,
+	.footer,
+	header,
+	#placeholder-header,
+	.footer,
+	.page-title-wrapper {
+		display: none;
+	}
+
+}
+.block-customer-login {
+	height: 100vh;
+	display: flex;
+	background: white;
+	> div {
+		height: 100%;
+	}
+	.login-form-container {
+		width: 500px;
+		padding: 20px 60px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		box-shadow: 0px 4px 22px rgba(174, 174, 174, 0.31);
+		&__introduction {
+			width: 100%;
+			.block-title {
+				h2 {
+					color: @sucesores-dark-green;
+					font-size: 40px;
+					font-weight: 700;
+					margin-bottom: 30px;
+					margin-top: 30px;
+				}
+				p {
+					color: @sucesores-gray1;
+					font-size: 18px;
+					font-weight: 400;
+					max-width: 330px;
+				}
+			}
+		}
+		&__form {
+			.form-group {
+				label {
+					display: none;
+				}
+				.control {
+					display: flex;
+					align-items: center;
+					box-shadow: 0px 4px 10px rgba(174, 174, 174, 0.2);
+					border-radius: 25px;
+					transition: all .3s ease;
+					&:hover {
+						box-shadow: 0px 4px 22px rgba(174, 174, 174, 0.31);
+					}
+					svg {
+						margin: 0 20px;
+					}
+					input {
+						border: none;
+						border-radius: 25px;
+						padding: 0 30px;
+						font-weight: 500;
+						font-size: 16px;
+						color: @sucesores-gray1;
+					}
+				}
+			}
+			.actions-toolbar {
+				margin-top: 50px;
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				button {
+					background: #1A8C43;
+					border-radius: 5px;
+					font-weight: bold;
+					font-size: 18px;
+					text-align: center;
+					color: #FFFFFF;
+					border: none;
+					transition: .5s ease transform;
+					&:hover {
+						transform: translateY(-10px);
+					}
+				}
+				a {
+					text-decoration-line: underline;
+					margin-top: 10px;					
+					span {
+						font-size: 18px;
+						color: #1A8C43;
+					}
+				}
+			}
+		}
+	}
+	.login-right-background {
+		flex: 1;
+		&__container {
+			flex: 1;
+			padding: 50px 0;
+			position: relative;
+			.block-login-bck {
+				position: absolute;
+				width: 750px;
+				height: 200px;
+				background: linear-gradient(270deg, #3EB049 0%, #07793F 100%);
+				border-radius: 25px;
+				left: 100px;
+				top: 50px;
+			}
+			.__blck-2 {
+				top: 300px;
+				left: 235px;
+			}
+			.__blck-3 {
+				top: 550px;
+				left: 350px;	
+			}
+		}
+	}
+}
+
+@media (max-width: 550px) {
+	.block-customer-login .login-form-container {
+		&__introduction {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+			margin-bottom: 20px;
+		}
+		.actions-toolbar {
+			align-items: center;
+			button {
+				width: 100%;
+			}
+		}
+	}
+}
+
 // MY ACCOUNT
 .login-container .block .block-title h2,
 .form-create-account h2 {
