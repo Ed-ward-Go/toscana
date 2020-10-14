@@ -1,0 +1,67 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<tab id="aventi" sortOrder="999" translate="label">
+			<label>aventi</label>
+		</tab>
+		<section id="sap" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+			<label>SAP</label>
+			<tab>aventi</tab>
+			<resource>Aventi_SAP::config_aventi_sap</resource>
+			<group id="setting" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+				<label>setting</label>
+        <field id="test" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
+          <label>Test?</label>
+          <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+        </field>
+				<field id="url" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>url</label>
+					<comment/>
+				</field>
+				<field id="username" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>username</label>
+					<comment/>
+				</field>
+				<field id="password" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>password</label>
+					<comment/>
+				</field>
+			</group>
+			<group id="document" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+				<label>Create document default values</label>
+				<field id="serie" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>Serie</label>
+					<comment>Serie from document</comment>
+				</field>
+				<field id="whscode" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>WhsCode</label>
+					<comment>Warehouse code to items</comment>
+				</field>
+				<field id="cardcode" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>CardCode</label>
+					<comment>CardCode to create orders</comment>
+				</field>
+				<field id="shipping" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>Shipping Code</label>
+					<comment>Product shipping code to save the value</comment>
+				</field>
+				<field id="docduedate" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>Doc Due Date</label>
+					<comment>Delivery time: DocDueDate</comment>
+				</field>
+			</group>
+			<group id="customer" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+				<label>Create customer</label>
+				<field id="sendemail" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
+					<label>Send email</label>
+					<comment/>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="copy" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>Copy Emails</label>
+					<comment/>
+				</field>
+			</group>
+		</section>
+	</system>
+</config>

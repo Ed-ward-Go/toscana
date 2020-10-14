@@ -1,0 +1,51 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!--@subject Tu pedido está listo @-->
+<!--@vars {
+"layout handle=\"sales_email_order_items\" order=$order":"Order Items Grid",
+"var data.comment":"Comment",
+"var data.email":"Sender Email",
+"var data.name":"Sender Name",
+"var data.telephone":"Sender Telephone"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<table>
+    <tr class="email-intro">
+        <td>
+            <h2>Tu pedido {{var orderId}}</h2>
+            <p class="greeting">Cordial Saludo, <b style="text-transform: uppercase">{{var name}}</b></p>
+            <p>Gracias otra vez por elegirnos. Su orden <strong>{{var orderId}}</strong>, {{var response}} 
+            </p>
+            <p>
+                {{trans 'If you have questions about your order, you can email us at <a href="mailto:%store_email">%store_email</a>' store_email=$store_email |raw}}{{depend store_phone}}, {{trans 'or call us at <a href="tel:%store_phone">%store_phone</a>' store_phone=$store_phone |raw}}{{/depend}}.
+            </p>
+        </td>
+    </tr>
+    <tr class="email-information">
+        <td>
+            <h4>Detalles:</h4>
+            <p><b>Nombre de responsable: </b>{{var name}}</p><br>
+            <p><b>Dirección de destino: </b>{{var address}}</p><br>
+            <p><b>Ciudad: </b>{{var city}}</p><br>
+            <p><b>Productos a entregar: </b></p><br>            
+        </td>
+    </tr>
+    <tr class="email-information">
+        <td>
+            {{layout handle="sales_email_order_items" order=$order area="frontend"}} 
+        </td>
+    </tr>
+    <tr class="email-intro">
+        <td>
+            <p class="register-note">Gracias por tu compra, te esperamos de nuevo.</p>
+        </td>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer_template"}}

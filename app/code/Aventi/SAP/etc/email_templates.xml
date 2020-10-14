@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+	<template id="register_form" label="Register Form S21" file="email_register.html" type="html" module="Aventi_SAP" area="frontend"/>
+	<template id="order_sent" label="Order Ready" file="sent.html" type="html" module="Aventi_SAP" area="frontend"/>
+	<template id="order_cancel" label="Order Cancel" file="order_cancel.html" type="html" module="Aventi_SAP" area="frontend"/>
+</config>

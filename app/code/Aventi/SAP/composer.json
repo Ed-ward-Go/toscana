@@ -1,0 +1,26 @@
+{
+    "name": "aventi/module-sap",
+    "description": "agrega datos SAP del  usuario",
+    "type": "magento2-module",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Aventi",
+            "email": "info@mage2gen.com"
+        },
+        {
+            "name": "Ernesto Campos Villa",
+            "email": "ecmpos@aventi.com.co"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Aventi\\SAP\\": ""
+        }
+    }
+}
