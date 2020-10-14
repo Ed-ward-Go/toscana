@@ -32,10 +32,7 @@ class SendToSAP
      * @var \Magento\Customer\Api\CustomerRepositoryInterface
      */
     private $customerRepository;
-    /**
-     * @var \Aventi\TuCompra\Helper\Data
-     */
-    private $dataTuCompra;
+
     /**
      * @var \Magento\Directory\Model\RegionFactory
      */
@@ -338,6 +335,8 @@ class SendToSAP
                 switch ($rule->getSimpleAction()) {
                     case 'cart_fixed':
                         $discount = round(($baseDiscount / $order->getSubtotal()) * 100, 6);
+                        break;
+                    default:
                         break;
                 }
             }
