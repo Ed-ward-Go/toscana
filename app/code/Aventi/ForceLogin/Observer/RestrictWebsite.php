@@ -47,8 +47,6 @@ class RestrictWebsite implements ObserverInterface
         $allowedRoutes = [
         'customer_account_login',
         'customer_account_loginpost',
-        'customer_account_create',
-        'customer_account_createpost',
         'customer_account_logoutsuccess',
         'customer_account_confirm',
         'customer_account_confirmation',

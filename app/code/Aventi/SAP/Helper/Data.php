@@ -66,8 +66,7 @@ class Data extends AbstractHelper
         \Psr\Log\LoggerInterface $logger,
         \Magento\Framework\App\Filesystem\DirectoryList $directoryList,
         \Magento\Framework\Filesystem $filesystem
-    )
-    {
+    ) {
         parent::__construct($context);
         $this->curl = $curl;
         $this->filesystem = $filesystem;
@@ -199,7 +198,7 @@ class Data extends AbstractHelper
      */
     public function getIsTest($store = null)
     {
-      return (boolean)$this->scopeConfig->getValue(self::PATH_TEST, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return (boolean)$this->scopeConfig->getValue(self::PATH_TEST, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 
     /**
@@ -240,33 +239,32 @@ class Data extends AbstractHelper
      * @param int $tries
      * @return bool|string
      */
-    public function getRecourseSelf($path = '',$tries=0)
+    public function getRecourseSelf($path = '', $tries=0)
     {
         try {
             if (!empty($this->getPath())) {
-              $headers = [
+                $headers = [
                 "Content-Type" => "application/json"
               ];
 
-              if(!$this->getIsTest()){
-                  if($this->getToken() == null){
-                      $this->generateToken();
-                  }
-                  $headers = [
+                if (!$this->getIsTest()) {
+                    if ($this->getToken() == null) {
+                        $this->generateToken();
+                    }
+                    $headers = [
                       "Content-Type" => "application/json",
-                      "Content-Length" => "200",
                       "Authorization" =>  "Bearer {$this->getToken()}"
                   ];
-              }
+                }
                 $this->curl->setHeaders($headers);
                 $url = $this->getPath() . '/' . $path;
                 $this->curl->get($url);
                 if ($this->curl->getStatus() == 200) {
                     return $this->curl->getBody();
-                }else if ($this->curl->getStatus() == 401) {
+                } elseif ($this->curl->getStatus() == 401) {
                     $this->generateToken();
-                    if($tries == 0){
-                      return $this->getRecourseSelf($path,1);
+                    if ($tries == 0) {
+                        return $this->getRecourseSelf($path, 1);
                     }
                 } else {
                     $this->_logger->error($this->curl->getBody() . ' ' . $this->curl->getStatus());
@@ -282,20 +280,20 @@ class Data extends AbstractHelper
     {
         try {
             if (!empty($this->getPath())) {
-              $headers = [
+                $headers = [
 
               ];
-              if(!$this->getIsTest()){
-                  if ($this->getToken() == null) {
-                      $this->generateToken();
-                  }
-                  $headers = [
+                if (!$this->getIsTest()) {
+                    if ($this->getToken() == null) {
+                        $this->generateToken();
+                    }
+                    $headers = [
                       "Authorization" => "Bearer {$this->getToken()}"
                   ];
-              }
-              $this->curl->setHeaders($headers);
-              $this->curl->post($this->getPath() . '/' . $path, $params);
-              return [
+                }
+                $this->curl->setHeaders($headers);
+                $this->curl->post($this->getPath() . '/' . $path, $params);
+                return [
                   'status' => $this->curl->getStatus(),
                   'body' => $this->curl->getBody()
               ];
@@ -338,8 +336,4 @@ class Data extends AbstractHelper
             $this->logger->error('getRecourse::' . $e->getMessage());
         }
     }
-
-
-
-
 }

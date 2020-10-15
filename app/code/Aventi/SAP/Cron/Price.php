@@ -38,7 +38,7 @@ class Price
     public function execute()
     {
         $this->logger->addInfo("Cronjob price is executed.");
-        $this->product->updatePrice(2);
+        $this->product->updatePrice(1);
     }
 }
 

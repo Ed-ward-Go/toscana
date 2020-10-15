@@ -38,7 +38,7 @@ class PriceFaster
     public function execute()
     {
         $this->logger->addInfo("Cronjob price faster is executed.");
-        $this->product->updatePrice(2, 1);
+        $this->product->updatePrice(0);
     }
 }
 

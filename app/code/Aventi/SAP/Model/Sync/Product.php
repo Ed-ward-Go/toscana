@@ -2,10 +2,11 @@
 
 namespace Aventi\SAP\Model\Sync;
 
+use Aventi\SAP\Model\AbstractSync;
 use Bcn\Component\Json\Reader;
 use Symfony\Component\Console\Helper\ProgressBar;
 
-class Product
+class Product extends AbstractSync
 {
 
     /**
@@ -67,10 +68,10 @@ class Product
 
     private $arrayOption = [];
 
-     /**
-     *
-     * @var \Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory
-     */
+    /**
+    *
+    * @var \Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory
+    */
     private $sourceItemInterfaceFactory;
 
     /**
@@ -100,6 +101,10 @@ class Product
      * @var \Magento\Framework\Api\Search\FilterGroupBuilder
      */
     private $filterGroupBuilder;
+    /**
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
+     */
+    private $dateTime;
 
     /**
      * Product constructor.
@@ -136,7 +141,8 @@ class Product
         \Magento\InventoryApi\Api\SourceItemsSaveInterface $sourceItemSave,
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
-        \Magento\Framework\Api\Search\FilterGroupBuilder $filterGroupBuilder
+        \Magento\Framework\Api\Search\FilterGroupBuilder $filterGroupBuilder,
+        \Magento\Framework\Stdlib\DateTime\DateTime $dateTime
     ) {
         $this->directoryList = $directoryList;
         $this->filesystem = $filesystem;
@@ -159,23 +165,24 @@ class Product
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->filterBuilder = $filterBuilder;
         $this->filterGroupBuilder = $filterGroupBuilder;
+        $this->dateTime = $dateTime;
     }
 
     /**
      * @return \Symfony\Component\Console\Output\OutputInterface
      */
-    public function getOutput()
+    /*public function getOutput()
     {
         return $this->output;
-    }
+    }*/
 
     /**
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      */
-    public function setOutput($output)
+    /*public function setOutput($output)
     {
         $this->output = $output;
-    }
+    }*/
 
     /**
      * Instance the class reader for json
@@ -185,13 +192,13 @@ class Product
      * @author  Carlos Hernan Aguilar <caguilar@aventi.co>
      * @date 14/11/18
      */
-    public function getJsonReader($filePath)
+    /*public function getJsonReader($filePath)
     {
         if (file_exists($filePath)) {
             $this->file = fopen($filePath, "r");
             return new Reader($this->file);
         }
-    }
+    }*/
 
     /**
      * Close the file
@@ -199,10 +206,10 @@ class Product
      * @author  Carlos Hernan Aguilar <caguilar@aventi.co>
      * @date 15/11/18
      */
-    public function closeFile()
+    /*public function closeFile()
     {
         @fclose($this->file);
-    }
+    }*/
 
     /**
      * @param $sku
@@ -226,7 +233,7 @@ class Product
     {
         $sku = str_replace(' ', '', $param['sku']);
         $found = $new = $price = $stock = 0;
-        $result = array('found' => 0,'new' => 0,'empty' => 0,'check' => 0);
+        $result = ['found' => 0,'new' => 0,'empty' => 0,'check' => 0];
 
         //$url = $this->generateURL($url);
         if (empty($sku)) {
@@ -236,10 +243,10 @@ class Product
 
         try {
             if ($product = $this->productRepository->get($sku)) {
-
                 $checkProduct = $this->checkProduct($param, $product);
-                if($checkProduct){
-                    $result['check'] = 1; return $result;
+                if ($checkProduct) {
+                    $result['check'] = 1;
+                    return $result;
                 }
                 $result['found'] = 1;
                 $product->setStoreId($param['store_id']);
@@ -247,19 +254,10 @@ class Product
                 $product->setCustomAttribute('tax_class_id', $param['tax']);
                 $product->setStatus($param['status']);
                 $product->setVisibility($param['visibility']);
-                $product->setCustomAttribute('state_slow', $param['state_slow']);
-                $product->setCustomAttribute('ref', $param['ref']);
-                $product->setCustomAttribute('upc', $param['upc']);
-                $product->setCustomAttribute('web_articule', $param['web_articule']);
-                $product->setCustomAttribute('bodega_lm', $param['bodega_lm']);
-                $product->setCustomAttribute('list_material', $param['list_material']);
-                $product->setCustomAttribute('u_marca', $param['u_marca']);
-                $product->setData('mgs_brand', $param['brand']);
-                $product->setData('type', $param['type_p']);
-                $product->setData('class', $param['class_p']);
+                //$product->setData('mgs_brand', $param['brand']);
 
                 $product = $this->productRepository->save($product);
-                try {
+                /*try {
                     if ($param['category_id'] != null) {
                         $this->categoryLinkManagement->assignProductToCategories(
                             $product->getSku(),
@@ -268,7 +266,7 @@ class Product
                     }
                 } catch (\Exception $e) {
                     $this->logger->error($e->getMessage());
-                }
+                }*/
             }
         } catch (\Magento\Framework\Exception\NoSuchEntityException $e) { // Product no found
 
@@ -285,16 +283,7 @@ class Product
             $product->setCustomAttribute('tax_class_id', $param['tax']);
             $product->setStatus($param['status']);
             $product->setVisibility($param['visibility']);
-            $product->setCustomAttribute('state_slow', $param['state_slow']);
-            $product->setCustomAttribute('ref', $param['ref']);
-            $product->setCustomAttribute('upc', $param['upc']);
-            $product->setCustomAttribute('web_articule', $param['web_articule']);
-            $product->setCustomAttribute('bodega_lm', $param['bodega_lm']);
-            $product->setCustomAttribute('list_material', $param['list_material']);
-            $product->setCustomAttribute('u_marca', $param['u_marca']);
-            $product->setData('mgs_brand', $param['brand']);
-            $product->setData('type', $param['type_p']);
-            $product->setData('class', $param['class_p']);
+            //$product->setData('mgs_brand', $param['brand']);
             $product->setUrlKey($this->generateURL($product['name']));
 
             try {
@@ -307,7 +296,7 @@ class Product
                 $this->logger->error("El product {$sku} no creo " . $e->getMessage());
             }
 
-            try {
+            /*try {
                 if ($param['category_id'] != null) {
                     $this->categoryLinkManagement->assignProductToCategories(
                         $product->getSku(),
@@ -316,7 +305,7 @@ class Product
                 }
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage());
-            }
+            }*/
         } catch (\Exception $e) {
             $this->logger->error($sku . '-->' . $e->getMessage());
         }
@@ -346,17 +335,17 @@ class Product
                 ];
             }
             if ($product = $this->productRepository->get($sku)) {
-                if(!$this->sourceRepository->get($source)){
+                if (!$this->sourceRepository->get($source)) {
                     return [
                         'found' => 0,
                         'notFound' => 1
 
                     ];
-                    $this->logger->error("Source with code ". $source . "don't exist");
+                    $this->logger->error("Source with code " . $source . "don't exist");
                 }
                 $stockItem = $this->getSourceBySku($sku, $source);
 
-                if(is_null($stockItem)){
+                if (is_null($stockItem)) {
                     $stockItem = $this->sourceItemInterfaceFactory->create();
                 }
                 $checkStock = $this->checkStock($stock, $stockItem);
@@ -504,20 +493,20 @@ SQL;
         $start = $new = $total = $error = 0;
         $rows = 1000;
         $siguiente = true;
-        $output = $this->getOutput();
+        $date = date('Y-m-d', strtotime($this->dateTime->date('Y-m-d')));
+        if ($option != 0) {
+            $date = "1900-01-01";
+        }
         $progressBar = null;
-        $method = ($option == 0) ? 'api/Producto/%s/%s' : 'api/Producto/Rapido/%s/%s';
+        $method = 'api/Producto/%s/%s/%s';
         while ($siguiente) {
-            $jsonPath = $this->data->getRecourse(sprintf($method, $start, $rows));
+            $jsonPath = $this->data->getRecourse(sprintf($method, $start, $rows, $date));
             if ($jsonPath != false && $jsonPath != null) {
                 $reader = $this->getJsonReader($jsonPath);
                 $reader->enter(Reader::TYPE_OBJECT);
                 $total = $reader->read("total");
                 $products = $reader->read("data");
-                if ($output) {
-                    $progressBar = new ProgressBar($output, $total);
-                    $progressBar->start();
-                }
+                $progressBar = $this->startProgressBar($total);
                 foreach ($products as $product) {
                     $status = isset($product['frozenFor']) ? $product['frozenFor'] : '';
 
@@ -528,53 +517,33 @@ SQL;
                     }
 
                     $stock  = 0;
-                    //$url = $this->generateURL($product['ItemName'].' '.$product['ItemCode'].' '.$product['U_NMarca']);
                     $parent = isset($product['U_GrupoWeb']) ? $product['U_GrupoWeb'] : '';
                     $subparent = isset($product['U_Tipo']) ? $product['U_Tipo'] : '';
                     $child = isset($product['U_Clase']) ? $product['U_Clase'] : '';
                     $categoryId = $this->helperSAP->getCategoryByName($parent, $subparent, $child);
-
-                    $product = array(
+                    $product = [
                         'sku' =>  isset($product['ItemCode']) ? str_replace(' ', '', $product['ItemCode']) : '',
                         'name' => isset($product['ItemName']) ? $product['ItemName'] : '',
-                        'brand' => isset($product['Marca']) ? $this->getOptionId($product['Marca'], 'mgs_brand') : 0,
+                        //'brand' => isset($product['Marca']) ? $this->getOptionId($product['Marca'], 'mgs_brand') : 0,
                         'tax' => isset($product['TaxCodeAR']) ? $this->getTaxId($product['TaxCodeAR']) : '',
                         'status' =>  $status,
-                        'state_slow' => ($product['U_Exx_Des_EstadoLento'] == 'S') ? 1 : 0,
-                        'ref' => $product['SuppCatNum'],
-                        'upc' => $product['CodeBars'],
-                        'web_articule' => ($product['U_ArticuloWeb'] == 'Y') ? 1 : 0,
-                        'bodega_lm' => $product['BodegaLM'],
-                        'list_material' => $product['ListaMateriales'],
-                        'u_marca' => $product['U_Marca'],
-                        'type_p' => isset($product['Tipo']) ? $this->getOptionId($product['Tipo'], 'type') : 0,
-                        'class_p' => isset($product['Clase']) ? $this->getOptionId($product['Clase'], 'class') : 0,
-                        'parent' => $parent,
-                        'subparent' => $subparent,
-                        'child' => $child,
                         'price' => 0,
                         'stock' => $stock,
                         'in_stock' => ($stock > 0) ? 1 : 0,
                         'category_id' => $categoryId,
                         'visibility'=> 4,
                         'store_id' => 0
-                    );
+                    ];
 
                     $response = $this->managerProduct(
                         $product
                     );
-                    if ($output) {
-                        $progressBar->advance();
-                    }
+                    $this->advanceProgressBar($progressBar);
                     //$total--;
                 }
                 $start += $rows;
-                if ($output) {
-                    $progressBar->finish();
-                    $output->writeln(sprintf("\nInteraction %s", ($start / $rows)));
-                }
+                $this->finishProgressBar($progressBar, $start, $rows);
                 $progressBar = null;
-                $this->closeFile();
                 @unlink($jsonPath);
 
                 if ($total <= 0) {
@@ -597,24 +566,10 @@ SQL;
         $start =  $new = $updated =  $error= 0;
         $rows = 1000;
         $siguiente = true;
-        $output = $this->getOutput();
+        //$output = $this->getOutput();
         $method = 'api/Producto/Stock/%s/%s';
         $sourceLm = '';
-        switch ($option) {
-            case 0:
-                $method = 'api/Producto/Stock/%s/%s';
-                break;
-            case 1:
-                $method = 'api/Producto/StockRapido/%s/%s';
-                break;
-            case 2:
-                $method = 'api/Producto/StockPromociones/%s/%s';
-                $sourceLm = 'CDLM';
-                break;
-            default:
-                $method = 'api/Producto/Stock/%s/%s';
-                break;
-        }
+        $method = ($option == 0) ? 'api/Producto/Stock/%s/%s' : 'api/Producto/StockRapido/%s/%s';
         $progressBar = null;
         while ($siguiente) {
             $jsonPath =  $this->data->getRecourse(sprintf($method, $start, $rows));
@@ -623,28 +578,31 @@ SQL;
                 $reader->enter(\Bcn\Component\Json\Reader::TYPE_OBJECT);
                 $total = $reader->read("total");
                 $products = $reader->read("data", \Bcn\Component\Json\Reader::TYPE_OBJECT);
-                if ($output) {
+                /*if ($output) {
                     $progressBar = new ProgressBar($output, $total);
                     $progressBar->start();
-                }
+                }*/
+                $progressBar = $this->startProgressBar($total);
                 foreach ($products as $product) {
-                    $stock = ($product['Quantity'] < 0) ? 0 : $product['Quantity'] ;
-                    $source = (empty($sourceLm) ? $product['WhsCode'] : $sourceLm );
+                    $stock = ($product['Stock'] < 0) ? 0 : $product['Stock'];
+                    $source = (empty($sourceLm) ? $product['WhsCode'] : $sourceLm);
                     $response = $this->managerStock($product['ItemCode'], $stock, $source);
                     $new += $response['notFound'];
                     $updated += $response['found'];
-                    if($output){
+                    /*if($output){
                         $progressBar->advance();
-                    }
+                    }*/
+                    $this->advanceProgressBar($progressBar);
                     // $total--;
                 }
                 $start += $rows;
-                if($output){
+                /*if($output){
                     $progressBar->finish();
                     $output->writeln(sprintf("\nInteraction %s", ($start / $rows)));
-                }
+                }*/
+                $this->finishProgressBar($progressBar, $start, $rows);
                 $progressBar = null;
-                $this->closeFile();
+                //$this->closeFile();
                 @unlink($jsonPath);
 
                 if ($total <= 0) {
@@ -662,45 +620,38 @@ SQL;
      * @author Erich Hans Merz Diaz <emerz@aventi.com.co>
      * @date 15/04/20
      */
-    public function updatePrice($option, $fast = 0)
+    public function updatePrice($option = 0)
     {
         $start =  $new = $updated =  $error= 0;
         $rows = 1000;
         $siguiente = true;
-        $output = $this->getOutput();
-        $method = ($fast == 0) ? 'api/Producto/PreciosPorIdListaPrecio/%s/%s/%s' : 'api/Producto/PreciosPorIdListaPrecioRapido/%s/%s/%s';
+        $date = date('Y-m-d', strtotime($this->dateTime->date('Y-m-d')));
+
+        if ($option != 0) {
+            $date = "1900-01-01";
+        }
+        $method = 'api/Producto/Precios/%s/%s/%s';
         while ($siguiente) {
-            $jsonPath =  $this->data->getRecourse(sprintf($method, $start, $rows, $option));
+            $jsonPath =  $this->data->getRecourse(sprintf($method, $start, $rows, $date));
             if ($jsonPath != false  && $jsonPath != null) {
                 $reader = $this->getJsonReader($jsonPath);
                 $reader->enter(Reader::TYPE_OBJECT);
                 $total = $reader->read("total");
                 $products = $reader->read("data", Reader::TYPE_OBJECT);
-                $output = $this->getOutput();
-                if ($output) {
-                    $progressBar = new ProgressBar($output, $total);
-                    $progressBar->start();
-                }
+                $progressBar = $this->startProgressBar($total);
                 $items = 0;
                 foreach ($products as $product) {
                     $response =  $this->managerPrice($product['ItemCode'], $product['Price']);
                     $new += $response['notFound'];
                     $updated += $response['found'];
-                    if ($output) {
-                        $progressBar->advance();
-                    }
+                    $this->advanceProgressBar($progressBar);
                     $items++;
                 }
-                if ($output) {
-                    $progressBar->finish();
-                }
-                $progressBar = null;
-                $this->closeFile();
-                @unlink($jsonPath);
                 $start += $rows;
-                if ($output) {
-                    $output->writeln(sprintf("\nInteraction %s", ($start / $rows)));
-                }
+                $this->finishProgressBar($progressBar, $start, $rows);
+                $progressBar = null;
+                @unlink($jsonPath);
+
                 if ($total <= 0) {
                     $siguiente = false;
                 }
@@ -741,7 +692,8 @@ SQL;
         }
     }
 
-    public function getSourceBySku($sku, $source){
+    public function getSourceBySku($sku, $source)
+    {
         $filter1 = $this->filterBuilder
         ->setField("sku")
         ->setValue($sku)
@@ -764,58 +716,40 @@ SQL;
         $items = $this->sourceItemRepositoryInterface->getList($searchCriteria)->getItems();
 
         $source = null;
-        foreach ($items as $item){
+        foreach ($items as $item) {
             $source = $item;
         }
 
         return $source;
     }
 
-    public function checkProduct($data, $product){
-
+    public function checkProduct($data, $product)
+    {
         $arrayValues = [];
-        if(is_array($data['category_id'])){
+        if (is_array($data['category_id'])) {
             $arrayValues = array_values($data['category_id']);
         }
 
-        $currentProduct = array(
+        $currentProduct = [
             'sku' => $data['sku'],
             'name' => $data['name'],
-            'brand' => $data['brand'],
-            'type_p' => $data['type_p'],
-            'class_p' => $data['class_p'],
+            //'brand' => $data['brand'],
             'tax' => $data['tax'],
-            'status' => $data['status'],
-            'state_slow' => $data['state_slow'],
-            'ref' => $data['ref'],
-            'upc' => $data['upc'],
-            'web_articule' => $data['web_articule'],
-            'bodega_lm' => $product['bodega_lm'],
-            'list_material' => $data['list_material'],
-            'u_marca' => $data['u_marca']
-        );
+            'status' => $data['status']
+        ];
 
-        $headProduct = array(
+        $headProduct = [
             'sku' =>  $product->getData('sku'),
             'name' =>  $product->getData('name'),
-            'brand' => $product->getData('mgs_brand'),
-            'type_p' => $product->getData('type'),
-            'class_p' => $product->getData('class'),
+            //'brand' => $product->getData('mgs_brand'),
             'tax' => $product->getData('tax_class_id'),
-            'status' => $product->getData('status'),
-            'state_slow' => $product->getData('state_slow'),
-            'ref' =>  $product->getData('ref'),
-            'upc' =>  $product->getData('upc'),
-            'web_articule' =>  $product->getData('web_articule'),
-            'bodega_lm' =>  $product->getData('bodega_lm'),
-            'list_material' =>  $product->getData('list_material'),
-            'u_marca' =>  $product->getData('u_marca')
-        );
+            'status' => $product->getData('status')
+        ];
 
         $categoryDiff = array_diff($product->getCategoryIds(), $arrayValues);
         $checkProduct = array_diff($currentProduct, $headProduct);
 
-        if(empty($checkProduct) && empty($categoryDiff)){
+        if (empty($checkProduct) && empty($categoryDiff)) {
             return true;
         }
         return false;
@@ -860,6 +794,4 @@ SQL;
     {
         return number_format($number, 6, '.', '');
     }
-
-
 }

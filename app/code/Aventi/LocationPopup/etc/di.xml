@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<preference for="Aventi\LocationPopup\Api\LocationPopupRepositoryInterface" type="Aventi\LocationPopup\Model\LocationPopupRepository"/>
+	<preference for="Aventi\LocationPopup\Api\Data\LocationPopupInterface" type="Aventi\LocationPopup\Model\Data\LocationPopup"/>
+	<preference for="Aventi\LocationPopup\Api\Data\LocationPopupSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+	<virtualType name="Aventi\LocationPopup\Model\ResourceModel\LocationPopup\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+		<arguments>
+			<argument name="mainTable" xsi:type="string">aventi_locationpopup_locationpopup</argument>
+			<argument name="resourceModel" xsi:type="string">Aventi\LocationPopup\Model\ResourceModel\LocationPopup\Collection</argument>
+		</arguments>
+	</virtualType>
+	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+		<arguments>
+			<argument name="collections" xsi:type="array">
+				<item name="aventi_locationpopup_locationpopup_listing_data_source" xsi:type="string">Aventi\LocationPopup\Model\ResourceModel\LocationPopup\Grid\Collection</item>
+			</argument>
+		</arguments>
+	</type>
+</config>

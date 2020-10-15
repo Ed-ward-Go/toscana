@@ -1,0 +1,47 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+$helper = $this->helper('Aventi\LocationPopup\Helper\Data');
+
+?>
+
+<div class="block locationpopup">
+    <div class="content">
+        <form class="form locationpopup"
+            novalidate
+            action="#"
+            method="post"            
+            id="locationpopup-form">
+            <div class="field form-group locationpopup-fields">
+                <input type="hidden" value="" id="locationpopup-postcode" name="postcode">
+                <div class="control">
+                    <label for="region"><?php /* @escapeNotVerified */ echo __('Select a region') ?><b>*</b></label>
+                    <select name="region" id="locationpopup-region"                         
+                        data-validate="{required:true}">                        
+                        <?php echo $this->helper('Aventi\LocationPopup\Helper\Data')->getDefaultRegion(); ?>
+                    </select>
+                </div>
+                <div class="control" style="padding-top:10px;">
+                    <label for="city"><?php /* @escapeNotVerified */ echo __('Select a city') ?><b>*</b></label>
+                    <select name="city" id="locationpopup-city"                         
+                        data-validate="{required:true}">                        
+                        <?php echo $this->helper('Aventi\LocationPopup\Helper\Data')->getDefaultCities(); ?>
+                    </select>
+                </div>
+            </div>
+            <div class="actions">  
+                <button class="action submit-location dont-change btn btn-secondary btn-full" title="<?php /* @escapeNotVerified */ echo __('Do not change') ?>"data-role="closeBtn" type="button"> 
+                    <span><?php /* @escapeNotVerified */ echo __('Do not change') ?></span>
+                </button>   
+                <button class="action submit-location btn btn-primary btn-full" title="<?php /* @escapeNotVerified */ echo __('Change location') ?>"  type="submit" >
+                    <span><?php /* @escapeNotVerified */ echo __('Change location') ?></span>
+                </button>     				
+                <!-- <button class="action submit-location btn btn-secondary btn-full" title="<?php /* @escapeNotVerified */ echo __('Next') ?>" type="submit">
+                    <span><?php /* @escapeNotVerified */ echo __('Next') ?></span>
+                </button> -->
+            </div>			
+        </form>
+    </div>
+</div>

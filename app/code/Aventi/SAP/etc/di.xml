@@ -10,7 +10,6 @@
 				<item name="Product" xsi:type="object">Aventi\SAP\Console\Command\Product</item>
 				<item name="Stock" xsi:type="object">Aventi\SAP\Console\Command\Stock</item>
 				<item name="Price" xsi:type="object">Aventi\SAP\Console\Command\Price</item>
-				<item name="PriceFaster" xsi:type="object">Aventi\SAP\Console\Command\PriceFaster</item>
 				<item name="SycnOrder" xsi:type="object">Aventi\SAP\Console\Command\SycnOrder</item>
 				<item name="OrderSent" xsi:type="object">Aventi\SAP\Console\Command\OrderSent</item>
 				<item name="CustomerAddress" xsi:type="object">Aventi\SAP\Console\Command\CustomerAddress</item>
