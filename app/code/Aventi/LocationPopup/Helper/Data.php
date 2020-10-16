@@ -61,7 +61,7 @@ class Data extends AbstractHelper
         \Magento\Directory\Model\Country $country,
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
-        \Magento\Framework\Api\SortOrder $sortOrder,        
+        \Magento\Framework\Api\SortOrder $sortOrder,
         \Magento\Framework\Api\Search\FilterGroupBuilder $filterGroupBuilder,
         \Aventi\CityDropDown\Model\CityRepository $cityRepository,
         \Psr\Log\LoggerInterface $logger,
@@ -74,7 +74,7 @@ class Data extends AbstractHelper
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->filterBuilder = $filterBuilder;
         $this->filterGroupBuilder = $filterGroupBuilder;
-        $this->sortOrder = $sortOrder;        
+        $this->sortOrder = $sortOrder;
         $this->cityRepository = $cityRepository;
         $this->logger = $logger;
         $this->region = $region;
@@ -106,8 +106,8 @@ class Data extends AbstractHelper
     public function setValue($array)
     {
         $this->coreSession->start();
-        
-        $this->coreSession->setLocation($array);        
+
+        $this->coreSession->setLocation($array);
     }
 
     /**
@@ -117,15 +117,15 @@ class Data extends AbstractHelper
     {
         $this->coreSession->start();
         $result = $this->coreSession->getLocation();
-        if(!$result){
+        if (!$result) {
             $result = [
                 "city" => $this->getCity(),
                 "region" => $this->getRegion(),
                 "postcode" => $this->getPostCode(),
                 "default" => true
             ];
-        }         
-        return $result; 
+        }
+        return $result;
     }
 
     /**
@@ -137,34 +137,34 @@ class Data extends AbstractHelper
         return $this->coreSession->unsLocation();
     }
 
-    public function getDefaultRegion(){
-
+    public function getDefaultRegion()
+    {
         $regions = $this->toOptionArray($this->getCountry());
         $options = '';
         $region = (!is_null($this->getValue())) ? $this->getValue()['region'] : $this->getRegion();
         foreach ($regions as $key => $value) {
             $selected = '';
-            if($value['value'] == $region){
+            if ($value['value'] == $region) {
                 $selected = "selected";
-            }   
-            $options .= '<option value="'.$value['value']. '" '. $selected .'>' . $value['label'] . '</option>';
+            }
+            $options .= '<option value="' . $value['value'] . '" ' . $selected . '>' . $value['label'] . '</option>';
         }
         return $options;
-
     }
 
-    public function getDefaultCities(){        
+    public function getDefaultCities()
+    {
         $region = (!is_null($this->getValue())) ? $this->getValue()['region'] : $this->getRegion();
         $cities = $this->getCitiesByregion($region);
         $options = '';
-        
+
         $postcode = (!is_null($this->getValue())) ? $this->getValue()['postcode'] : $this->getPostCode();
         foreach ($cities as $key => $value) {
             $selected = '';
-            if($value['postalCode'] == $postcode){
+            if ($value['postalCode'] == $postcode) {
                 $selected = "selected";
-            }   
-            $options .= '<option data-postcode="'. $value['postalCode'] .'" value="'.$value['name']. '" '. $selected .'>' . $value['name'] . '</option>';
+            }
+            $options .= '<option data-postcode="' . $value['postalCode'] . '" value="' . $value['name'] . '" ' . $selected . '>' . $value['name'] . '</option>';
         }
         return $options;
     }
@@ -172,15 +172,13 @@ class Data extends AbstractHelper
     public function toOptionArray($option)
     {
         $arr = $this->_toArray($option);
-        $ret = [];    
-        
-        foreach ($arr as $key => $value)
-        {            
+        $ret = [];
+
+        foreach ($arr as $key => $value) {
             $ret[] = [
                 'value' => $value['value'],
                 'label' => $value['title']
             ];
-                                  
         }
 
         return $ret;
@@ -190,11 +188,11 @@ class Data extends AbstractHelper
     {
         $regionCollection = $this->country->loadByCode($code)->getRegions();
         $regions = $regionCollection->loadData()->toOptionArray(true);
-        return $regions;        
+        return $regions;
     }
 
-    public function getCitiesByregion($region_id){
-
+    public function getCitiesByregion($region_id)
+    {
         try {
             $region = $region_id;
             $filterGroup = $this->filterGroupBuilder;
@@ -203,7 +201,7 @@ class Data extends AbstractHelper
                 $this->filterBuilder
                     ->setField('region_id')
                     ->setConditionType('like')
-                    ->setValue($region)                    
+                    ->setValue($region)
                     ->create()
             );
 
@@ -214,33 +212,27 @@ class Data extends AbstractHelper
             $searchCriteria = $this->searchCriteriaBuilder
                 ->setFilterGroups([$filterGroup->create()])
                 ->create();
-                        
-            $searchCriteria->setSortOrders([$sortOrder]);                
-            $cities = $this->cityRepository->getList($searchCriteria)->getItems();        
+
+            $searchCriteria->setSortOrders([$sortOrder]);
+            $cities = $this->cityRepository->getList($searchCriteria)->getItems();
             $items = [];
-            foreach ($cities as $city){                            
+            foreach ($cities as $city) {
                 $items[] =  [
                     'name' => $city->getName(),
                     'id' => $city->getCityId(),
                     'postalCode' => $city->getPostalCode()
                 ];
-            }            
+            }
             return $items;
         } catch (\Magento\Framework\Exception\LocalizedException $e) {
             $this->logger->error($e->getMessage());
         } catch (\Exception $e) {
-            $this->logger->critical($e);            
+            $this->logger->critical($e);
         }
-
     }
 
-    public function getRegionName($id){
-
+    public function getRegionName($id)
+    {
         return $this->region->load($id)->getName();
-
     }
-    
-
 }
-
-

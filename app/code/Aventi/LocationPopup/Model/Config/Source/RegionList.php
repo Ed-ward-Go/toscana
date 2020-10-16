@@ -13,13 +13,13 @@ class RegionList implements OptionSourceInterface
     )
     {
         $this->country = $country;
-    }    
+    }
 
     public function toOptionArray()
     {
-        $arr = $this->_toArray("CO");
-        $ret = [];    
-        $i = 0;    
+        $arr = $this->_toArray("EC");
+        $ret = [];
+        $i = 0;
         foreach ($arr as $key => $value)
         {
             if($i == 0){
@@ -32,7 +32,7 @@ class RegionList implements OptionSourceInterface
                     'value' => $value['value'],
                     'label' => $value['title']
                 ];
-            }            
+            }
             $i++;
         }
 
@@ -43,7 +43,7 @@ class RegionList implements OptionSourceInterface
     {
         $regionCollection = $this->country->loadByCode($code)->getRegions();
         $regions = $regionCollection->loadData()->toOptionArray(true);
-        return $regions;        
-    }    
+        return $regions;
+    }
 
 }

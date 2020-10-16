@@ -19,11 +19,11 @@ use Symfony\Component\Console\Helper\Table;
 class Customer extends Command
 {
 
-    const PROCESS_SELECTED = 'Process';    
+    const PROCESS_SELECTED = 'Process';
 
     const PROCESS_LIST = [
         0 => 'Customer Fast',
-        1 => 'Customer'       
+        1 => 'Customer'
     ];
 
     /**
@@ -51,14 +51,14 @@ class Customer extends Command
         InputInterface $input,
         OutputInterface $output
     ) {
-        $process = (int)$input->getArgument(self::PROCESS_SELECTED);       
+        $process = (int)$input->getArgument(self::PROCESS_SELECTED);
         if( $process < 0 || $process > 1){
             $output->writeln("<error>Process no found :(</error>");
             exit;
-        } 
+        }
         $this->state->setAreaCode( \Magento\Framework\App\Area::AREA_CRONTAB);
         $this->customerManager->setOutput($output);
-        $this->customerManager->company($process);
+        $this->customerManager->customer($process);
     }
 
     /**
@@ -69,7 +69,7 @@ class Customer extends Command
         $this->setName("aventi:sap:customer");
         $this->setDescription("Sync customer SAP to Magento [
             0 => Customer Fast
-            1 => Customer    
+            1 => Customer
         ]");
         $this->setDefinition([
             new InputArgument(self::PROCESS_SELECTED, null, "Process"),

@@ -54,7 +54,9 @@ class RestrictWebsite implements ObserverInterface
         'customer_account_forgotpasswordpost',
         'customer_account_createpassword',
         'customer_account_resetpasswordpost',
-        'customer_section_load'
+        'customer_section_load',
+        'locationpopup_index_index',
+        'citydropdown_index_index',
       ];
 
         $request = $observer->getEvent()->getRequest();

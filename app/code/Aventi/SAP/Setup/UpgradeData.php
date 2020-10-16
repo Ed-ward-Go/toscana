@@ -105,26 +105,27 @@ class UpgradeData implements UpgradeDataInterface
                     'attribute_set_id' => $attributeSetId,
                     'attribute_group_id' => $attributeGroupId
                 ]);
-            $attribute->save();
-
-            $customerSetup->addAttribute('customer_address', 'warehouse_group', [
-                'type'          => 'varchar',
-                'label'         => 'Grupo bodega',
-                'input'         => 'text',
-                'required'      =>  false,
-                'visible'       =>  true,
-                'user_defined'  =>  true,
-                'sort_order'    =>  30,
-                'position'      =>  30,
-                'system'        =>  0,
-            ]);
-
-            $attribute = $customerSetup->getEavConfig()->getAttribute('customer_address', 'warehouse_group')
-                ->addData([
-                    'attribute_set_id' => $attributeSetId,
-                    'attribute_group_id' => $attributeGroupId
-                ]);
             $attribute->save();*/
+
+
+            $customerSetup->addAttribute(\Magento\Customer\Model\Customer::ENTITY, 'warehouse_group', [
+                'type' => 'varchar',
+                'label' => 'Grupo Bodega',
+                'input' => 'text',
+                'source' => '',
+                'required' => false,
+                'visible' => false,
+                'position' => 333,
+                'system' => false,
+                'backend' => ''
+            ]);
+            $attribute = $customerSetup->getEavConfig()->getAttribute('customer', 'warehouse_group')
+                ->addData(['used_in_forms' => [
+                    'adminhtml_customer',
+                    'adminhtml_checkout'
+                ]
+                ]);
+            $attribute->save();
         }
 
         if (version_compare($context->getVersion(), "1.0.2", "<")) {

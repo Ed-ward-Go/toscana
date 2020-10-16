@@ -1,11 +1,9 @@
 <?php
 
-
 namespace Aventi\CityDropDown\Controller\Index;
 
 class Index extends \Magento\Framework\App\Action\Action
 {
-
     protected $resultPageFactory;
     protected $jsonHelper;
     /**
@@ -31,7 +29,7 @@ class Index extends \Magento\Framework\App\Action\Action
     /**
      * @var \Magento\Framework\Api\Search\SortOrder
      */
-    private $sortOrder;    
+    private $sortOrder;
 
     /**
      * Constructor
@@ -45,7 +43,7 @@ class Index extends \Magento\Framework\App\Action\Action
         \Magento\Framework\Json\Helper\Data $jsonHelper,
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
-        \Magento\Framework\Api\SortOrder $sortOrder,        
+        \Magento\Framework\Api\SortOrder $sortOrder,
         \Magento\Framework\Api\Search\FilterGroupBuilder $filterGroupBuilder,
         \Aventi\CityDropDown\Model\CityRepository $cityRepository,
         \Psr\Log\LoggerInterface $logger
@@ -56,7 +54,7 @@ class Index extends \Magento\Framework\App\Action\Action
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->filterBuilder = $filterBuilder;
         $this->filterGroupBuilder = $filterGroupBuilder;
-        $this->sortOrder = $sortOrder;        
+        $this->sortOrder = $sortOrder;
         $this->cityRepository = $cityRepository;
         $this->logger = $logger;
     }
@@ -69,7 +67,6 @@ class Index extends \Magento\Framework\App\Action\Action
     public function execute()
     {
         try {
-
             $region = $this->_request->getParam('region_id');
             $filterGroup = $this->filterGroupBuilder;
             $sortOrder = $this->sortOrder;
@@ -77,7 +74,7 @@ class Index extends \Magento\Framework\App\Action\Action
                 $this->filterBuilder
                     ->setField('region_id')
                     ->setConditionType('like')
-                    ->setValue($region)                    
+                    ->setValue($region)
                     ->create()
             );
 
@@ -88,12 +85,12 @@ class Index extends \Magento\Framework\App\Action\Action
             $searchCriteria = $this->searchCriteriaBuilder
                 ->setFilterGroups([$filterGroup->create()])
                 ->create();
-                        
-            $searchCriteria->setSortOrders([$sortOrder]);                
+
+            $searchCriteria->setSortOrders([$sortOrder]);
             $cities = $this->cityRepository->getList($searchCriteria)->getItems();
 
             $items = [];
-            foreach ($cities as $city){
+            foreach ($cities as $city) {
                 $items[] =  [
                     'name' => $city->getName(),
                     'id' => $city->getCityId(),
@@ -101,7 +98,7 @@ class Index extends \Magento\Framework\App\Action\Action
                 ];
             }
 
-            usort($items, function($a, $b) {
+            usort($items, function ($a, $b) {
                 return $a['name'] <=> $b['name'];
             });
 
