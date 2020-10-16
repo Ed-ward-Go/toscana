@@ -254,7 +254,10 @@ class Product extends AbstractSync
                 $product->setCustomAttribute('tax_class_id', $param['tax']);
                 $product->setStatus($param['status']);
                 $product->setVisibility($param['visibility']);
-                //$product->setData('mgs_brand', $param['brand']);
+                $product->setData('mgs_brand', $param['brand']);
+                $product->setData('presentation', $param['presentation']);
+                $product->setData('business_line', $param['business_line']);
+                $product->setData('format', $param['format']);
 
                 $product = $this->productRepository->save($product);
                 /*try {
@@ -283,7 +286,10 @@ class Product extends AbstractSync
             $product->setCustomAttribute('tax_class_id', $param['tax']);
             $product->setStatus($param['status']);
             $product->setVisibility($param['visibility']);
-            //$product->setData('mgs_brand', $param['brand']);
+            $product->setData('mgs_brand', $param['brand']);
+            $product->setData('presentation', $param['presentation']);
+            $product->setData('business_line', $param['business_line']);
+            $product->setData('format', $param['format']);
             $product->setUrlKey($this->generateURL($product['name']));
 
             try {
@@ -524,7 +530,10 @@ SQL;
                     $product = [
                         'sku' =>  isset($product['ItemCode']) ? str_replace(' ', '', $product['ItemCode']) : '',
                         'name' => isset($product['ItemName']) ? $product['ItemName'] : '',
-                        //'brand' => isset($product['Marca']) ? $this->getOptionId($product['Marca'], 'mgs_brand') : 0,
+                        'brand' => isset($product['Marca']) ? $this->getOptionId($product['Marca'], 'mgs_brand') : 0,
+                        'business_line' => isset($product['U_GC_NEGOCIO']) ? $product['U_GC_NEGOCIO'] : '',
+                        'format' => isset($product['Formato']) ? $this->getOptionId($product['Formato'], 'format') : 0,
+                        'presentation' => isset($product['U_GC_PRESENTACION']) ? $this->getOptionId($product['U_GC_PRESENTACION'], 'presentation') : 0,
                         'tax' => isset($product['TaxCodeAR']) ? $this->getTaxId($product['TaxCodeAR']) : '',
                         'status' =>  $status,
                         'price' => 0,
@@ -733,7 +742,10 @@ SQL;
         $currentProduct = [
             'sku' => $data['sku'],
             'name' => $data['name'],
-            //'brand' => $data['brand'],
+            'brand' => $data['brand'],
+            'business_line' => $data['business_line'],
+            'format' => $data['format'],
+            'presentation' => $data['presentation'],
             'tax' => $data['tax'],
             'status' => $data['status']
         ];
@@ -741,7 +753,10 @@ SQL;
         $headProduct = [
             'sku' =>  $product->getData('sku'),
             'name' =>  $product->getData('name'),
-            //'brand' => $product->getData('mgs_brand'),
+            'brand' => $product->getData('mgs_brand'),
+            'business_line' => $product->getData('business_line'),
+            'format' => $product->getData('format'),
+            'presentation' => $product->getData('presentation'),
             'tax' => $product->getData('tax_class_id'),
             'status' => $product->getData('status')
         ];

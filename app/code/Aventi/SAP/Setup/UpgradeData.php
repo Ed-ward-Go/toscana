@@ -177,6 +177,25 @@ class UpgradeData implements UpgradeDataInterface
                     'grid' => false
                 ]
             );
+            $customerSetup = $this->customerSetupFactory->create(['setup' => $setup]);
+            $customerSetup->addAttribute(\Magento\Customer\Model\Customer::ENTITY, 'slp_code', [
+                'type' => 'varchar',
+                'label' => 'slp_code',
+                'input' => 'text',
+                'source' => '',
+                'required' => false,
+                'visible' => false,
+                'position' => 333,
+                'system' => false,
+                'backend' => ''
+            ]);
+            $attribute = $customerSetup->getEavConfig()->getAttribute('customer', 'slp_code')
+                ->addData(['used_in_forms' => [
+                    'adminhtml_customer',
+                    'adminhtml_checkout'
+                ]
+                ]);
+            $attribute->save();
 
             /*$quoteSetup = $this->quoteSetupFactory->create(['setup' => $setup]);
             $quoteSetup->addAttribute('quote_address', 'serie',
@@ -199,6 +218,7 @@ class UpgradeData implements UpgradeDataInterface
                     'grid' => false
                 ]
             );*/
+
         }
 
         if (version_compare($context->getVersion(), "1.0.4", "<")) {
@@ -222,26 +242,7 @@ class UpgradeData implements UpgradeDataInterface
                 ]);
             $attribute->save();
 
-            /*$customerSetup->addAttribute(\Magento\Customer\Model\Customer::ENTITY, 'slp_code', [
-                'type' => 'varchar',
-                'label' => 'slp_code',
-                'input' => 'text',
-                'source' => '',
-                'required' => false,
-                'visible' => false,
-                'position' => 333,
-                'system' => false,
-                'backend' => ''
-            ]);
-            $attribute = $customerSetup->getEavConfig()->getAttribute('customer', 'slp_code')
-                ->addData(['used_in_forms' => [
-                    'adminhtml_customer',
-                    'adminhtml_checkout'
-                ]
-                ]);
-            $attribute->save();
-
-            $customerSetup->addAttribute(\Magento\Customer\Model\Customer::ENTITY, 'owner_code', [
+            /*$customerSetup->addAttribute(\Magento\Customer\Model\Customer::ENTITY, 'owner_code', [
                 'type' => 'varchar',
                 'label' => 'owner_code',
                 'input' => 'text',
