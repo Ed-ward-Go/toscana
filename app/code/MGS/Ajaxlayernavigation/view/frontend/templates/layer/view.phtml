@@ -1,9 +1,25 @@
 <?php $_helper = $this->helper('MGS\Ajaxlayernavigation\Helper\Config');?>
+<?php $objectManager = \Magento\Framework\App\ObjectManager::getInstance();?>
+
+
 <?php if ($block->canShowBlock()): ?>
     <div class="block filter mgs-filter" id="layered-filter-block">
-        <div class="block-title filter-title">
-            <strong><?php /* @escapeNotVerified */ echo __('Shop By') ?></strong>
-        </div>
+
+		<div class="category-title">
+			<p class="category-title__title">
+				<?php 
+					$category = $objectManager->get('Magento\Framework\Registry')->registry('current_category');//get current category
+					if ($category) {
+						$catname = $category->getName();
+						echo $catname;
+					}
+				?>
+			</p>
+			<p class="category-title__subtitle">
+				<?php /* @escapeNotVerified */ echo __('Shop By') ?>
+			</p>
+		</div>
+		
 
         <div class="block-content filter-content">
 			<div class="block-filter-content">
@@ -33,7 +49,13 @@
 							?>
 							<div class="filter-options-item">
 								<dt role="heading" aria-level="3">
-									<div class="filter-options-title"><?php echo __($_helper->getFilterByText(), $block->escapeHtml(__($filter->getName()))) ?></div></dt>
+								<!-- <div class="filter-options-title">
+									<?php echo __($_helper->getFilterByText(), $block->escapeHtml(__($filter->getName()))) ?>
+								</div>-->
+									<div class="filter-options-title">
+									<?php echo __( $block->escapeHtml(__($filter->getName()))) ?>
+									</div>
+								</dt> 
 								<dd class="filter-options-content <?php if(!$_helper->defaultExpanded()): ?>inactive<?php endif; ?>"> 
 									<?php 
 									$isPrice = false;
