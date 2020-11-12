@@ -18,7 +18,7 @@ define(
             },
             getAvailableCreditBalance: function () {
                 console.log(window.checkoutConfig.payment);
-                return $t('Available: ') + CreditManagment.getAvailableCredit();
+                return CreditManagment.getAvailableCredit();
             },
             canPayOrder: function () {
                 return CreditManagment.canPayOrder();

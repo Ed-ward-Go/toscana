@@ -6564,6 +6564,8 @@ form.payments > .fieldset {
 	 .page-title-wrapper {
 		display: none;
 	}
+
+
 }
 
 .multicheckout.success,
@@ -6618,6 +6620,22 @@ form.payments > .fieldset {
 			font-size: 20px;
 			font-weight: 400;
 			color: @sucesores-dark-green;
+		}
+	}
+	.confirmation-data-cta {
+		filter: drop-shadow(0px 4px 22px rgba(249, 220, 92, 0.49));
+		background: #F9DC5C;
+		font-family: Poppins;
+		font-weight: bold;
+		font-size: 14px;
+		text-align: center;
+		color: #333333;
+		border-radius: 10px;
+		padding: 15px 30px;
+		margin: 20px;
+		margin-bottom: 40px;
+		a {
+			color: #333
 		}
 	}
 	.actions-toolbar {
@@ -7685,6 +7703,52 @@ form.payments > .fieldset {
 						font-weight: bold !important;
 					}
 				}
+			}
+		}
+	}
+}
+
+// CUSTOM CHECKOUT
+.checkout-index-index {
+	.page-title-wrapper,
+	.breadcrumbs {
+		display: none;
+	}
+
+	.header {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	#maincontent {
+		padding-top: 70px;
+	}
+	.opc-block-summary {
+		border-radius: 26px 25px 0 0;
+		.product-image-container {
+			box-shadow: 0px 4px 22px rgba(174, 174, 174, 0.31);
+			border-radius: 25px;
+		}
+	}
+
+	.step-title {
+		font-family: Poppins;
+		font-weight: bold;
+		font-size: 40px;
+
+		color: #1A8C43;
+	}
+
+	.credit-limit-info-block {
+		.credit-limit-side-note {
+			margin: 15px 0;
+		}
+		p:not(.credit-limit-side-note) {
+			color: #333;
+			font-size: 16px;
+			b {
+				margin-left: 15px;
 			}
 		}
 	}
