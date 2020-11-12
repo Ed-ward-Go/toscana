@@ -6,7 +6,7 @@
 -->
 <ul class="opc-progress-bar">
     <li class="opc-progress-bar-item _complete">
-        <span data-bind="i18n: item.title">Carrito de compras</span>
+        <span>Carrito de compras</span>
     </li>
     <!-- ko foreach: { data: steps().sort(sortItems), as: 'item' } -->
         <li class="opc-progress-bar-item" data-bind="css: item.isVisible() ? '_active' : ($parent.isProcessed(item) ? '_complete' : '')">
@@ -14,6 +14,6 @@
         </li>
     <!-- /ko -->
     <li class="opc-progress-bar-item">
-        <span data-bind="i18n: item.title">Confirmación</span>
+        <span>Confirmación</span>
     </li>
 </ul>
