@@ -150,6 +150,12 @@
                 <p class="note"><?= $block->escapeHtml(__('Click on order number to check your order'))?></p>
             </div>
             <p><?= $block->escapeHtml(__('You\'ll get an email confirming your purchase and in 48 business days you\'ll get an email notifying you that the order is ready to be picked up.')) ?></p>
+            <a href="<?= $block->getViewOrderUrl() ?>">
+                <div class="confirmation-data-cta">
+                    <?= $block->escapeHtml(__('Check order details.')) ?>
+                </div>
+            </a>
+
         </div>
         <div class="contact-info">
             <p><b><?= $block->escapeHtml(__('If you have any questions contact us at:'))?></b></p>

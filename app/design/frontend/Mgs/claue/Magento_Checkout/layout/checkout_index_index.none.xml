@@ -64,7 +64,7 @@
 				</argument>
 			</arguments>
 		</referenceBlock>
-		<move element="logo" destination="header"/>
-		<referenceContainer name="checkout.header.wrapper" remove="true"/>
+		<!-- <move element="logo" destination="header"/> -->
+		<!-- <referenceContainer name="checkout.header.wrapper" remove="true"/> -->
     </body>
 </page>

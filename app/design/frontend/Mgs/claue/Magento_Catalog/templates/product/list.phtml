@@ -189,6 +189,7 @@ $dataCol = '';
 				
 				<?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
 				<?php foreach ($_productCollection as $_product): $i++; ?>
+					
 					<li class="item product <?php if ($changeProductPerRow): ?>product-item-masonry<?php else: ?><?php echo $themeHelper->getClearClass($perrow, $i) ?><?php endif ?> product-item-info product-item <?php echo $colClass ?> <?php echo $hover_effect ?>">
 						<?php $_productNameStripped = $block->stripTags($_product->getName(), null, true); ?>
 						<?php $productImage = $_imagehelper->init($_product, $image)->resize($size['width'], $size['height'])->getUrl(); ?>
@@ -197,78 +198,106 @@ $dataCol = '';
 							<?php $baseImage = $productImage ?>
 							<?php $baseImageHover = $productImageHover ?>
 						<?php endif ?>
-						<div class="product-top">
-							<?php if($themeHelper->getStoreConfig('mpanel/catalog/images_slides')== 1): ?>
-								<?php 
-								$productImageSmall = $_imagehelper->init($_product, 'product_small_image')->resize($size['width'], $size['height'])->getUrl();
-						        $productThumbnail = $_imagehelper->init($_product, 'product_thumbnail_image')->resize($size['width'], $size['height'])->getUrl();
-						        $productImageBase = $_imagehelper->init($_product, 'product_base_image')->resize($size['width'], $size['height'])->getUrl();
-								?>
-							   <div class="owl-carousel list_gallery">
-									<a href="<?php  echo $_product->getProductUrl() ?>" class="product photo product-item-photo" style="padding-bottom: <?php echo $padding ?>;"  tabindex="-1">
-										<img src="<?php echo $productImageBase ?>" alt="<?php echo $_productNameStripped ?>" class="img-responsive product-image-photo img-thumbnail"/>
-									</a>
-								   <?php if(basename($_product->getData('thumbnail')) != basename($_product->getData('image'))): ?>
-									   <a href="<?php  echo $_product->getProductUrl() ?>" class="product photo product-item-photo" style="padding-bottom: <?php echo $padding ?>;"  tabindex="-1">
-										<img src="<?php echo $productThumbnail ?>" alt="<?php echo $_productNameStripped ?>" class="img-responsive product-image-photo img-thumbnail" data-src="<?php echo $productThumbnail ?>"/>
-									   </a>
-								   <?php endif;?>
-								   
-								  <?php if((basename($_product->getData('small_image')) != basename($_product->getData('image'))) && (basename($_product->getData('small_image')) != basename($_product->getData('thumbnail')))): ?>
+						<div class="product-in-grid-container">
+							<div class="product-top">
+								<?php if($themeHelper->getStoreConfig('mpanel/catalog/images_slides')== 1): ?>
+									<?php 
+									$productImageSmall = $_imagehelper->init($_product, 'product_small_image')->resize($size['width'], $size['height'])->getUrl();
+									$productThumbnail = $_imagehelper->init($_product, 'product_thumbnail_image')->resize($size['width'], $size['height'])->getUrl();
+									$productImageBase = $_imagehelper->init($_product, 'product_base_image')->resize($size['width'], $size['height'])->getUrl();
+									?>
+								   <div class="owl-carousel list_gallery">
 										<a href="<?php  echo $_product->getProductUrl() ?>" class="product photo product-item-photo" style="padding-bottom: <?php echo $padding ?>;"  tabindex="-1">
-											<img src="<?php echo $productImageSmall ?>" alt="<?php echo $_productNameStripped ?>" class="img-responsive product-image-photo img-thumbnail" data-src="<?php echo $productImageSmall ?>"/>
-									   </a>
-								   <?php endif;?>
-								   
-								</div>
-								
-							<?php else:?>
-							 <a href="<?php echo $_product->getProductUrl() ?>" style="padding-bottom: <?php echo $padding; ?>;" class="product photo product-item-photo" tabindex="-1">
-								<img src="<?php echo $baseImage ?>" alt="<?php echo $_productNameStripped ?>" class="img-responsive product-image-photo img-thumbnail<?php if($lazyLoad): ?> lazy<?php endif ?>" data-src="<?php echo $productImage ?>"/>
-								
-								<?php if(basename($_product->getData('thumbnail')) !=  'no_selection'): ?>
-									<?php if(basename($_product->getData('thumbnail')) != basename($_product->getData('small_image'))): ?>
-										<img src="<?php echo $baseImageHover ?>" alt="<?php echo $_productNameStripped ?>" class="img-responsive img-hover-show<?php if($lazyLoad): ?> lazy<?php endif ?>" data-src="<?php echo $productImageHover ?>" />
-									<?php endif ?>
-								<?php endif ?>
-								
-								<div class="product-image-photo"></div>
-							</a>
-							   
-							<?php endif;?>
-							<?php echo $themeHelper->getProductLabel($_product) ?>
-							<ul class="actions-link" data-role="add-to-links">
-							
-								<li class="hidden-sm hidden-xs"><?php echo $quickViewHelper->aroundQuickViewHtml($_product); ?></li>
-								
-								<?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && !$settings['catalog']['wishlist_button']): ?>
-									<li><button data-title="<?php echo $block->escapeHtml(__('Add to Wish List')); ?>"
-									   class="action towishlist"
-									   title="<?php echo $block->escapeHtml(__('Add to Wish List')); ?>"
-									   aria-label="<?php echo $block->escapeHtml(__('Add to Wish List')); ?>"
-									   data-post='<?php /* @escapeNotVerified */ echo $block->getAddToWishlistParams($_product); ?>'
-									   data-action="add-to-wishlist"
-									   role="button">
-										<i class="pe-7s-like"></i>
-									</button></li>
-								<?php endif; ?>
+											<img src="<?php echo $productImageBase ?>" alt="<?php echo $_productNameStripped ?>" class="img-responsive product-image-photo img-thumbnail"/>
+										</a>
+									   <?php if(basename($_product->getData('thumbnail')) != basename($_product->getData('image'))): ?>
+										   <a href="<?php  echo $_product->getProductUrl() ?>" class="product photo product-item-photo" style="padding-bottom: <?php echo $padding ?>;"  tabindex="-1">
+											<img src="<?php echo $productThumbnail ?>" alt="<?php echo $_productNameStripped ?>" class="img-responsive product-image-photo img-thumbnail" data-src="<?php echo $productThumbnail ?>"/>
+										   </a>
+									   <?php endif;?>
+									   
+									  <?php if((basename($_product->getData('small_image')) != basename($_product->getData('image'))) && (basename($_product->getData('small_image')) != basename($_product->getData('thumbnail')))): ?>
+											<a href="<?php  echo $_product->getProductUrl() ?>" class="product photo product-item-photo" style="padding-bottom: <?php echo $padding ?>;"  tabindex="-1">
+												<img src="<?php echo $productImageSmall ?>" alt="<?php echo $_productNameStripped ?>" class="img-responsive product-image-photo img-thumbnail" data-src="<?php echo $productImageSmall ?>"/>
+										   </a>
+									   <?php endif;?>
+									   
+									</div>
 									
-								<?php if(!$settings['catalog']['compare_button']): ?>
-									<li><button data-title="<?php echo $block->escapeHtml(__('Add to Compare')); ?>"
-									   class="action tocompare"
-									   title="<?php echo $block->escapeHtml(__('Add to Compare')); ?>"
-									   aria-label="<?php echo $block->escapeHtml(__('Add to Compare')); ?>"
-									   data-post='<?php /* @escapeNotVerified */ echo $compareHelper->getPostDataParams($_product); ?>'
-									   role="button">
-										<i class="pe-7s-graph3"></i>
-									</button></li>
+								<?php else:?>
+								 <a href="<?php echo $_product->getProductUrl() ?>" style="padding-bottom: <?php echo $padding; ?>;" class="product photo product-item-photo" tabindex="-1">
+									<img src="<?php echo $baseImage ?>" alt="<?php echo $_productNameStripped ?>" class="img-responsive product-image-photo img-thumbnail<?php if($lazyLoad): ?> lazy<?php endif ?>" data-src="<?php echo $productImage ?>"/>
+									
+									<?php if(basename($_product->getData('thumbnail')) !=  'no_selection'): ?>
+										<?php if(basename($_product->getData('thumbnail')) != basename($_product->getData('small_image'))): ?>
+											<img src="<?php echo $baseImageHover ?>" alt="<?php echo $_productNameStripped ?>" class="img-responsive img-hover-show<?php if($lazyLoad): ?> lazy<?php endif ?>" data-src="<?php echo $productImageHover ?>" />
+										<?php endif ?>
+									<?php endif ?>
+									
+									<div class="product-image-photo"></div>
+								</a>
+								   
+								<?php endif;?>
+								<?php echo $themeHelper->getProductLabel($_product) ?>
+								<div class="quick-view-container hidden-sm hidden-xs">
+									<?php echo $quickViewHelper->aroundQuickViewHtml($_product); ?>
+								</div>
+								<ul class="actions-link" data-role="add-to-links">
+									<?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && !$settings['catalog']['wishlist_button']): ?>
+										<li><button data-title="<?php echo $block->escapeHtml(__('Add to Wish List')); ?>"
+										   class="action towishlist"
+										   title="<?php echo $block->escapeHtml(__('Add to Wish List')); ?>"
+										   aria-label="<?php echo $block->escapeHtml(__('Add to Wish List')); ?>"
+										   data-post='<?php /* @escapeNotVerified */ echo $block->getAddToWishlistParams($_product); ?>'
+										   data-action="add-to-wishlist"
+										   role="button">
+										   <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<path d="M9.5 1L12.1265 6.59516L18 7.4979L13.75 11.8507L14.753 18L9.5 15.0952L4.247 18L5.25 11.8507L1 7.4979L6.8735 6.59516L9.5 1Z" fill="white" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+											</svg>
+										</button></li>
+									<?php endif; ?>
+										
+									<?php if(!$settings['catalog']['compare_button']): ?>
+										<li><button data-title="<?php echo $block->escapeHtml(__('Add to Compare')); ?>"
+										   class="action tocompare"
+										   title="<?php echo $block->escapeHtml(__('Add to Compare')); ?>"
+										   aria-label="<?php echo $block->escapeHtml(__('Add to Compare')); ?>"
+										   data-post='<?php /* @escapeNotVerified */ echo $compareHelper->getPostDataParams($_product); ?>'
+										   role="button">
+											<i class="pe-7s-graph3"></i>
+										</button></li>
+									<?php endif ?>
+								</ul>
+							</div>
+							<div class="product details product-item-details">
+								<?php echo $block->getProductDetailsHtml($_product); ?>
+
+								<h5 class="product name product-item-name">
+									<a class="product-item-link" href="<?php echo $_product->getProductUrl() ?>">
+										<?php echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
+									</a>
+								</h5>
+								
+								<!-- <?php if(!$themeHelper->getStoreConfig('mpanel/catalog/review')): ?>
+									<?php echo $block->getReviewsSummaryHtml($_product, $templateType,true); ?>
+								<?php endif ?> -->
+								
+								<?php echo $block->getProductPrice($_product) ?>
+								
+								<?php if ($_product->isSaleable()): ?>
+									<div class="field qty">
+										<div class="control">
+											<span class="edit-qty minus" onclick="minusQty('qty')">-</span>
+											<input type="number" name="qty" id="qty" maxlength="12" value="1" title="Qty" class="input-text qty" data-validate="{&quot;required-number&quot;:true,&quot;validate-item-quantity&quot;:{&quot;minAllowed&quot;:1,&quot;maxAllowed&quot;:10000}}">
+											<span class="edit-qty plus" onclick="plusQty('qty')">+</span>
+										</div>
+									</div> 
 								<?php endif ?>
-							</ul>
-							<?php if ($themeHelper->getStoreConfig('mpanel/catalog/disable_add_to_cart') == 0 && $themeHelper->getStoreConfig('mpanel/catalog/disable_hover_effect') == 0): ?>
+	
 								<?php if ($_product->isSaleable()): ?>
 									<div>
 										<?php $postParams = $block->getAddToCartPostParams($_product); ?>
-										<form data-role="tocart-form" action="<?php /* @escapeNotVerified */ echo $this->getUrl('checkout/cart/add', ['uenc'=>$postParams['data']['uenc'], 'product'=>$postParams['data']['product']]); ?>" method="post">
+										<form class="to-cart-form" data-role="tocart-form" action="<?php /* @escapeNotVerified */ echo $this->getUrl('checkout/cart/add', ['uenc'=>$postParams['data']['uenc'], 'product'=>$postParams['data']['product']]); ?>" method="post">
 											<input type="hidden" name="product" value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
 											<input type="hidden" name="uenc" value="<?php /* @escapeNotVerified */ echo $postParams['data']['uenc']; ?>">
 											<input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />
@@ -277,58 +306,29 @@ $dataCol = '';
 												if($_product->getTypeId() == 'simple'){
 													$data = $_product->getData();
 													$has_option = ( isset($data['has_options']) && $data['has_options'] == 1) ? 1 : 0;
-												}
-													
-
+												}	
 											 ?>
 											<?php if($animationType == 'cartshow' && ($_product->getTypeId() == 'configurable' || $_product->getTypeId() == 'bundle' || $_product->getTypeId() == 'grouped' || ($_product->getTypeId() == 'simple' && $has_option == 1) )): ?>
-												<button class="action btn-cart tocart" type="button" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>" onclick="window.location.href = '<?php echo $_product->getProductUrl() ?>'">
-													<span class="icon pe-7s-shopbag"></span>
-													<span class="product-item-link">
-														<?php echo __('Add to cart'); ?>
-													</span>
+												<button class="action btn-cart-custom" type="button" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>" onclick="window.location.href = '<?php echo $_product->getProductUrl() ?>'">
+													<svg width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+														<path d="M4 1L1 5V19C1 19.5304 1.21071 20.0391 1.58579 20.4142C1.96086 20.7893 2.46957 21 3 21H17C17.5304 21 18.0391 20.7893 18.4142 20.4142C18.7893 20.0391 19 19.5304 19 19V5L16 1H4Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+														<path d="M1 5H19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+														<path d="M14 9C14 10.0609 13.5786 11.0783 12.8284 11.8284C12.0783 12.5786 11.0609 13 10 13C8.93913 13 7.92172 12.5786 7.17157 11.8284C6.42143 11.0783 6 10.0609 6 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+													</svg>
 												</button>	
 											<?php else: ?>
-												<button class="action tocart btn-cart" type="submit" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>">
-													<span class="icon pe-7s-shopbag"></span>
-													<span class="text"><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
+												<button class="action btn-cart-custom" type="submit" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>">
+													<svg width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+														<path d="M4 1L1 5V19C1 19.5304 1.21071 20.0391 1.58579 20.4142C1.96086 20.7893 2.46957 21 3 21H17C17.5304 21 18.0391 20.7893 18.4142 20.4142C18.7893 20.0391 19 19.5304 19 19V5L16 1H4Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+														<path d="M1 5H19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+														<path d="M14 9C14 10.0609 13.5786 11.0783 12.8284 11.8284C12.0783 12.5786 11.0609 13 10 13C8.93913 13 7.92172 12.5786 7.17157 11.8284C6.42143 11.0783 6 10.0609 6 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+													</svg>
 												</button>
 											<?php endif ?>
 										</form>
 									</div>
 								<?php endif ?>
-							<?php endif ?>
-						</div>
-						<div class="product details product-item-details">
-							<h5 class="product name product-item-name">
-								<a class="product-item-link" href="<?php echo $_product->getProductUrl() ?>">
-									<?php echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
-								</a>
-							</h5>
-							
-							<?php if(!$themeHelper->getStoreConfig('mpanel/catalog/review')): ?>
-								<?php echo $block->getReviewsSummaryHtml($_product, $templateType,true); ?>
-							<?php endif ?>
-							
-							<?php echo $block->getProductPrice($_product) ?>
-							
-							<?php echo $block->getProductDetailsHtml($_product); ?>
-							<?php if ($themeHelper->getStoreConfig('mpanel/catalog/disable_add_to_cart') == 0 && $themeHelper->getStoreConfig('mpanel/catalog/disable_hover_effect') == 1): ?>
-								<?php if ($_product->isSaleable()): ?>
-									<div>
-										<?php $postParams = $block->getAddToCartPostParams($_product); ?>
-										<form data-role="tocart-form" action="<?php /* @escapeNotVerified */ echo $this->getUrl('checkout/cart/add', ['uenc'=>$postParams['data']['uenc'], 'product'=>$postParams['data']['product']]); ?>" method="post">
-											<input type="hidden" name="product" value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
-											<input type="hidden" name="uenc" value="<?php /* @escapeNotVerified */ echo $postParams['data']['uenc']; ?>">
-											<input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />
-											<button class="action tocart btn-cart hover_effect" type="submit" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>">
-												<span class="icon pe-7s-shopbag"></span>
-												<span class="text"><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
-											</button>
-										</form>
-									</div>
-								<?php endif ?>
-							<?php endif ?>
+							</div>
 						</div>
 					</li>
 				<?php endforeach ?>
