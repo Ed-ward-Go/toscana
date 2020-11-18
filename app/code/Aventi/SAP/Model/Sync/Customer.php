@@ -296,10 +296,14 @@ class Customer extends AbstractSync
         $start =  $new = $updated =  $error= 0;
         $rows = 500;
         $siguiente = true;
-
-        $method = ($option == 1) ? 'api/SocioNegocio/Direcciones/%s/%s' : 'api/SocioNegocio/DireccionesRapido/%s/%s';
+        $date = date('Y-m-d', strtotime($this->_timezone->date('Y-m-d')));
+        if ($option != 0) {
+            $date = "1900-01-01";
+        }
+        $method = 'api/SocioNegocio/Direcciones/%s/%s/%s';
         while ($siguiente) {
-            $jsonPath = $this->data->getRecourse(sprintf($method, $start, $rows));
+            $total = 0;
+            $jsonPath = $this->data->getRecourse(sprintf($method, $start, $rows, $date));
             if (is_string($jsonPath) and !empty($jsonPath)) {
                 $reader = $this->getJsonReader($jsonPath);
                 $reader->enter(\Bcn\Component\Json\Reader::TYPE_OBJECT);
@@ -315,11 +319,7 @@ class Customer extends AbstractSync
                         $address['AdresType'],
                         $address['State'],
                         $address['City'],
-                        $address['Phone1'],
-                        true,
-                        false,
-                        $address['Serie'],
-                        $address['U_G_Bodega']
+                        $address['Phone1']
                     );
 
                     $new += $response['new'];
@@ -364,22 +364,17 @@ class Customer extends AbstractSync
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function managerAddress($CardCode, $address, $street, $addressType, $region, $city, $telefono, $option = true, $customerChild = false, $serie, $group)
+    public function managerAddress($CardCode, $address, $street, $addressType, $region, $city, $telefono)
     {
         $city = (is_null($city) ? 'QUITO' : $city);
         $street = (is_null($street) ? 'SIN DIRECCIÓN' : $street);
         $postalCode = $this->helperSAP->getPostalCodeByCity($city);
-        $customerId = ($customerChild) ? $customerChild : $this->helperSAP->getCustomerId($CardCode);
+        $customerId = $this->helperSAP->getCustomerId($CardCode);
         $telefono = (is_null($telefono) ? 'SN' : $telefono);
         $new = $update = $error = 0;
-        $groupAndSerie = (is_null($serie) || is_null($group)) ? false : true;
-        if (is_numeric($customerId) && $postalCode && $groupAndSerie) {
+        if (is_numeric($customerId) && $postalCode) {
             $customer = $this->customer->getById($customerId);
             $name = $customer->getFirstname();
-            if (!$option) {
-                $customerParent = $this->customer->getById($this->helperSAP->getCustomerId($CardCode));
-                $name = $customerParent->getFirstname();
-            }
             $addressId = $this->helperSAP->managerCustomerAddressSAP($address, $customerId);
             if (is_numeric($addressId)) {
                 $customerAddress = $this->addressRepository->getById($addressId);
@@ -416,30 +411,13 @@ class Customer extends AbstractSync
                 ->setIsDefaultShipping(1)
                 ->setIsDefaultBilling(1)
                 ->setStreet(['0' => $street]);
-            /*$customerAddressExtensionAttributes = $customerAddress->getExtensionAttributes();
-            $extensionAttributes = $customerAddressExtensionAttributes ? $customerAddressExtensionAttributes : $this->addressExtensionFactory->create();
-            $extensionAttributes->setSerie($serie);
-            $extensionAttributes->setWarehouseGroup($group);
-            $customerAddress->setExtensionAttributes($extensionAttributes);*/
-
-            //$this->logger->error("Extensions: ". $customerAddress->getExtensionAttributes()->getSerie() .' : ' . $customerAddress->getExtensionAttributes()->getWarehouseGroup() . ' ' . $customerId);
-            $customerAddress->setCustomAttribute('warehouse_group', $group);
-            $customerAddress->setCustomAttribute('serie', $serie);
             try {
                 $this->addressRepository->save($customerAddress);
                 $this->helperSAP->managerCustomerAddressSAP($address, null, $customerAddress->getId());
             } catch (\Exception $e) {
                 $this->logger->error(print_r(func_get_args(), true) . $e->getMessage());
             }
-            if ($option) {
-                $customerChilds = $this->companyUserService->getChildUsers($customerId);
 
-                if ($customerChilds) {
-                    foreach ($customerChilds as $childs) {
-                        $this->managerAddress($CardCode, $address, $street, $addressType, $regionParent, $city, $telefono, false, $childs->getId(), $serie, $group);
-                    }
-                }
-            }
         } else {
             $error++;
         }
