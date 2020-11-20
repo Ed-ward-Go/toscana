@@ -8362,36 +8362,42 @@ body:not(.page-layout-1column) {
 						}
 					}
 				}
-				.actions {
-					.tocart {
-						background-color: @sucesores-dark-green;
-						border: white 3px solid;
-						width: fit-content;
-						svg {
-							margin-right: 15px;
-						}
+
+			}
+		}
+		.actions {
+			.tocart {
+				background-color: @sucesores-dark-green;
+				border: white 3px solid;
+				width: fit-content;
+				svg {
+					margin-right: 15px;
+				}
+			}
+			.towishlist {
+				width: 45px;
+				border: none;
+				border: white 3px solid;
+				&:hover {
+					svg path {
+						border: white;
 					}
-					.towishlist {
-						width: 45px;
-						border: none;
-						border: white 3px solid;
-						&.active {
-							background: #F2C94C;
-							svg {
-								fill: white;
-							}
-						}
+				}
+				&.active {
+					background: #F2C94C;
+					svg {
+						fill: white;
 					}
-					button {
-						display: flex;
-						align-items: center;
-						justify-content: center;
-						height: 45px;
-						transition: .5s cubic-bezier(0.54, -0.01, 0.54, 1.01) all;
-						&:hover {
-							transform: translateY(10px);	
-						}
-					}
+				}
+			}
+			button {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				height: 45px;
+				transition: .5s cubic-bezier(0.54, -0.01, 0.54, 1.01) all;
+				&:hover {
+					transform: translateY(10px);	
 				}
 			}
 		}
@@ -12472,6 +12478,514 @@ body.dark{
 	}
 	.promobanner-hup .banner-text {
 		margin: 30px 10px;
+	}
+}
+
+
+// CUSTOM PROMOBANNERS
+
+.toscana-custom-promobanner {
+	.promobanner.zoom {
+		border-radius: 25px;
+	}
+	.promobanner .text { 
+	    width: 100%;
+	    height: 100%;
+	    top: 0;
+	    left: 0;
+	    display: flex;
+	    align-items: flex-end;
+		&:before {	
+			content: '';
+			width: 100%;
+			height: 100%;
+			background: #3EB049;
+			opacity: 0.56;
+			top:0;
+			left: 0;
+			border-radius: 25px;
+			position: absolute;
+		}
+	}
+	.img-responsive  {
+		border-radius: 25px;	
+	}
+	.banner-text {
+	    position: relative;
+	}
+
+	.offer-content {
+		transition: .5s ease all;
+		h2 {
+			font-weight: 900;
+			font-size: 46px;
+			line-height: 38px;			
+			text-align: center;
+			color: #FFFFFF;
+			text-transform: uppercase;
+			padding-bottom: 30px;
+		}
+		button {
+			background: white;
+			color: @sucesores-dark-green;
+			font-weight: bold;
+			font-size: 16px;
+			line-height: 24px;
+			padding: 10px 30px;
+			border-radius: 50px;
+			border: none;
+			
+		}
+	}
+	.banner-button {
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		bottom: -55px;
+		transition: .5s ease all;
+		button {
+			border-radius: 50px;
+			-webkit-border-radius: 50px;
+			-moz-border-radius: 50px;
+			-o-border-radius: 50px;
+		}
+	}
+	&:hover {
+		.offer-content {
+			transform: translateY(-45px);
+		}
+		.banner-button {
+			bottom: 30px;
+		}
+	}
+}
+
+@media (max-width: 1000px) {
+	.toscana-custom-promobanner {
+		margin-bottom: 20px;
+		height: 170px;
+		.promobanner.zoom {
+			height: 100%;
+		}
+		.promobanner .text { 
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			display: flex;
+			align-items: flex-end;
+			&:before {	
+				content: '';
+				width: 100%;
+				height: 100%;
+				background: #3EB049;
+				opacity: 0.56;
+				top:0;
+				left: 0;
+				border-radius: 25px;
+				position: absolute;
+			}
+		}
+		.img-responsive  {
+			border-radius: 25px;	
+		}
+		.banner-text {
+			position: relative;
+		}
+	
+		.offer-content {
+			transform: translateY(-45px);
+			h2 {
+				font-size: 25px;
+				line-height: 26px;
+			}
+		}
+		.banner-button {
+			bottom: 30px;
+		}
+		
+	}
+	.toscana-custom-promobanner:nth-child(2n) {
+		.banner-button {
+			left: unset;
+			right: 20px;
+			transform: none;
+		}
+		.promobanner .text {
+			justify-content: flex-end;
+		}
+	}
+}
+
+//CUSTOM FEATURED-PRODUCTS
+.toscana-custom-featured-products-container {
+
+	.header-category-home {
+		height: 170px;
+		background: #DEEDE0;
+		box-shadow: 0px 4px 22px rgba(62, 176, 73, 0.16);
+		border-radius: 25px;
+		padding: 25px 40px;
+		margin-bottom: -100px;
+		h3 {
+			font-weight: bold;
+			font-size: 20px;
+			line-height: 30px;
+			color: #4F4F4F;
+		}
+	}
+	.home-category-alimentacion {
+		background: #FFEEC3;
+		box-shadow: 0px 4px 22px rgba(249, 220, 92, 0.4);
+	}
+	.toscana-custom-featured-products {
+		.items.row {
+			width: 90%;
+			margin: auto;
+			.product-item-info {
+				.product-top {
+					a.photo:after {
+						opacity: 0 !important;
+						visibility: visible;
+						border-radius: 25px 25px 0 0;
+					}
+					.actions-link {
+						left: unset !important;
+						right: 0;
+						button:hover svg path {
+							fill: #e1be64;
+						}
+					} 
+				}
+				.product-in-grid-container {
+					background: @sucesores-gray5;
+					border-radius: 25px;
+					&:hover {
+						.quick-view-container {
+							-webkit-transform: translate(-50%, -50%);
+							-moz-transform: translate(-50%, -50%);
+							-o-transform: translate(-50%, -50%);
+							transform: translate(-50%, -50%);
+							opacity: 1;
+							visibility: visible;
+						}
+						.actions-link button {
+							opacity: 1;
+							visibility: visible;
+							transform: scale(1);
+						}
+						.product-label {
+							display: none;
+						}	
+					}
+					.quick-view-container {
+						position: absolute;
+						top: 50%;
+						left: 50%;
+						-webkit-transform: translate(-50%, -100%);
+						-moz-transform: translate(-50%, -100%);
+						-o-transform: translate(-50%, -100%);
+						transform: translate(-50%, -100%);
+						opacity: 0;
+						visibility: hidden;
+						z-index: 3;
+						transition: all .3s ease;
+				
+						.mgs-quickview {
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							width: 40px;
+							height: 40px;
+							white-space: nowrap;
+							background-color: #fff;
+							text-align: center;
+							border: none;
+							border-radius: 50%;
+							-webkit-border-radius: 50%;
+							-moz-border-radius: 50%;
+							-o-border-radius: 50%;
+							&:hover {
+								color: #fff;
+								background-color: @base-color;
+								border-color: @base-color;
+							}
+						}
+					}
+					.product-item-details {
+						padding: 5px 15px;
+						div[class^="swatch-opt-"] .swatch-attribute {
+							margin-bottom: 0;
+							.swatch-option.text {
+								border: none;
+								color: #333;
+								background: #E7E7E7;
+								font-size: 14px;
+								font-weight: 400;
+								&.selected,
+								&:hover {
+									background: @sucesores-light-green;
+									color: white !important;
+									font-weight: 700;
+									box-shadow: none;
+								}
+							}
+						}
+						.product-item-name {
+							margin-top: 5px;
+							a {
+								color: @sucesores-gray1;
+								&:hover {
+									color: @base-color;
+									font-weight: 700;
+								}
+							}
+						}
+						.field.qty {
+							margin-bottom: 10px;
+							.control {
+								display: flex;
+								align-items: center;
+								justify-content: center;
+								width: 80%;
+								border: 2px solid #C4C4C4;
+								background: @sucesores-gray5;
+								.border-radius(25px);;
+								span.edit-qty {
+									padding: 0px 5px;
+									font-weight: bold;
+									color: #333;
+									font-size: 22px;
+									cursor: pointer;
+									transition: transform .3s ease;
+									&:hover {
+										transform: scale(1.5);
+									}
+								}
+								input {
+									font-size: 18px;
+									font-weight: 400;
+									color: @sucesores-gray1;
+									width: 45px;
+									text-align: center;
+									border: none;
+									background: @sucesores-gray5;
+								}
+							}
+						}
+						.to-cart-form {
+							position: absolute;
+							right: 0px;
+							bottom: 0px;
+							padding: 10px;
+							background: white;
+							border-radius: 50px;
+						
+							.btn-cart-custom {
+								display: flex;
+								align-items: center;
+								justify-content: center;
+								width: 40px;
+								height: 40px;
+								border-radius: 40px;
+								border: none;
+								background: @sucesores-dark-green;
+								&:hover {
+									background: @sucesores-yellow;
+									&:after {
+										-webkit-transform: scale(.7);
+										-moz-transform: scale(.7);
+										-ms-transform: scale(.7);
+										transform: scale(.7);
+										opacity: 1;
+									}
+								}
+								&:after {
+									pointer-events: none;
+									position: absolute;
+									width: 100%;
+									height: 100%;
+									border-radius: 50%;
+									content: '';
+									-webkit-box-sizing: content-box;
+									-moz-box-sizing: content-box;
+									box-sizing: content-box;
+									top: -2px;
+									left: -2px;
+									padding: 2px;
+									box-shadow: 0 0 0 1px @sucesores-yellow;
+									opacity: 0;
+									-webkit-transition: -webkit-transform 0.2s, opacity 0.2s;
+									-moz-transition: -moz-transform 0.2s, opacity 0.2s;
+									transition: transform 0.2s, opacity 0.2s;
+									-webkit-transform: scale(1.5);
+									-moz-transform: scale(1.5);
+									-ms-transform: scale(1.5);
+									transform: scale(1.5);
+									
+								}
+							}
+						}
+					}
+
+					.price-by-unit {
+						font-weight: bold;
+						font-size: 18px;
+						line-height: 26px;
+						text-align: center;
+					}
+					.product-item-name {
+						text-align: center;
+						height: 42px;
+    					overflow: hidden;
+					}
+				}
+			}
+		}
+	}
+}
+
+//CUSTOM QUICKVIEW
+.mgs_quickview-catalog_product-view {
+	padding: 30px;
+	#maincontent {
+		margin: 0;
+		width: 100%;
+		.product-detail-infomation {
+			.product-detail-infomation-content {
+				background: @sucesores-gray5;
+				padding: 40px 50px 30px;
+				.border-radius(25px);;
+				position: relative;
+				.product-name {
+					a {
+						font-style: normal;
+						font-weight: bold;
+						font-size: 25px;
+						color: @sucesores-gray1;			
+					}
+				}
+				.product-info-main {
+					.product-info-price .price-final_price {
+						.price-label {
+							display: none !important;
+						}
+						.price-final_price .price-wrapper .price {
+							font-weight: bold;
+							font-size: 20px;
+							color: @sucesores-gray2;
+						}
+					}
+					.product-add-form {
+						.swatch-opt {
+							.swatch-attribute-label {
+								text-transform: none;
+								font-size: 14px;
+								color: @sucesores-gray3;
+							}
+							.swatch-option {
+								border: none;
+								background: #E1E1E1;
+								color: @sucesores-gray3;
+								&.selected,
+								&:hover  {
+									background: @sucesores-light-green;
+									color: white;
+									box-shadow: none;
+								}
+							}
+						}
+						.product-options-bottom {
+							.box-tocart > .fieldset {
+								position: absolute;
+								display: flex;
+								flex-direction: column;
+								align-items: center;
+								justify-content: center;
+								left: 50%;
+								transform: translateX(-50%);
+								bottom: -15px;
+								width: fit-content;
+						
+								.field.qty {
+									margin: 0;
+									margin-bottom: 5px;
+									.control {
+										border: #C4C4C4 2px solid;
+										display: flex;
+										flex-direction: row;
+										align-items: center;
+									}
+								}
+								.actions.action-add-to {
+									margin: 0;
+								}
+								
+								> .actions {
+									margin: 0;
+									> button {
+										width: fit-content;
+										height: auto;
+										span {
+											line-height: initial;
+										}
+									}
+								}
+				
+							}
+						}
+						.actions:not(.action-add-to) {
+							position: absolute;
+							bottom: -20px;
+							width: 100%;
+							left: 50%;
+							transform: translateX(-50%);
+							display: flex;
+							align-items: center;
+							justify-content: center;
+
+						}
+						.actions {
+							margin: 0;
+							.tocart {
+								background-color: @sucesores-dark-green;
+								border: white 3px solid;
+								width: fit-content;
+								svg {
+									margin-right: 15px;
+								}
+							}
+							.towishlist {
+								width: 45px;
+								border: none;
+								border: white 3px solid;
+								&:hover {
+									svg path {
+										border: white;
+									}
+								}
+								&.active {
+									background: #F2C94C;
+									svg {
+										fill: white;
+									}
+								}
+							}
+							button {
+								display: flex;
+								align-items: center;
+								justify-content: center;
+								height: 45px;
+								transition: .5s cubic-bezier(0.54, -0.01, 0.54, 1.01) all;
+								&:hover {
+									transform: translateY(10px);	
+								}
+							}
+						}
+					} 
+				}
+			}
+		}
 	}
 }
 
