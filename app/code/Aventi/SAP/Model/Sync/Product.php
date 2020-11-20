@@ -105,6 +105,18 @@ class Product extends AbstractSync
      * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     private $dateTime;
+    /**
+     * @var \Aventi\PriceByCity\Helper\Data
+     */
+    private $priceByCityHelper;
+    /**
+     * @var \Aventi\PriceByCity\Api\Data\PriceByCityInterfaceFactory
+     */
+    private $priceByCityInterfaceFactory;
+    /**
+     * @var \Aventi\PriceByCity\Api\PriceByCityRepositoryInterface
+     */
+    private $priceByCityRepository;
 
     /**
      * Product constructor.
@@ -120,6 +132,17 @@ class Product extends AbstractSync
      * @param \Aventi\SAP\Helper\SAP $helperSAP
      * @param \Magento\Catalog\Api\CategoryLinkManagementInterface $categoryLinkManagementInterface
      * @param \Magento\Framework\App\ResourceConnection $resourceConnection
+     * @param \Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory $sourceItemInterfaceFactory
+     * @param \Magento\InventoryApi\Api\SourceRepositoryInterface $sourceRepository
+     * @param \Magento\InventoryApi\Api\SourceItemRepositoryInterface $sourceItemRepositoryInterface
+     * @param \Magento\InventoryApi\Api\SourceItemsSaveInterface $sourceItemSave
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
+     * @param \Magento\Framework\Api\Search\FilterGroupBuilder $filterGroupBuilder
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $dateTime
+     * @param \Aventi\PriceByCity\Helper\Data $priceByCityHelper
+     * @param \Aventi\PriceByCity\Api\Data\PriceByCityInterfaceFactory $priceByCityInterfaceFactory
+     * @param \Aventi\PriceByCity\Api\PriceByCityRepositoryInterface $priceByCityRepository
      * @throws \Magento\Framework\Exception\FileSystemException
      */
     public function __construct(
@@ -142,7 +165,10 @@ class Product extends AbstractSync
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
         \Magento\Framework\Api\Search\FilterGroupBuilder $filterGroupBuilder,
-        \Magento\Framework\Stdlib\DateTime\DateTime $dateTime
+        \Magento\Framework\Stdlib\DateTime\DateTime $dateTime,
+        \Aventi\PriceByCity\Helper\Data $priceByCityHelper,
+        \Aventi\PriceByCity\Api\Data\PriceByCityInterfaceFactory $priceByCityInterfaceFactory,
+        \Aventi\PriceByCity\Api\PriceByCityRepositoryInterface $priceByCityRepository
     ) {
         $this->directoryList = $directoryList;
         $this->filesystem = $filesystem;
@@ -166,50 +192,10 @@ class Product extends AbstractSync
         $this->filterBuilder = $filterBuilder;
         $this->filterGroupBuilder = $filterGroupBuilder;
         $this->dateTime = $dateTime;
+        $this->priceByCityHelper = $priceByCityHelper;
+        $this->priceByCityInterfaceFactory = $priceByCityInterfaceFactory;
+        $this->priceByCityRepository = $priceByCityRepository;
     }
-
-    /**
-     * @return \Symfony\Component\Console\Output\OutputInterface
-     */
-    /*public function getOutput()
-    {
-        return $this->output;
-    }*/
-
-    /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     */
-    /*public function setOutput($output)
-    {
-        $this->output = $output;
-    }*/
-
-    /**
-     * Instance the class reader for json
-     *
-     * @param $filePath
-     * @return Reader
-     * @author  Carlos Hernan Aguilar <caguilar@aventi.co>
-     * @date 14/11/18
-     */
-    /*public function getJsonReader($filePath)
-    {
-        if (file_exists($filePath)) {
-            $this->file = fopen($filePath, "r");
-            return new Reader($this->file);
-        }
-    }*/
-
-    /**
-     * Close the file
-     *
-     * @author  Carlos Hernan Aguilar <caguilar@aventi.co>
-     * @date 15/11/18
-     */
-    /*public function closeFile()
-    {
-        @fclose($this->file);
-    }*/
 
     /**
      * @param $sku
@@ -395,29 +381,43 @@ class Product extends AbstractSync
     /**
      * @param $sku
      * @param $price
+     * @param $priceList
+     * @return array
      * @method
      * date 15/04/20/14:25 PM
      * @author Erich Hans Merz Diaz <emerz@aventi.com.co>
-     * @return array
      */
-    public function managerPrice($sku, $price)
+    public function managerPrice($sku, $price, $priceList)
     {
         $found = $notFound = $check = 0;
         try {
             if ($productFull = $this->productRepository->get($sku)) {
-                $checkPrice = $this->checkPrice($price, $productFull);
-                if ($checkPrice) {
-                    $check= 1;
-                    return [
-                        'found' => $found,
-                        'notFound' => $notFound,
-                        'check' => $check
-                    ];
-                }
+                $source = $this->priceByCityHelper->getSourceByPriceList($priceList);
+                if ($source) {
+                    $sourceCode = $source->getSourceCode();
+                    $productId = $productFull->getId();
+                    $priceBySource = $this->priceByCityHelper->getPriceByProductAndSource($productId, $sourceCode);
+                    if (!$priceBySource) {
+                        $priceBySource = $this->priceByCityInterfaceFactory->create();
+                    }
 
-                $productFull->setPrice($price);
-                $this->productRepository->save($productFull);
-                $found = 1;
+                    $checkPrice = $this->checkPrice($priceBySource, $productFull);
+                    if ($checkPrice) {
+                        $check= 1;
+                        return [
+                            'found' => $found,
+                            'notFound' => $notFound,
+                            'check' => $check
+                        ];
+                    }
+                    $priceBySource->setSourceCode($sourceCode);
+                    $priceBySource->setPrice($price);
+                    $priceBySource->setProductId($productId);
+                    $this->priceByCityRepository->save($priceBySource);
+                    $productFull->setPrice($price);
+                    $this->productRepository->save($productFull);
+                    $found = 1;
+                }
             }
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
@@ -650,7 +650,7 @@ SQL;
                 $progressBar = $this->startProgressBar($total);
                 $items = 0;
                 foreach ($products as $product) {
-                    $response =  $this->managerPrice($product['ItemCode'], $product['Price']);
+                    $response =  $this->managerPrice($product['ItemCode'], $product['Price'], $product['PriceList']);
                     $new += $response['notFound'];
                     $updated += $response['found'];
                     $this->advanceProgressBar($progressBar);
@@ -773,7 +773,7 @@ SQL;
     public function checkPrice($data, $product)
     {
         $current = [
-            'price' => $this->formatDecimalNumber($data)
+            'price' => $this->formatDecimalNumber($data->getPrice())
         ];
 
         $head = [

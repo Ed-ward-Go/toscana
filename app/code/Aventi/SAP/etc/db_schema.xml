@@ -12,14 +12,7 @@
 		<column length="255" name="sap_doc_entry" nullable="true" xsi:type="varchar"/>
 		<column length="255" name="sap_type" nullable="true" xsi:type="varchar"/>
 	</table>
-	<table name="aw_cl_credit_summary" engine="innodb" resource="default">						
-		<column name="balance" nullable="true" precision="12" scale="4" xsi:type="decimal"/>		
-		<column name="payment_condition" length="100" xsi:type="varchar"/>
-	</table>
-	<table name="aw_ca_company" engine="innodb" resource="default">						
-		<column xsi:type="varchar" name="sap" nullable="true" length="50" comment="SAP ID"/>
-	</table>	
 	<table name="customer_address_entity" resource="default" engine="innodb" comment="Customer Address Entity">
 		<column xsi:type="varchar" name="sap" nullable="true" length="255" comment="SAP ID"/>
-	</table>	
+	</table>
 </schema>

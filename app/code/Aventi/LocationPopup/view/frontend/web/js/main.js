@@ -36,19 +36,14 @@ function( $, modal, customerData ) {
         });
 
         $(document).on('change', '#locationpopup-city', function(e){
-            var postalCode = $(this).find(":selected").data('postcode');
-            $("#locationpopup-postcode").val(postalCode);
+            var source = $(this).find(":selected").data('source');
+            var name = $(this).find(":selected").data('name');
+            $("#locationpopup-postcode").val(source);
+            $("#locationpopup-name").val(name);
             $(".toast__container").css('display', 'table-cell');
             setTimeout(function() {
                 $(".toast__container").css('display', 'none');
             }, 5000);
-        });
-
-        $(document).on('change', '#locationpopup-region', function(e){
-            var region_id = $(this).val();
-
-            loadCitiesByRegion(region_id);
-
         });
 
         $(document).on('click', '.location-switcher__container', function(){
@@ -79,15 +74,15 @@ function( $, modal, customerData ) {
             //var count = Object.keys(json).length;
             if(!validate && json != null){
                 openModal(json);
-                $("#pop-location-title__name").text(json.city);
+                $("#pop-location-title__name").text(json.name);
             }
             else if(validate && json != null){
                 if(json.hasOwnProperty('default')){
                     openModal();
                     localStorage.setItem('isDefault', JSON.stringify(json));
                 }
-                $(".location-switcher__container > p").text(json.city);
-                $("#pop-location-title__name").text(json.city);
+                $(".location-switcher__container > p").text(json.name);
+                $("#pop-location-title__name").text(json.name);
             }
         })
         .fail(function (e) {
@@ -154,33 +149,6 @@ function( $, modal, customerData ) {
         });
     }
 
-    function loadCitiesByRegion(region_id, selected = null){
-        $.ajax({
-            url: BASE_URL + 'locationpopup/index/getcitiesbyregion',
-            type: "get",
-            data: {
-                region: region_id
-            },
-            cache: false
-        })
-        .done(function (json) {
-            var options = '';
-            json.forEach(element => {
-                var checked = '';
-                if(selected != null){
-                    if(element.postalCode == selected){
-                        checked = 'selected'
-                    }
-                }
-                options += '<option data-postcode="'+ element.postalCode +'" value="'+ element.name +'" '+ checked +' >'+ element.name + '</option>';
-            });
-            $("#locationpopup-city").find('option').remove().end().append(options);
-        })
-        .fail(function (e) {
-            alert("error");
-        });
-
-    }
 
     function displayDeleteds(items){
 

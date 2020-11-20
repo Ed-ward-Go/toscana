@@ -5,7 +5,6 @@ namespace Aventi\LocationPopup\Controller\Index;
 
 class SaveLocation extends \Magento\Framework\App\Action\Action
 {
-
     protected $resultPageFactory;
     protected $jsonHelper;
 
@@ -59,23 +58,20 @@ class SaveLocation extends \Magento\Framework\App\Action\Action
      */
     public function execute()
     {
-        try {            
-            $data = $this->_request->getParam('data');                        
-                      
-            if($data){
+        try {
+            $data = $this->_request->getParam('data');
+
+            if ($data) {
                 $this->helper->setValue($data);
             }
             //Bad solution, don't try this in house
-            $types = array('block_html');
+            $types = ['block_html'];
             foreach ($types as $type) {
                 $this->_cacheTypeList->cleanType($type);
             }
-            /*foreach ($this->_cacheFrontendPool as $cacheFrontend) {
-                $cacheFrontend->getBackend()->clean();
-            }      */
-                    
-            $deleted = $this->helperCities->updateItemsInCart($this->_checkoutSession->getQuote());            
-            //$this->cache->clean('catalog_product_2');        
+
+            $deleted = $this->helperCities->updateItemsInCart($this->_checkoutSession->getQuote());
+            //$this->cache->clean('catalog_product_2');
             return $this->jsonResponse($deleted);
         } catch (\Magento\Framework\Exception\LocalizedException $e) {
             $this->logger->critical($e);
@@ -96,6 +92,5 @@ class SaveLocation extends \Magento\Framework\App\Action\Action
         return $this->getResponse()->representJson(
             $this->jsonHelper->jsonEncode($response)
         );
-    }     
+    }
 }
-

@@ -254,11 +254,10 @@ class Data extends AbstractHelper
                     $headers = [
                       "Content-Type" => "application/json",
                       "Authorization" =>  "Bearer {$this->getToken()}"
-                  ];
+                    ];
                 }
                 $this->curl->setHeaders($headers);
                 $url = $this->getPath() . '/' . $path;
-                $this->logger->error("TST: ". $url);
                 $this->curl->get($url);
                 if ($this->curl->getStatus() == 200) {
                     return $this->curl->getBody();

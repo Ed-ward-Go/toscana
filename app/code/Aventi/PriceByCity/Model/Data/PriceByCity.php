@@ -90,21 +90,21 @@ class PriceByCity extends \Magento\Framework\Api\AbstractExtensibleObject implem
     }
 
     /**
-     * Get region_id
+     * Get source_code
      * @return string|null
      */
-    public function getRegionId()
+    public function getSourceCode()
     {
-        return $this->_get(self::REGION_ID);
+        return $this->_get(self::SOURCE_CODE);
     }
 
     /**
-     * Set region_id
-     * @param string $regionId
+     * Set source_code
+     * @param string $sourceCode
      * @return \Aventi\PriceByCity\Api\Data\PriceByCityInterface
      */
-    public function setRegionId($regionId)
+    public function setSourceCode($sourceCode)
     {
-        return $this->setData(self::REGION_ID, $regionId);
+        return $this->setData(self::SOURCE_CODE, $sourceCode);
     }
 }

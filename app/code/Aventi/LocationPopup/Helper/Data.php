@@ -2,6 +2,7 @@
 
 namespace Aventi\LocationPopup\Helper;
 
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\App\Helper\AbstractHelper;
 
 class Data extends AbstractHelper
@@ -45,11 +46,18 @@ class Data extends AbstractHelper
     protected $country;
 
     private $region;
-
-    const PATH_COUNTRY = 'location/config/country';
-    const PATH_REGION = 'location/config/region';
-    const PATH_CITY = 'location/config/city';
-    const PATH_POSTCODE = 'location/config/postcode';
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    private $_customerSession;
+    /**
+     * @var \Magento\InventoryApi\Api\SourceRepositoryInterface
+     */
+    private $_sourceRepository;
+    /**
+     * @var CustomerRepositoryInterface
+     */
+    private $_customerRepository;
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
@@ -65,7 +73,10 @@ class Data extends AbstractHelper
         \Magento\Framework\Api\Search\FilterGroupBuilder $filterGroupBuilder,
         \Aventi\CityDropDown\Model\CityRepository $cityRepository,
         \Psr\Log\LoggerInterface $logger,
-        \Magento\Directory\Model\Region $region
+        \Magento\Directory\Model\Region $region,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\InventoryApi\Api\SourceRepositoryInterface $sourceRepository,
+        CustomerRepositoryInterface $customerRepository
     ) {
         parent::__construct($context);
         $this->coreSession = $coreSession;
@@ -78,26 +89,9 @@ class Data extends AbstractHelper
         $this->cityRepository = $cityRepository;
         $this->logger = $logger;
         $this->region = $region;
-    }
-
-    public function getCountry($store = null)
-    {
-        return $this->scopeConfig->getValue(self::PATH_COUNTRY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
-    }
-
-    public function getRegion($store = null)
-    {
-        return $this->scopeConfig->getValue(self::PATH_REGION, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
-    }
-
-    public function getCity($store = null)
-    {
-        return $this->scopeConfig->getValue(self::PATH_CITY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
-    }
-
-    public function getPostCode($store = null)
-    {
-        return $this->scopeConfig->getValue(self::PATH_POSTCODE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        $this->_customerSession = $customerSession;
+        $this->_sourceRepository = $sourceRepository;
+        $this->_customerRepository = $customerRepository;
     }
 
     /**
@@ -106,7 +100,6 @@ class Data extends AbstractHelper
     public function setValue($array)
     {
         $this->coreSession->start();
-
         $this->coreSession->setLocation($array);
     }
 
@@ -117,13 +110,23 @@ class Data extends AbstractHelper
     {
         $this->coreSession->start();
         $result = $this->coreSession->getLocation();
+
         if (!$result) {
-            $result = [
-                "city" => $this->getCity(),
-                "region" => $this->getRegion(),
-                "postcode" => $this->getPostCode(),
-                "default" => true
-            ];
+            if ($this->_customerSession->isLoggedIn()) {
+                $customerId = $this->_customerSession->getCustomerId();
+                if ($customer = $this->_customerRepository->getById($customerId)) {
+                    $options = '';
+
+                    $source = $customer->getCustomAttribute('warehouse_group')->getValue();
+                    $sources = $this->getSourceByWarehouseGroup($source);
+                    $result = [
+                        "id" => $sources['id'],
+                        "name" => $sources['name'],
+                        "source" => $sources['source'],
+                        "default" => true
+                    ];
+                }
+            }
         }
         return $result;
     }
@@ -137,90 +140,105 @@ class Data extends AbstractHelper
         return $this->coreSession->unsLocation();
     }
 
-    public function getDefaultRegion()
+    public function getSources()
     {
-        $regions = $this->toOptionArray($this->getCountry());
-        $options = '';
-        $region = (!is_null($this->getValue())) ? $this->getValue()['region'] : $this->getRegion();
-        foreach ($regions as $key => $value) {
-            $selected = '';
-            if ($value['value'] == $region) {
-                $selected = "selected";
+        $sources = $this->getAllSources();
+
+        if ($this->_customerSession->isLoggedIn()) {
+            $customerId = $this->_customerSession->getCustomerId();
+            if ($customer = $this->_customerRepository->getById($customerId)) {
+                $options = '';
+
+                $source = $customer->getCustomAttribute('warehouse_group')->getValue();
+                foreach ($sources as $key => $value) {
+                    $selected = '';
+                    if ($value['source'] == $source) {
+                        $selected = "selected";
+                    }
+                    $options .= '<option data-source="' . $value['source'] . '" data-name="' . $value['name'] . '" value="' . $value['id'] . '" ' . $selected . '>' . $value['name'] . '</option>';
+                }
+                return $options;
             }
-            $options .= '<option value="' . $value['value'] . '" ' . $selected . '>' . $value['label'] . '</option>';
         }
-        return $options;
     }
 
-    public function getDefaultCities()
-    {
-        $region = (!is_null($this->getValue())) ? $this->getValue()['region'] : $this->getRegion();
-        $cities = $this->getCitiesByregion($region);
-        $options = '';
-
-        $postcode = (!is_null($this->getValue())) ? $this->getValue()['postcode'] : $this->getPostCode();
-        foreach ($cities as $key => $value) {
-            $selected = '';
-            if ($value['postalCode'] == $postcode) {
-                $selected = "selected";
-            }
-            $options .= '<option data-postcode="' . $value['postalCode'] . '" value="' . $value['name'] . '" ' . $selected . '>' . $value['name'] . '</option>';
-        }
-        return $options;
-    }
-
-    public function toOptionArray($option)
-    {
-        $arr = $this->_toArray($option);
-        $ret = [];
-
-        foreach ($arr as $key => $value) {
-            $ret[] = [
-                'value' => $value['value'],
-                'label' => $value['title']
-            ];
-        }
-
-        return $ret;
-    }
-
-    private function _toArray($code)
-    {
-        $regionCollection = $this->country->loadByCode($code)->getRegions();
-        $regions = $regionCollection->loadData()->toOptionArray(true);
-        return $regions;
-    }
-
-    public function getCitiesByregion($region_id)
+    public function getAllSources()
     {
         try {
-            $region = $region_id;
-            $filterGroup = $this->filterGroupBuilder;
             $sortOrder = $this->sortOrder;
-            $filterGroup->addFilter(
-                $this->filterBuilder
-                    ->setField('region_id')
-                    ->setConditionType('like')
-                    ->setValue($region)
-                    ->create()
-            );
+
+            $filter1 = $this->filterBuilder
+                ->setField("enabled")
+                ->setValue(1)
+                ->setConditionType("eq")->create();
+
+            $filterGroup1 = $this->filterGroupBuilder
+                ->addFilter($filter1)->create();
+
+            $filter2 = $this->filterBuilder
+                ->setField("source_code")
+                ->setValue('default')
+                ->setConditionType("neq")->create();
+
+            $filterGroup2 = $this->filterGroupBuilder
+                ->addFilter($filter2)->create();
 
             $sortOrder
                 ->setField("name")
                 ->setDirection("ASC");
 
             $searchCriteria = $this->searchCriteriaBuilder
-                ->setFilterGroups([$filterGroup->create()])
+                ->setFilterGroups([$filterGroup1, $filterGroup2])
                 ->create();
 
             $searchCriteria->setSortOrders([$sortOrder]);
-            $cities = $this->cityRepository->getList($searchCriteria)->getItems();
+            $sources = $this->_sourceRepository->getList($searchCriteria)->getItems();
             $items = [];
-            foreach ($cities as $city) {
+            foreach ($sources as $source) {
                 $items[] =  [
-                    'name' => $city->getName(),
-                    'id' => $city->getCityId(),
-                    'postalCode' => $city->getPostalCode()
+                    'name' => $source->getName(),
+                    'id' => $source->getSourceCode(),
+                    'source' => $source->getContactName()
+                ];
+            }
+            return $items;
+        } catch (\Magento\Framework\Exception\LocalizedException $e) {
+            $this->logger->error($e->getMessage());
+        } catch (\Exception $e) {
+            $this->logger->critical($e);
+        }
+    }
+
+    public function getSourceByWarehouseGroup($group)
+    {
+        try {
+            $sortOrder = $this->sortOrder;
+
+            $filter = $this->filterBuilder
+                ->setField("contact_name")
+                ->setValue($group)
+                ->setConditionType("eq")->create();
+
+            $filterGroup = $this->filterGroupBuilder
+                ->addFilter($filter)->create();
+
+
+            $sortOrder
+                ->setField("name")
+                ->setDirection("ASC");
+
+            $searchCriteria = $this->searchCriteriaBuilder
+                ->setFilterGroups([$filterGroup])
+                ->create();
+
+            $searchCriteria->setSortOrders([$sortOrder]);
+            $sources = $this->_sourceRepository->getList($searchCriteria)->getItems();
+            $items = [];
+            foreach ($sources as $source) {
+                $items =  [
+                    'name' => $source->getName(),
+                    'id' => $source->getSourceCode(),
+                    'source' => $source->getContactName()
                 ];
             }
             return $items;
