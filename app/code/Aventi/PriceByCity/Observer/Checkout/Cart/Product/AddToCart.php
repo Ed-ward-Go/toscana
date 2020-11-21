@@ -8,12 +8,12 @@ use Magento\Framework\App\RequestInterface;
 class AddToCart implements ObserverInterface
 {
 
-    /**     
+    /**
      * @var Aventi\PriceByCity\Helper\Data
      */
     private $helper;
 
-    /**    
+    /**
      * @var Psr\Log\LoggerInterface
      */
     private $logger;
@@ -30,8 +30,8 @@ class AddToCart implements ObserverInterface
 
         $item = $observer->getEvent()->getData('quote_item');
         $item = ( $item->getParentItem() ? $item->getParentItem() : $item );
-        $price = $this->helper->calculatePriceByRegion($item->getProductId());
-        $this->logger->info($price);        
+        $price = $this->helper->calculatePriceBySource($item->getProductId());
+        $this->logger->info($price);
         $item->setCustomPrice($price);
         $item->setOriginalCustomPrice($price);
         $item->getProduct()->setIsSuperMode(true);

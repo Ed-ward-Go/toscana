@@ -12,7 +12,7 @@ interface PriceByCityInterface extends \Magento\Framework\Api\ExtensibleDataInte
 
     const PRICE = 'price';
     const STOREPRICE_ID = 'storeprice_id';
-    const REGION_ID = 'region_id';
+    const SOURCE_CODE = 'source_code';
     const PRODUCT_ID = 'product_id';
 
     /**
@@ -70,15 +70,15 @@ interface PriceByCityInterface extends \Magento\Framework\Api\ExtensibleDataInte
     public function setPrice($price);
 
     /**
-     * Get region_id
+     * Get source_code
      * @return string|null
      */
-    public function getRegionId();
+    public function getSourceCode();
 
     /**
-     * Set region_id
-     * @param string $regionId
+     * Set source_code
+     * @param string $sourceCode
      * @return \Aventi\PriceByCity\Api\Data\PriceByCityInterface
      */
-    public function setRegionId($regionId);
+    public function setSourceCode($sourceCode);
 }

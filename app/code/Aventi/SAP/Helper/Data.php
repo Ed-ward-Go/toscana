@@ -254,7 +254,7 @@ class Data extends AbstractHelper
                     $headers = [
                       "Content-Type" => "application/json",
                       "Authorization" =>  "Bearer {$this->getToken()}"
-                  ];
+                    ];
                 }
                 $this->curl->setHeaders($headers);
                 $url = $this->getPath() . '/' . $path;
