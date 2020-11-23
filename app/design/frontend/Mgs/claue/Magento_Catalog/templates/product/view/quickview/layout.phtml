@@ -29,6 +29,9 @@
             <h1 class="product-name"><a target="_parent" id="view-detail" href="<?php echo $_product->getProductUrl() ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></h1>
 			<?php echo $block->getChildHtml('alert_urls') ?>
 			<div class="product-info-main">
+				<div class="product-info-stock-sku">
+					<?php echo $block->getChildHtml('product.info.type') ?>
+				</div>
 				<?php echo $block->getChildHtml('product.info.price') ?>
 				<?php echo $block->getChildHtml('product.price.tier') ?>
 				<?php echo $block->getChildHtml('product.info.deals.count'); ?>
@@ -37,12 +40,10 @@
 				<?php echo $block->getChildHtml('bundle.options.container') ?>
 				<?php echo $block->getChildHtml('product.info') ?>
 				
-				<div class="product-sub-infomation">
-					<div class="product-info-stock-sku">
-						<?php echo $block->getChildHtml('product.info.type') ?>
-					</div>
+				<!-- <div class="product-sub-infomation">
+					
 					<?php echo $block->getChildHtml('product.info.sku') ?>
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</div>
