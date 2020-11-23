@@ -8,7 +8,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
 
 class Product extends AbstractSync
 {
-
+    const DEFAULT_SOURCE = 'default';
     /**
      * @var \Magento\Framework\App\Filesystem\DirectoryList
      */
@@ -218,6 +218,7 @@ class Product extends AbstractSync
     public function managerProduct($param)
     {
         $sku = str_replace(' ', '', $param['sku']);
+        $stock = $param['stock'];
         $found = $new = $price = $stock = 0;
         $result = ['found' => 0,'new' => 0,'empty' => 0,'check' => 0];
 
@@ -229,11 +230,11 @@ class Product extends AbstractSync
 
         try {
             if ($product = $this->productRepository->get($sku)) {
-                $checkProduct = $this->checkProduct($param, $product);
+                /*$checkProduct = $this->checkProduct($param, $product);
                 if ($checkProduct) {
                     $result['check'] = 1;
                     return $result;
-                }
+                }*/
                 $result['found'] = 1;
                 $product->setStoreId($param['store_id']);
                 $product->setName($param['name']);
@@ -244,8 +245,8 @@ class Product extends AbstractSync
                 $product->setData('presentation', $param['presentation']);
                 $product->setData('business_line', $param['business_line']);
                 $product->setData('format', $param['format']);
-
                 $product = $this->productRepository->save($product);
+
                 /*try {
                     if ($param['category_id'] != null) {
                         $this->categoryLinkManagement->assignProductToCategories(
@@ -276,16 +277,28 @@ class Product extends AbstractSync
             $product->setData('presentation', $param['presentation']);
             $product->setData('business_line', $param['business_line']);
             $product->setData('format', $param['format']);
-            $product->setUrlKey($this->generateURL($product['name']));
+            $product->setUrlKey($this->generateURL($param['name']));
 
             try {
                 $this->productRepository->save($product);
                 $stockItemFull = $this->stockRegistry->getStockItem($product->getId());
-                $stockItemFull->setQty($product['stock']);
-                $stockItemFull->setIsInStock(($product['stock'] > 0) ? 1 : 0);
+                $stockItemFull->setQty($stock);
+                $stockItemFull->setIsInStock(($stock > -1) ? 1 : 0);
                 $stockItemFull->save();
+
+                $stockItem = $this->getSourceBySku($sku, self::DEFAULT_SOURCE);
+
+                if (is_null($stockItem)) {
+                    $stockItem = $this->sourceItemInterfaceFactory->create();
+                }
+
+                $stockItem->setSourceCode(self::DEFAULT_SOURCE);
+                $stockItem->setSku($sku);
+                $stockItem->setQuantity($stock);
+                $stockItem->setStatus($stock > -1 ? 1 : 0);
+                $this->sourceItemSave->execute([$stockItem]);
             } catch (\Exception $e) {
-                $this->logger->error("El product {$sku} no creo " . $e->getMessage());
+                $this->logger->error("El product {$sku} no actulizó " . $e->getMessage());
             }
 
             /*try {

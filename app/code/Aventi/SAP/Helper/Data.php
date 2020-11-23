@@ -29,11 +29,14 @@ class Data extends AbstractHelper
     const PATH_CC = 'sap/customer/copy';
 
     const PATH_SERIE = 'sap/document/serie';
+    const PATH_OCRCODE2 = 'sap/document/ocrcode2';
+    const PATH_UOMENTRY = 'sap/document/uomentry';
     const PATH_WHSCODE = 'sap/document/whscode';
     const PATH_CARDCODE = 'sap/document/cardcode';
     const PATH_SHIPPINGCODE = 'sap/document/shipping';
     const PATH_DOCDUEDATE = 'sap/document/docduedate';
     const PATH_TEST = 'sap/setting/test';
+    const PATH_INCREMENT = 'sap/document/increment';
 
     /**
      * @var \Magento\Framework\HTTP\Client\Curl
@@ -94,6 +97,36 @@ class Data extends AbstractHelper
     public function getSerie($store = null)
     {
         return (string)$this->scopeConfig->getValue(self::PATH_SERIE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+    }
+
+    /**
+     * Return the default order increment to create document in SAP
+     * @param null $store
+     * @return string
+     */
+    public function getIncrement($store = null)
+    {
+        return (string)$this->scopeConfig->getValue(self::PATH_INCREMENT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+    }
+
+    /**
+     * Return the default Uomentry to create document in SAP
+     * @param null $store
+     * @return int
+     */
+    public function getUomentry($store = null)
+    {
+        return (int)$this->scopeConfig->getValue(self::PATH_UOMENTRY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+    }
+
+    /**
+     * Return the default OcrCode2 to create document in SAP
+     * @param null $store
+     * @return string
+     */
+    public function getOcrCode2($store = null)
+    {
+        return (string)$this->scopeConfig->getValue(self::PATH_OCRCODE2, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 
     /**

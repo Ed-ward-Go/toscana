@@ -29,14 +29,26 @@
 			</group>
 			<group id="document" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
 				<label>Create document default values</label>
-				<field id="serie" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+                <field id="increment" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+                    <label>Prefix Increment</label>
+                    <comment>Prefix Increment from document</comment>
+                </field>
+                <field id="serie" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
 					<label>Serie</label>
 					<comment>Serie from document</comment>
 				</field>
+                <field id="uomentry" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+                    <label>UoMEntry</label>
+                    <comment>UoMEntry from document</comment>
+                </field>
 				<field id="whscode" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
 					<label>WhsCode</label>
 					<comment>Warehouse code to items</comment>
 				</field>
+                <field id="ocrcode2" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+                    <label>OcrCode 2</label>
+                    <comment>OcrCode 2 code to items</comment>
+                </field>
 				<field id="cardcode" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
 					<label>CardCode</label>
 					<comment>CardCode to create orders</comment>

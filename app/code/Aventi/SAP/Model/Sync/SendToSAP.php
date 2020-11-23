@@ -80,6 +80,10 @@ class SendToSAP
     protected $_orderFactory;
 
     private $orderManagement;
+    /**
+     * @var \Magento\InventoryApi\Api\SourceRepositoryInterface
+     */
+    private $sourceRepository;
 
     /**
      * SendToSAP constructor.
@@ -106,7 +110,8 @@ class SendToSAP
         \Aventi\PickUpWithOffices\Api\OfficeRepositoryInterface $officeRepository,
         \Aventi\SAP\Helper\DataEmail $dataEmail,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Sales\Api\OrderManagementInterface $orderManagement
+        \Magento\Sales\Api\OrderManagementInterface $orderManagement,
+        \Magento\InventoryApi\Api\SourceRepositoryInterface $sourceRepository
     ) {
         $this->historyCollectionFactory = $historyCollectionFactory;
         $this->logger = $logger;
@@ -125,6 +130,7 @@ class SendToSAP
         $this->dataEmail = $dataEmail;
         $this->_orderFactory = $orderFactory;
         $this->orderManagement = $orderManagement;
+        $this->sourceRepository = $sourceRepository;
     }
 
     /**
@@ -312,20 +318,9 @@ class SendToSAP
                 $Authorization = 2;
             }
 
-            $comments = 'siglo21.net #%s pago:%s email:%s';
+            $comments = 'toscana.com.ec #%s pago:%s email:%s';
             $comments = sprintf($comments, $idMagento, $paymenTitle, $order->getCustomerEmail());
-            $observation = $data['aventi_comment'];
-            $observation = (is_string($observation) && $observation != '' && !is_null($observation)) ? $observation : 0;
 
-            /**
-             * Gestión para el comentario longitud maxima en SAP 254
-             */
-            $c = $comments . "\n" . $observation;
-            if (strlen($c) > 250) {
-                $comments = $observation;
-            } else {
-                $comments = $c;
-            }
             $discount = 0;
             $baseDiscount = (($order->getBaseDiscountAmount()) < 0) ? $order->getBaseDiscountAmount() * -1 : 0;
             if ($baseDiscount > 0 && is_numeric($baseDiscount)) {
@@ -347,50 +342,31 @@ class SendToSAP
                 $officeSAP = trim($sapCode->getSap());
             }
 
-            $isListMaterial = $this->validateListMaterial($product);
-            $mnjPrice = 'N';
-            $ctrlPrice = 'N';
-            if ($isListMaterial) {
-                $mnjPrice = 'Y';
-                $ctrlPrice = 'S';
-            }
-
+            $source = $this->sourceRepository->get($order->getData('source_code'));
+            $seller = $source->getFax();
+            $prefixIncrement = $this->data->getIncrement();
+            $orderWeb = $prefixIncrement . $idMagento;
             $userFields = [
-                "U_Despachar~NO",
-                "U_Retiro_mercaderia~$pickup",
-                "U_DOC_DECLARABLE~S",
-                "U_MnjPrice~$mnjPrice",
-                "U_ExxVentaWeb~S",
-                "U_CtrlPrice~$ctrlPrice",
-                "U_ID_Web~$idMagento",
-                "U_Coment_Web~$comments"
+                "U_OS_COBRADOR~$seller",
+                "U_GC_NUM_PEDIDO_WEB~$orderWeb"
             ];
             $userFields = trim(implode("|", $userFields));
             $customerIdentification = trim($attributes['sap_customer_id']);
-            $slpCode = trim($attributes['slp_code']);
-            $ownerCode = trim($attributes['owner_code']);
-            $userCode = trim($attributes['user_code']);
+
             $docDueDate = date('Y-m-d', strtotime($this->dateTime->date('Y-m-d') . ' + ' . $this->data->getDocDueDate() . ' days'));
 
             $shipToCode = $this->sap->getAddressSAP($order->getBillingAddress()->getCustomerAddressId());
-            $billToCode = $this->sap->getAddressSAP($order->getShippingAddress()->getCustomerAddressId());
 
             $this->dataToSAP = [
-                'ObjType' => 17,
                 'CardCode' => $customerIdentification,
                 "DocDueDate" => $docDueDate,
-                "Serie" => $order->getShippingAddress()->getData('serie'),//13,
-                "U_G_Bodega" => $order->getShippingAddress()->getData('warehouse_group'),//"GRP_GYE",
-                "SlpCode" => $slpCode,//77,
-                "OwnerCode" => $ownerCode,
-                "User" => $userCode,
-                "Autorizado" => $Authorization,
+                "Serie" => $this->data->getSerie(),
+                "SlpCode" => $seller,
                 'CamposUsuario' => $userFields,
                 'Detalles' => $product,
                 'ShipToCode' => $shipToCode,
-                //'BillToCode' => $billToCode,
                 "Comments" => $comments,
-                //"Referencia" =>  $idMagento,
+                "Descuento" => 0
             ];
             $this->write($this->dataToSAP);
             $response = $this->data->postRecourse('api/Documento/Create', $this->dataToSAP);
@@ -527,46 +503,32 @@ class SendToSAP
         } else {
             $totalDiscount = 0;
         }
+        $source = $this->sourceRepository->get($orderEntity->getData('source_code'));
         foreach ($items as $item) {
             $product = $this->productRepository->getById($item->getProductId());
-            $stateSlow = $product->getCustomAttribute('state_slow')->getValue();
-            $stateSlow = ($stateSlow == 1) ? 'S' : 'N';
-            $brand = $product->getData('u_marca');
-            $listMaterial = ($product->getCustomAttribute('list_material')) ? $product->getCustomAttribute('list_material')->getValue() : 0;
-            $warehouseLm = '';
-            if ($listMaterial) {
-                if ($product->getCustomAttribute('bodega_lm')) {
-                    $warehouseLm = $product->getCustomAttribute('bodega_lm')->getValue();
-                }
+
+            $businessLine = $product->getCustomAttribute('business_line');
+            if ($businessLine) {
+                $businessLine = $businessLine->getValue();
             }
-            $userFields = [
-                "U_Exx_Des_EstadoLentoDet~$stateSlow"
-            ];
-            $userFields = trim(implode("|", $userFields));
+
             if ($item->getPrice() > 0) {
                 $tax = $this->getTax((int)$item->getTaxPercent());
                 $products[] = [
                     'ItemCode' => $item->getSku(),
                     'Quantity' => intval($item->getQtyOrdered()),
-                    'EsLM' => $listMaterial,
-                    'WhsCode' => $warehouseLm, //$this->data->getWhsCode() ,
+                    'WhsCode' => $source->getSourceCode(),
                     'Price' => $item->getPrice(),
                     'DiscountPercent' => $totalDiscount,
-                    "TaxCode" => $tax,
-                    "CamposUsuario" =>  $userFields,
-                    "Marca" => $brand
+                    'UoMEntry' => $this->data->getUomentry(),
+                    'COGSCostingCode' => $source->getPhone(),
+                    'COGSCostingCode2' => $this->data->getOcrCode2(),
+                    'COGSCostingCode4' => $businessLine,
+                    'CamposUsuario' =>  ""
                 ];
             }
         }
-        /*if($products){
-            $products[] = [
-                'ItemCode' => $this->data->getShippingCode(),
-                'Quantity' => 1,
-                'WhsCode' =>  $this->data->getWhsCode() ,
-                'Price' => (int)$orderEntity->getShippingAmount(),
-                "CamposUsuario" =>  null
-            ];
-        }    */
+
         return $products;
     }
 
@@ -603,20 +565,16 @@ class SendToSAP
                     case 201:
                         $numberOrder = $this->validateNumberOrder($response['body']);
                         $docEntry = $this->validateDocEntry($response['body']);
-                        $docType = $this->validateDocType($response['body']);
-                        $stringStatus = ($docType == 112) ? 'Borrador' : 'Pedido';
-                        $orderStatus = ($docType == 112) ? 'pending' : 'processing';
-                        $orderState = ($docType == 112) ? 'new' : 'processing';
+                        $orderStatus = 'processing';
+                        $orderState = 'processing';
                         $order->setState($orderState);
                         $order->addStatusToHistory(
                             $orderStatus,
-                            sprintf('El ' . $stringStatus . ' <strong>%s</strong> fué ingresado en SAP <strong>%s</strong>', $order->getIncrementId(), $numberOrder)
+                            sprintf('El pedido <strong>%s</strong> fué ingresado en SAP <strong>%s</strong>', $order->getIncrementId(), $numberOrder)
                         )->save();
                         $order->setData('sap_id', $numberOrder);
                         $order->setData('sap_doc_entry', $docEntry);
-                        $order->setData('sap_type', $docType);
                         $this->updateSaleOrderGrid($order->getIncrementId(), $numberOrder);
-                        $this->updateSaleOrderGridType($order->getIncrementId(), $docType);
                         $totalOrderSentSAP++;
                         break;
                     case 100:

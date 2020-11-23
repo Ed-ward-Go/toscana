@@ -29,7 +29,7 @@ class IndexBuilder
     {
         $select = $proceed($request);
         $source = $this->_locationHelper->getValue();
-        $joinConditions = 'product.entity_id = pricebycity.product_id AND pricebycity.source_code = "' . $source['id'] . '"';
+        $joinConditions = 'eav_index.entity_id = pricebycity.product_id AND pricebycity.source_code = "' . $source['id'] . '"';
         $select->join(['pricebycity' => self::PRICE_BY_CITY_TABLE], $joinConditions, [])->where('pricebycity.source_code = "' . $source['id'] . '"');
 
         return $select;
