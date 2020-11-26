@@ -209,7 +209,7 @@ SQL;
 
         $connection = $this->resourceConnection->getConnection();
         $sql = 'SELECT postalCode from aventi_citydropdown_city where `name` = "' . addslashes($name) . '"';
-        $id = $connection->fetchOne($sql);        
+        $id = $connection->fetchOne($sql);
         return (is_numeric($id)) ? $id : null ;
     }
 
@@ -218,8 +218,23 @@ SQL;
 
         $connection = $this->resourceConnection->getConnection();
         $sql = 'SELECT region_id from aventi_citydropdown_city where `name` LIKE "%' . addslashes($city) . '%"';
-        $id = $connection->fetchOne($sql);        
+        $id = $connection->fetchOne($sql);
         return (is_numeric($id)) ? (int)$id : null ;
+    }
+
+    public function getLastCategory($category)
+    {
+        $connection = $this->resourceConnection->getConnection();
+        $sql = <<<SQL
+        SELECT su.entity_id
+        FROM catalog_category_entity su
+        INNER JOIN catalog_category_entity_varchar sun on (sun.entity_id = su.entity_id and sun.attribute_id = 173) WHERE sun.value = '__CATEGORY__' GROUP BY su.entity_id
+SQL;
+
+        $sql = str_replace(['__CATEGORY__'], [$category], $sql);
+
+        $id = $connection->fetchOne($sql);
+        return (is_numeric($id)) ? $id : null;
     }
 
 }

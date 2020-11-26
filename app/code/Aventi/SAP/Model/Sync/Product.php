@@ -117,6 +117,10 @@ class Product extends AbstractSync
      * @var \Aventi\PriceByCity\Api\PriceByCityRepositoryInterface
      */
     private $priceByCityRepository;
+    /**
+     * @var \Magento\Catalog\Model\CategoryRepository
+     */
+    private $categoryRepository;
 
     /**
      * Product constructor.
@@ -168,7 +172,8 @@ class Product extends AbstractSync
         \Magento\Framework\Stdlib\DateTime\DateTime $dateTime,
         \Aventi\PriceByCity\Helper\Data $priceByCityHelper,
         \Aventi\PriceByCity\Api\Data\PriceByCityInterfaceFactory $priceByCityInterfaceFactory,
-        \Aventi\PriceByCity\Api\PriceByCityRepositoryInterface $priceByCityRepository
+        \Aventi\PriceByCity\Api\PriceByCityRepositoryInterface $priceByCityRepository,
+        \Magento\Catalog\Model\CategoryRepository $categoryRepository
     ) {
         $this->directoryList = $directoryList;
         $this->filesystem = $filesystem;
@@ -195,6 +200,7 @@ class Product extends AbstractSync
         $this->priceByCityHelper = $priceByCityHelper;
         $this->priceByCityInterfaceFactory = $priceByCityInterfaceFactory;
         $this->priceByCityRepository = $priceByCityRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -247,16 +253,16 @@ class Product extends AbstractSync
                 $product->setData('format', $param['format']);
                 $product = $this->productRepository->save($product);
 
-                /*try {
-                    if ($param['category_id'] != null) {
+                try {
+                    if ($param['categoryId']) {
                         $this->categoryLinkManagement->assignProductToCategories(
-                            $product->getSku(),
-                            [$param['category_id']['Grupo'], $param['category_id']['Tipo'], $param['category_id']['Clase']]
+                            $sku,
+                            $param['categoryId']
                         );
                     }
                 } catch (\Exception $e) {
                     $this->logger->error($e->getMessage());
-                }*/
+                }
             }
         } catch (\Magento\Framework\Exception\NoSuchEntityException $e) { // Product no found
 
@@ -301,16 +307,16 @@ class Product extends AbstractSync
                 $this->logger->error("El product {$sku} no actulizó " . $e->getMessage());
             }
 
-            /*try {
-                if ($param['category_id'] != null) {
+            try {
+                if ($param['categoryId']) {
                     $this->categoryLinkManagement->assignProductToCategories(
-                        $product->getSku(),
-                        [$param['category_id']['Grupo'], $param['category_id']['Tipo'], $param['category_id']['Clase']]
+                        $sku,
+                        $param['categoryId']
                     );
                 }
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage());
-            }*/
+            }
         } catch (\Exception $e) {
             $this->logger->error($sku . '-->' . $e->getMessage());
         }
@@ -536,10 +542,14 @@ SQL;
                     }
 
                     $stock  = 0;
-                    $parent = isset($product['U_GrupoWeb']) ? $product['U_GrupoWeb'] : '';
-                    $subparent = isset($product['U_Tipo']) ? $product['U_Tipo'] : '';
-                    $child = isset($product['U_Clase']) ? $product['U_Clase'] : '';
-                    $categoryId = $this->helperSAP->getCategoryByName($parent, $subparent, $child);
+
+                    $categoryId = $this->helperSAP->getLastCategory($product['U_GC_CATEGORIA']);
+                    $categoryArray = [];
+                    if ($categoryId) {
+                        $parentCategory = $this->getParentCategory($categoryId);
+                        $categoryArray = [$parentCategory->getParentId(), $categoryId];
+                    }
+
                     $product = [
                         'sku' =>  isset($product['ItemCode']) ? str_replace(' ', '', $product['ItemCode']) : '',
                         'name' => isset($product['ItemName']) ? $product['ItemName'] : '',
@@ -552,7 +562,7 @@ SQL;
                         'price' => 0,
                         'stock' => $stock,
                         'in_stock' => ($stock > 0) ? 1 : 0,
-                        'category_id' => $categoryId,
+                        'categoryId' => $categoryArray,
                         'visibility'=> 4,
                         'store_id' => 0
                     ];
@@ -816,6 +826,11 @@ SQL;
             return true;
         }
         return false;
+    }
+
+    public function getParentCategory($childCategory)
+    {
+        return $this->categoryRepository->get($childCategory);
     }
 
     public function formatDecimalNumber($number)
