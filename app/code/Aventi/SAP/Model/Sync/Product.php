@@ -8,7 +8,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
 
 class Product extends AbstractSync
 {
-
+    const DEFAULT_SOURCE = 'default';
     /**
      * @var \Magento\Framework\App\Filesystem\DirectoryList
      */
@@ -117,6 +117,10 @@ class Product extends AbstractSync
      * @var \Aventi\PriceByCity\Api\PriceByCityRepositoryInterface
      */
     private $priceByCityRepository;
+    /**
+     * @var \Magento\Catalog\Model\CategoryRepository
+     */
+    private $categoryRepository;
 
     /**
      * Product constructor.
@@ -168,7 +172,8 @@ class Product extends AbstractSync
         \Magento\Framework\Stdlib\DateTime\DateTime $dateTime,
         \Aventi\PriceByCity\Helper\Data $priceByCityHelper,
         \Aventi\PriceByCity\Api\Data\PriceByCityInterfaceFactory $priceByCityInterfaceFactory,
-        \Aventi\PriceByCity\Api\PriceByCityRepositoryInterface $priceByCityRepository
+        \Aventi\PriceByCity\Api\PriceByCityRepositoryInterface $priceByCityRepository,
+        \Magento\Catalog\Model\CategoryRepository $categoryRepository
     ) {
         $this->directoryList = $directoryList;
         $this->filesystem = $filesystem;
@@ -195,6 +200,7 @@ class Product extends AbstractSync
         $this->priceByCityHelper = $priceByCityHelper;
         $this->priceByCityInterfaceFactory = $priceByCityInterfaceFactory;
         $this->priceByCityRepository = $priceByCityRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -218,6 +224,7 @@ class Product extends AbstractSync
     public function managerProduct($param)
     {
         $sku = str_replace(' ', '', $param['sku']);
+        $stock = $param['stock'];
         $found = $new = $price = $stock = 0;
         $result = ['found' => 0,'new' => 0,'empty' => 0,'check' => 0];
 
@@ -229,11 +236,11 @@ class Product extends AbstractSync
 
         try {
             if ($product = $this->productRepository->get($sku)) {
-                $checkProduct = $this->checkProduct($param, $product);
+                /*$checkProduct = $this->checkProduct($param, $product);
                 if ($checkProduct) {
                     $result['check'] = 1;
                     return $result;
-                }
+                }*/
                 $result['found'] = 1;
                 $product->setStoreId($param['store_id']);
                 $product->setName($param['name']);
@@ -244,18 +251,18 @@ class Product extends AbstractSync
                 $product->setData('presentation', $param['presentation']);
                 $product->setData('business_line', $param['business_line']);
                 $product->setData('format', $param['format']);
-
                 $product = $this->productRepository->save($product);
-                /*try {
-                    if ($param['category_id'] != null) {
+
+                try {
+                    if ($param['categoryId']) {
                         $this->categoryLinkManagement->assignProductToCategories(
-                            $product->getSku(),
-                            [$param['category_id']['Grupo'], $param['category_id']['Tipo'], $param['category_id']['Clase']]
+                            $sku,
+                            $param['categoryId']
                         );
                     }
                 } catch (\Exception $e) {
                     $this->logger->error($e->getMessage());
-                }*/
+                }
             }
         } catch (\Magento\Framework\Exception\NoSuchEntityException $e) { // Product no found
 
@@ -276,28 +283,40 @@ class Product extends AbstractSync
             $product->setData('presentation', $param['presentation']);
             $product->setData('business_line', $param['business_line']);
             $product->setData('format', $param['format']);
-            $product->setUrlKey($this->generateURL($product['name']));
+            $product->setUrlKey($this->generateURL($param['name']));
 
             try {
                 $this->productRepository->save($product);
                 $stockItemFull = $this->stockRegistry->getStockItem($product->getId());
-                $stockItemFull->setQty($product['stock']);
-                $stockItemFull->setIsInStock(($product['stock'] > 0) ? 1 : 0);
+                $stockItemFull->setQty($stock);
+                $stockItemFull->setIsInStock(($stock > -1) ? 1 : 0);
                 $stockItemFull->save();
+
+                $stockItem = $this->getSourceBySku($sku, self::DEFAULT_SOURCE);
+
+                if (is_null($stockItem)) {
+                    $stockItem = $this->sourceItemInterfaceFactory->create();
+                }
+
+                $stockItem->setSourceCode(self::DEFAULT_SOURCE);
+                $stockItem->setSku($sku);
+                $stockItem->setQuantity($stock);
+                $stockItem->setStatus($stock > -1 ? 1 : 0);
+                $this->sourceItemSave->execute([$stockItem]);
             } catch (\Exception $e) {
-                $this->logger->error("El product {$sku} no creo " . $e->getMessage());
+                $this->logger->error("El product {$sku} no actulizó " . $e->getMessage());
             }
 
-            /*try {
-                if ($param['category_id'] != null) {
+            try {
+                if ($param['categoryId']) {
                     $this->categoryLinkManagement->assignProductToCategories(
-                        $product->getSku(),
-                        [$param['category_id']['Grupo'], $param['category_id']['Tipo'], $param['category_id']['Clase']]
+                        $sku,
+                        $param['categoryId']
                     );
                 }
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage());
-            }*/
+            }
         } catch (\Exception $e) {
             $this->logger->error($sku . '-->' . $e->getMessage());
         }
@@ -523,10 +542,14 @@ SQL;
                     }
 
                     $stock  = 0;
-                    $parent = isset($product['U_GrupoWeb']) ? $product['U_GrupoWeb'] : '';
-                    $subparent = isset($product['U_Tipo']) ? $product['U_Tipo'] : '';
-                    $child = isset($product['U_Clase']) ? $product['U_Clase'] : '';
-                    $categoryId = $this->helperSAP->getCategoryByName($parent, $subparent, $child);
+
+                    $categoryId = $this->helperSAP->getLastCategory($product['U_GC_CATEGORIA']);
+                    $categoryArray = [];
+                    if ($categoryId) {
+                        $parentCategory = $this->getParentCategory($categoryId);
+                        $categoryArray = [$parentCategory->getParentId(), $categoryId];
+                    }
+
                     $product = [
                         'sku' =>  isset($product['ItemCode']) ? str_replace(' ', '', $product['ItemCode']) : '',
                         'name' => isset($product['ItemName']) ? $product['ItemName'] : '',
@@ -539,7 +562,7 @@ SQL;
                         'price' => 0,
                         'stock' => $stock,
                         'in_stock' => ($stock > 0) ? 1 : 0,
-                        'category_id' => $categoryId,
+                        'categoryId' => $categoryArray,
                         'visibility'=> 4,
                         'store_id' => 0
                     ];
@@ -803,6 +826,11 @@ SQL;
             return true;
         }
         return false;
+    }
+
+    public function getParentCategory($childCategory)
+    {
+        return $this->categoryRepository->get($childCategory);
     }
 
     public function formatDecimalNumber($number)

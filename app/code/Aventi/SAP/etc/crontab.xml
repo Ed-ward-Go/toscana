@@ -7,25 +7,22 @@
 		<job instance="Aventi\SAP\Cron\ProductFaster" method="execute" name="aventi_sap_productfaster">
 			<schedule>1 */1 * * *</schedule>
 		</job>
-		<job instance="Aventi\SAP\Cron\Stock" method="execute" name="aventi_sap_stock">
+		<!--<job instance="Aventi\SAP\Cron\Stock" method="execute" name="aventi_sap_stock">
 			<schedule>40 6 * * *</schedule>
-		</job>
+		</job>-->
 		<job instance="Aventi\SAP\Cron\Price" method="execute" name="aventi_sap_price">
 			<schedule>20 */10 * * *</schedule>
 		</job>
 		<job instance="Aventi\SAP\Cron\PriceFaster" method="execute" name="aventi_sap_pricefaster">
 			<schedule>10 */1 * * * *</schedule>
 		</job>
-		<job instance="Aventi\SAP\Cron\StockFaster" method="execute" name="aventi_sap_stockfaster">
+		<!--<job instance="Aventi\SAP\Cron\StockFaster" method="execute" name="aventi_sap_stockfaster">
 			<schedule>*/3 * * * *</schedule>
-		</job>
-		<job instance="Aventi\SAP\Cron\StockListMaterial" method="execute" name="aventi_sap_stocklistmaterial">
-			<schedule>3 */2 * * *</schedule>
-		</job>
-		<!--<job instance="Aventi\SAP\Cron\OrderCompleted" method="execute" name="aventi_sap_order_completed">
+		</job>-->
+		<job instance="Aventi\SAP\Cron\OrderCompleted" method="execute" name="aventi_sap_order_completed">
 			<schedule>*/5 * * * *</schedule>
 		</job>
-		<job instance="Aventi\SAP\Cron\OrderSent" method="execute" name="aventi_sap_order_sent">
+		<!--<job instance="Aventi\SAP\Cron\OrderSent" method="execute" name="aventi_sap_order_sent">
 			<schedule>10 0 * * *</schedule>
 		</job>
 		<job instance="Aventi\SAP\Cron\DraftSent" method="execute" name="aventi_sap_order_draft_status">

@@ -8,7 +8,6 @@ namespace Aventi\PriceByCity\Block\Checkout;
 
 class AttributeMerger extends \Magento\Checkout\Block\Checkout\AttributeMerger
 {
-
     private $addressHelper;
 
     private $customerSession;
@@ -30,12 +29,12 @@ class AttributeMerger extends \Magento\Checkout\Block\Checkout\AttributeMerger
         \Psr\Log\LoggerInterface $logger
     ) {
         parent::__construct(
-            $addressHelper,           
+            $addressHelper,
             $customerSession,
             $customerRepository,
             $directoryHelper
         );
-        
+
         $this->directoryHelper = $directoryHelper;
         $this->data = $data;
         $this->logger = $logger;
@@ -108,11 +107,11 @@ class AttributeMerger extends \Magento\Checkout\Block\Checkout\AttributeMerger
         ];
 
         if (isset($additionalConfig['disabled']) && $additionalConfig['disabled'] != null) {
-             $element['disabled'] = "disabled";
+            $element['disabled'] = "disabled";
         }
 
         if (isset($additionalConfig['value']) && $additionalConfig['value'] != null) {
-             $element['value'] = "";
+            $element['value'] = "";
         }
 
         if (isset($attributeConfig['value']) && $attributeConfig['value'] != null) {
@@ -124,7 +123,6 @@ class AttributeMerger extends \Magento\Checkout\Block\Checkout\AttributeMerger
             if (null !== $defaultValue) {
                 $element['value'] = $defaultValue;
             }
-
         }
 
         return $element;
@@ -139,58 +137,53 @@ class AttributeMerger extends \Magento\Checkout\Block\Checkout\AttributeMerger
      * @return null|string
      */
     protected function getDefaultValue($attributeCode) : ?string
-    {        
+    {
         if ($attributeCode === 'country_id') {
             return $this->directoryHelper->getDefaultCountry();
         }
 
-        $customer = $this->getCustomer();        
+        $customer = $this->getCustomer();
 
         $attributeValue = null;
         switch ($attributeCode) {
             case 'prefix':
                 if ($customer != null) {
                     $attributeValue = $customer->getPrefix();
-                }                
+                }
                 break;
             case 'firstname':
                 if ($customer != null) {
                     $attributeValue = $customer->getFirstname();
-                }                 
+                }
                 break;
             case 'middlename':
                 if ($customer != null) {
                     $attributeValue = $customer->getMiddlename();
-                }                 
+                }
                 break;
-            case 'lastname':                
+            case 'lastname':
                 if ($customer != null) {
                     $attributeValue = $customer->getLastname();
-                } 
+                }
                 break;
             case 'suffix':
                 if ($customer != null) {
                     $attributeValue = $customer->getSuffix();
-                } 
+                }
                 break;
-            case 'postcode':   
-                $attributeValue = (int)$this->data->getValue()['postcode'];   
-                break;                    
-            case 'city':                    
-                $attributeValue = $this->data->getValue()['city'];                    
+            /*case 'postcode':
+                $attributeValue = (int)$this->data->getValue()['postcode'];
                 break;
-            case 'region_id':                    
-                $attributeValue = $this->data->getValue()['region'];   
+            case 'city':
+                $attributeValue = $this->data->getValue()['city'];
                 break;
-            case 'region':                    
-                $attributeValue = $this->data->getRegionName($this->data->getValue()['region']);   
-                break;              
-        }              
+            case 'region_id':
+                $attributeValue = $this->data->getValue()['region'];
+                break;
+            case 'region':
+                $attributeValue = $this->data->getRegionName($this->data->getValue()['region']);
+                break;*/
+        }
         return $attributeValue;
     }
-
-
 }
-
-
-?>

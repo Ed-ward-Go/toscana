@@ -27,11 +27,11 @@
 						<address>
 							<?php echo $block->getAddressHtml($block->getAddressById($_pAddsses)) ?>
 						</address>
-						<div>
+						<!--<div>
 							<a class="action btn btn-xs btn-secondary edit" href="<?php /* @escapeNotVerified */ echo $block->getAddressEditUrl($_pAddsses) ?>">
 								<span><?php /* @escapeNotVerified */ echo __('Edit') ?></span>
 							</a>
-						</div>
+						</div>-->
 					</div>
 				</div>
 			<?php else: ?>
@@ -58,9 +58,9 @@
 						<address>
 							<?php echo $block->getAddressHtml($block->getAddressById($_pAddsses)) ?>
 						</address>
-						<a class="action btn btn-secondary btn-xs edit" href="<?php /* @escapeNotVerified */ echo $block->getAddressEditUrl($_pAddsses) ?>">
+						<!--<a class="action btn btn-secondary btn-xs edit" href="<?php /* @escapeNotVerified */ echo $block->getAddressEditUrl($_pAddsses) ?>">
 							<span><?php /* @escapeNotVerified */ echo __('Edit') ?></span>
-						</a>
+						</a>-->
 					</div>
 				</div>
 			<?php else: ?>
@@ -104,7 +104,7 @@
 <hr>
 <div class="actions-toolbar">
     <div class="primary">
-        <button type="button" role="add-address" title="<?php /* @escapeNotVerified */ echo __('Add New Address') ?>" class="action btn btn-primary add"><span><?php /* @escapeNotVerified */ echo __('Add New Address') ?></span></button>
+        <!--<button type="button" role="add-address" title="<?php /* @escapeNotVerified */ echo __('Add New Address') ?>" class="action btn btn-primary add"><span><?php /* @escapeNotVerified */ echo __('Add New Address') ?></span></button>-->
 		<a class="action margin-left10 btn btn-secondary back" href="<?php echo $block->escapeUrl($block->getBackUrl()) ?>"><span><?php /* @escapeNotVerified */ echo __('Back') ?></span></a>
     </div>
 </div>
