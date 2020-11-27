@@ -24,6 +24,17 @@ namespace Aventi\PriceByCity\Observer\Sales;
 class ModelServiceQuoteSubmitBefore implements \Magento\Framework\Event\ObserverInterface
 {
     /**
+     * @var \Aventi\LocationPopup\Helper\Data
+     */
+    private $locationHelper;
+
+    public function __construct(
+        \Aventi\LocationPopup\Helper\Data $locationHelper
+    ) {
+        $this->locationHelper = $locationHelper;
+    }
+
+    /**
      * Execute observer
      *
      * @param \Magento\Framework\Event\Observer $observer
@@ -33,12 +44,8 @@ class ModelServiceQuoteSubmitBefore implements \Magento\Framework\Event\Observer
         \Magento\Framework\Event\Observer $observer
     ) {
         $order = $observer->getEvent()->getOrder();
-        /** @var $order \Magento\Sales\Model\Order **/
 
-        $quote = $observer->getEvent()->getQuote();
-        /** @var $quote \Magento\Quote\Model\Quote **/
-
-        $order->setData('source_code', $quote->getData('source_code'));
-
+        $source = $this->locationHelper->getValue();
+        $order->setData('source_code', $source['id']);
     }
 }

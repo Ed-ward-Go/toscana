@@ -9,9 +9,6 @@
 		<column name="product_id" length="50" nullable="true" xsi:type="varchar"/>
 		<column name="price" nullable="true" precision="12" scale="4" xsi:type="decimal"/>
 	</table>
-    <table comment="quote Table" engine="innodb" name="quote" resource="default">
-        <column name="source_code" length="50" nullable="true" xsi:type="varchar"/>
-    </table>
     <table comment="sales_order Table" engine="innodb" name="sales_order" resource="default">
         <column name="source_code" length="50" nullable="true" xsi:type="varchar"/>
     </table>

@@ -3,9 +3,6 @@
 	<preference for="Aventi\PriceByCity\Api\PriceByCityRepositoryInterface" type="Aventi\PriceByCity\Model\PriceByCityRepository"/>
 	<preference for="Aventi\PriceByCity\Api\Data\PriceByCityInterface" type="Aventi\PriceByCity\Model\Data\PriceByCity"/>
 	<preference for="Aventi\PriceByCity\Api\Data\PriceByCitySearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
-	<type name="Magento\Quote\Model\Quote">
-        <plugin name="prevent_add_to" type="Aventi\PriceByCity\Plugin\Quote\Model\Quote"/>
-    </type>
     <type name="Magento\CatalogSearch\Model\Search\IndexBuilder">
         <plugin name="aventi_pricebycity_plugin_catalogsearch_model_search_indexbuilder" type="Aventi\PriceByCity\Plugin\CatalogSearch\Model\Search\IndexBuilder" />
     </type>

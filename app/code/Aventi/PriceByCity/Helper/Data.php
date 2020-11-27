@@ -130,7 +130,7 @@ class Data extends AbstractHelper
             foreach ($quote->getAllItems() as $item) {
                 $price = $this->calculatePriceBySource($item->getProductId());
 
-                if ($price == 0) {
+                if ($price == 0 || !$price) {
                     $deleted[] = [
                         'product' => $item->getName(),
                         'sku' => $item->getSku(),
@@ -138,17 +138,19 @@ class Data extends AbstractHelper
                     $this->cart->removeItem($item->getItemId())->save();
                     continue;
                 }
-
+                $this->logger->error("TEST FROM HELPER: ". $price);
                 $item->setCustomPrice($price);
                 $item->setOriginalCustomPrice($price);
                 $item->getProduct()->setIsSuperMode(true);
                 $item->save();
             }
-
-            $quoteObject = $this->cartRepositoryInterface->get($quote->getId());
-            $quoteObject->setTriggerRecollect(1);
-            $quoteObject->setIsActive(true);
-            $quoteObject->collectTotals()->save();
+            if($quote->getAllItems()){
+                $quoteObject = $this->cartRepositoryInterface->get($quote->getId());
+                $quoteObject->setTriggerRecollect(1);
+                $quoteObject->setIsActive(true);
+                $this->logger->error("TEST FROM HELPER 2: ". $quote->getId());
+                $quoteObject->collectTotals()->save();
+            }
         }
 
         return $deleted;
