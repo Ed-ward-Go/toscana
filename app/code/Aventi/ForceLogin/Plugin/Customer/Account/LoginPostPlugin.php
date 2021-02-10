@@ -18,7 +18,7 @@ class LoginPostPlugin
         \Magento\Customer\Controller\Account\LoginPost $subject,
         $result
     ) {
-        //$result->setPath('');
+        $result->setPath('');
         return $result;
     }
 }
