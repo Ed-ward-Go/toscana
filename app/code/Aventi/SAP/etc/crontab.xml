@@ -14,7 +14,7 @@
 			<schedule>20 */10 * * *</schedule>
 		</job>
 		<job instance="Aventi\SAP\Cron\PriceFaster" method="execute" name="aventi_sap_pricefaster">
-			<schedule>10 */1 * * * *</schedule>
+			<schedule>10 */1 * * *</schedule>
 		</job>
 		<!--<job instance="Aventi\SAP\Cron\StockFaster" method="execute" name="aventi_sap_stockfaster">
 			<schedule>*/3 * * * *</schedule>
