@@ -23,6 +23,8 @@ namespace Aventi\SAP\Observer\Order;
 
 
 
+use Magento\Framework\Exception\MailException;
+
 class OrderCancelAfter implements \Magento\Framework\Event\ObserverInterface
 {
 
@@ -69,7 +71,7 @@ class OrderCancelAfter implements \Magento\Framework\Event\ObserverInterface
                 );
                 $order->setData('sap_notification_send', 1);
                 $this->orderRepository->save($order);
-            } catch (LocalizedException $exception) {
+            } catch (MailException $exception) {
                 $this->logger->error("The cancel order don't send email: " . $exception->getMessage());
             }
         }
