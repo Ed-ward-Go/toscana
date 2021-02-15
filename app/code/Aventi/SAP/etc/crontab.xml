@@ -30,7 +30,7 @@
 		</job>
 		<job instance="Aventi\SAP\Cron\OrderError" method="execute" name="aventi_sap_order_error">
 			<schedule>*/45 * * * *</schedule>
-		</job>
+		</job>-->
 		<job instance="Aventi\SAP\Cron\Customer" method="execute" name="aventi_sap_customer">
 			<schedule>2 */15 * * *</schedule>
 		</job>
@@ -42,7 +42,7 @@
 		</job>
 		<job instance="Aventi\SAP\Cron\CustomerAddressFast" method="execute" name="aventi_sap_customer_address_fast">
 			<schedule>30 */2 * * *</schedule>
-		</job>-->
+		</job>
 
 	</group>
 </config>
