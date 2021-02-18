@@ -416,11 +416,13 @@ class Product extends AbstractSync
                     $sourceCode = $source->getSourceCode();
                     $productId = $productFull->getId();
                     $priceBySource = $this->priceByCityHelper->getPriceByProductAndSource($productId, $sourceCode);
+                    $checkPrice = null;
                     if (!$priceBySource) {
                         $priceBySource = $this->priceByCityInterfaceFactory->create();
+                    }else{
+                        $checkPrice = $this->checkPrice($priceBySource, $productFull);
                     }
 
-                    $checkPrice = $this->checkPrice($priceBySource, $productFull);
                     if ($checkPrice) {
                         $check= 1;
                         return [
