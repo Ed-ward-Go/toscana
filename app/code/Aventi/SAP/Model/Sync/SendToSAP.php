@@ -360,7 +360,7 @@ class SendToSAP
             $this->dataToSAP = [
                 'CardCode' => $customerIdentification,
                 "DocDueDate" => $docDueDate,
-                "Serie" => $this->data->getSerie(),
+                "Series" => $this->data->getSerie(),
                 "SlpCode" => $seller,
                 'CamposUsuario' => $userFields,
                 'Detalles' => $product,
