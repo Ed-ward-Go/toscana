@@ -1987,7 +1987,9 @@ System,"Gestionar sistema",module,Magento_CurrencySymbol
 "Invalid value in Store column (store does not exists?)","Valor inválido en la columna Tienda (¿la tienda existe?)",module,Magento_CustomerImportExport
 "We can't find that email and website combination.","No podemos encontrar esa combinación de correo electrónico y página web.",module,Magento_CustomerImportExport
 "Please enter a password with a valid length.","Por favor, introduzca una contraseña con una longitud válida.",module,Magento_CustomerImportExport
-"Portfolio Information", "Información de Cartera", module, Magento_Customer
+"Portfolio Information", "Información de Crédito", module, Magento_Customer
+"Available:", "Disponible:"
+"Available", "Disponible"
 "For more details, go to Credit Limit", "Para más información, ir a Crédito", module, Magento_Customer
 "Credit Balance", "Balance", module, Magento_Customer
 "Available Credit", "Disponible", module, Magento_Customer
@@ -2336,6 +2338,7 @@ Country,País,module,Magento_Customer
 "LOG IN", "INICIAR SESIÓN", module, Magento_Customer
 "Have an account?", "¿Ya tienes una cuenta?", module, Magento_Customer
 "By using this form you agree with the storage and handling of your data by this website.", "Al utilizar este formulario, usted acepta el almacenamiento y el manejo de sus datos por parte de este sitio web."
+"Enter your email...", "Ingresa tu correo electrónico..."
 "No Password","Sin contraseña",module,Magento_Customer
 "Confirm New Password","Confirmar contraseña nueva",module,Magento_Customer
 "Save","Guardar", module, Magento_Customer
@@ -3586,7 +3589,7 @@ Custom,Personalizado,module,Magento_Paypal
 "Order ID","Pedido ID",module,Magento_Paypal
 "Preapproved Payment ID","Identificación del Pago Pre-autorizado",module,Magento_Paypal
 "Subscription ID","ID de Suscripción.",module,Magento_Paypal
-Credit,Crédito,module,Magento_Paypal
+Credit,Crédito total,module,Magento_Paypal
 Debit,Débito,module,Magento_Paypal
 "ACH Deposit (Hold for Dispute or Other Investigation)","Depósito ACH (En espera por conflicto u otra investigación)",module,Magento_Paypal
 "ACH Deposit (Reversal)","Depósito ACH (Revocación)",module,Magento_Paypal
@@ -4469,6 +4472,9 @@ Value,Valor,module,Magento_Sales
 "View Another Order","Ver otro pedido",module,Magento_Sales
 "About Your Refund","Acerca de su devolución",module,Magento_Sales
 "My Orders","Mis pedidos",module,Magento_Sales
+"Account Resume","Resumen de cuenta"
+"Favorites", "Favoritos"
+"Account Navigation", "Mi Cuenta"
 "Subscribe to Order Status","Suscribirse al estado del pedido",module,Magento_Sales
 "About Your Invoice","Acerca de su factura",module,Magento_Sales
 "Print Order # %1","Imprimir el pedido nº %1",module,Magento_Sales
@@ -6002,6 +6008,11 @@ Edit,Editar,module,Magento_Wishlist
 "Update Wish List", "Actualizar Lista", module, Magento_Wishlist
 "Wish List is empty now.","Su favoritos están vacíos.",module,Magento_Wishlist
 "* Required Fields","* Campos obligatorios",module,Magento_Wishlist
+
+"Welcome", "Bienvenido"
+"You only can access to our online store as a client. With an user and a password", "Solo puedes acceder a nuestra tienda virtual como cliente. Con usuario y contraseña"
+"Password", "Contraseña"
+
 "Sharing Information","Compartiendo información",module,Magento_Wishlist
 "Email addresses, separated by commas","Direcciones de correo electrónico, separadas por comas",module,Magento_Wishlist
 "Check here to link an RSS feed to your Wish List.","Marque aquí vincular un RSS feed a tu lista de deseos.",module,Magento_Wishlist

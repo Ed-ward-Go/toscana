@@ -114,7 +114,7 @@
 			</action>
         </referenceBlock>
 		
-		<referenceContainer name="content.aside">
+		<!-- <referenceContainer name="content.aside">
 			<block class="Magento\Cms\Block\Block" name="custom.product.detail.bottom.static.block" after="-">
 				<arguments>
 					<argument name="block_id" xsi:type="string">mpanel_product_detail_bottom_block</argument>
@@ -122,7 +122,7 @@
 				</arguments>
 			</block>
 		</referenceContainer>
-		
+		 -->
         <referenceContainer name="sidebar.additional">
             <block ifconfig="mpanel/product_details/related_sidebar" class="Magento\Catalog\Block\Product\ProductList\Related" after="product.brand.img.sidebar" name="catalog.product.related.sidebar" template="Magento_Catalog::product/list/items.phtml">
                 <arguments>

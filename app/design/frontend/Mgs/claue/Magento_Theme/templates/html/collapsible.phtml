@@ -9,10 +9,10 @@
 ?>
 
 <div class="block <?= /* @escapeNotVerified */ $block->getBlockCss() ?>">
-    <div class="block-title title <?= /* @escapeNotVerified */ $block->getBlockCss() ?>-title" data-mage-init='{"toggleAdvanced": {"toggleContainers": "#<?= /* @escapeNotVerified */ $block->getBlockCss() ?>", "selectorsToggleClass": "active"}}'>
+    <div class="block-title active title <?= /* @escapeNotVerified */ $block->getBlockCss() ?>-title" data-mage-init='{"toggleAdvanced": {"toggleContainers": "#<?= /* @escapeNotVerified */ $block->getBlockCss() ?>", "selectorsToggleClass": "active"}}'>
         <h3 class="title"><?php /* @escapeNotVerified */ echo __('Account Navigation');  ?><i class="pe-7s-angle-down"></i></h3>
     </div>
-    <div class="content <?= /* @escapeNotVerified */ $block->getBlockCss() ?>-content" id="<?= /* @escapeNotVerified */ $block->getBlockCss() ?>">
+    <div class="content active <?= /* @escapeNotVerified */ $block->getBlockCss() ?>-content" id="<?= /* @escapeNotVerified */ $block->getBlockCss() ?>">
         <?= $block->getChildHtml() ?>
     </div>
 </div>

@@ -24,7 +24,7 @@ use Magento\Catalog\Model\Product\ProductList\Toolbar;
 						selected="selected"
 					<?php endif; ?>
 					>
-					<?php /* @escapeNotVerified */ echo __('Sort by') ?> <?php echo $block->escapeHtml(__($_order)) ?>
+					<?php echo $block->escapeHtml(__($_order)) ?>
 				</option>
 			<?php endforeach; ?>
 		</select>

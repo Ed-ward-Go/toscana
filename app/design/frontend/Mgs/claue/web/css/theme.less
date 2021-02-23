@@ -1908,7 +1908,51 @@ dl.product.options.list {
 				width: 100%;
 			}
 		
-	
+			.location-popup-button {
+				position: absolute;
+				left: 12%;
+				top: 5px;
+				cursor: pointer;
+				@media (max-width: 890px) {
+					left: 9%;
+				}
+
+				@media (max-width: 700px) {
+					left: 45%;
+				}
+
+				@media (max-width: 650px) {
+					left: 20px;
+					top: -35px;
+
+					strong {
+						padding: 0px 15px !important;
+						padding-right: 0 !important;
+					}
+				}
+				
+				p {
+					display: flex;
+					align-items: center;
+				}
+				strong {
+					font-family: Poppins;
+					font-weight: bold;
+					font-size: 14px;
+					line-height: 21px;
+					color: #FFFFFF;
+					background: @sucesores-light-green;
+					padding: 7px 30px;
+					padding-right: 15px;
+					border-radius: 50px;
+					margin-left: 10px;
+					display: flex;
+					align-items: center;
+					i {
+						font-size: 30px;
+					}
+				}
+			}
 		}
 	}
 	.bottom-header-content {
@@ -2036,7 +2080,22 @@ dl.product.options.list {
 		}
 	}
 }
-
+@media (max-width: 520px) {
+	.header.header2 .top-additonal-links {
+		padding-top: 50px;
+		.location-popup-button {
+			top: -73px;
+		}
+	}
+}
+.header.header2.active-sticky {
+	@media (max-width: 550px) {
+		.location-popup-button {
+			display: none;
+		}
+	}
+	
+}
 // HEADER 
 .header {
 	background-color: #fff;
@@ -3417,7 +3476,8 @@ body:not(.cms-index-index) .header {
 				font-family: 'Poppins';
 				position: absolute;
 				top: 7px;
-				right: 200px;
+				left: -100px;
+				right: unset;
 				color: @sucesores-dark-green;
 			}
 		}
@@ -4038,6 +4098,8 @@ body:not(.page-layout-1column) .category-product-actions .toolbar.toolbar-produc
 .products-grid {
 	.product-item-info {
 		.product-top {
+			background-color: white;
+    		border-radius: 30px 30px 0 0;
 			a.photo:after {
 				opacity: 0 !important;
 				visibility: visible;
@@ -4049,7 +4111,12 @@ body:not(.page-layout-1column) .category-product-actions .toolbar.toolbar-produc
 				button:hover svg path {
 					fill: #e1be64;
 				}
-			} 
+			}
+
+			.product-image-photo.img-thumbnail {
+				max-height: 100%;
+				padding: 20px;
+			}
 		}
 		.product-in-grid-container {
 			background: @sucesores-gray5;
@@ -4219,6 +4286,11 @@ body:not(.page-layout-1column) .category-product-actions .toolbar.toolbar-produc
 							
 						}
 					}
+				}
+
+				.price-box.price-final_price .price-wrapper .price {
+					line-height: 36px;
+					font-weight: 700;
 				}
 			}
 		}
@@ -12062,6 +12134,7 @@ body.dark{
 }
 
 
+
 /* Fly Cart */
 #footer-cart-btn-checkout{
     color: #fff;
@@ -14432,3 +14505,113 @@ body .header.header13 .vertical-menu-widget .vertical-menu {
 .filter-options-content.inactive{
 	display: none;
 }
+
+// CUSTOM MY ACCOUNT
+.account {
+	.page-title-wrapper {
+		display: none;
+	}
+	@media (max-width: 990px) {
+		section.page-main.container > .row {
+			display: flex;
+			flex-direction: column-reverse;
+		}
+	}
+
+	.column.main > .block {
+		margin-bottom: 60px;
+	}
+
+	.block-title--myac {
+		h3 {
+			font-weight: bold;
+			font-size: 22px;
+			line-height: 33px;
+	
+			color: @sucesores-dark-green;
+			text-transform: none;
+		}
+	}
+
+	.content-total {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin: 30px 0;
+		h4 {
+			font-weight: bold;
+			font-size: 18px;
+			line-height: 27px;
+
+			color: #54565A;
+		}
+		&__filler {
+			background: #E0E0E0;
+			height: 3px;
+			flex: 1;
+			margin: 0 20px;
+		}
+		p {
+			margin: 0;
+			font-family: Poppins;
+			font-weight: 600;
+			font-size: 18px;
+			line-height: 27px;
+
+			color: #54565A;
+
+		}
+	}
+}
+.account-nav {
+	margin-bottom: 30px;
+}
+.account-nav-title {
+	cursor: pointer;
+	.title {
+		font-weight: bold !important;
+		font-size: 40px !important;
+		line-height: 60px;
+
+		color: @sucesores-dark-green !important;
+
+		display: flex;
+		align-items: center;
+		&::after {
+			display: none;
+		}
+		i {
+			transition: .3s ease all;
+		}
+	}
+	&.active {
+		.title i {
+			transform: rotate(180deg);
+		}
+	}
+}
+
+.account-nav-content {
+	ul li {
+		transition: .3s ease all;
+		height: 45px;
+		a,
+		strong {
+			display: block;
+			padding: 10px 15px;
+		}
+
+		strong {
+			color: @sucesores-dark-green;
+			padding-left: 30px;
+		}
+		&:not(:last-child) {
+			border-bottom: 1px solid #E2E2E2;
+		}
+	}
+	&:not(.active) ul li {
+		opacity: 0;
+		height: 0;
+	}
+}
+
