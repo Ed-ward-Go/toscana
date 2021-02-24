@@ -2351,7 +2351,7 @@ Password,Contraseña,module,Magento_Customer
 "Subscription option","Opciones de suscripción",module,Magento_Customer
 "General Subscription","Suscripción general",module,Magento_Customer
 "Sign Up for Newsletter","Suscribirse al boletín de noticias. Se el primero en conocer ofertas y novedades",module,Magento_Customer
-"Privacy Policy","Acepto la política de <a style='color:#2481B7!important'  href='https://www.saluti.com.co/proteccion-datos'> privacidad y tratamiento de datos personales.</a>",module,Magento_Customer
+"Privacy Policy","Política de privacidad",module,Magento_Customer
 "Address Information","Información de dirección",module,Magento_Customer
 "Sign-in Information","Información de inicio de sesión",module,Magento_Customer
 "Confirm Password","Confirmar contraseña",module,Magento_Customer
