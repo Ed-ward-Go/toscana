@@ -18,7 +18,7 @@ $width = '530px';
 						<p id="pop-location-title__name"></p>
 					</div>					
                     <div class="location-popup-content">
-						<p><b><?php /* @escapeNotVerified */ echo __('Select your current location') ?>:</b> <?php /* @escapeNotVerified */ echo __('and you can help us to improve your experience, showing availabilities and customizing your journey. If its not your location, you can change it later') ?></p> 
+						<p><b><?php /* @escapeNotVerified */ echo __('Select your current location') ?>:</b><br><?php /* @escapeNotVerified */ echo __('and you can help us to improve your experience, showing availabilities and customizing your journey. If its not your location, you can change it later') ?></p> 
                     </div>					
 					<div class="location-popup-form">
 						<?php echo $this->getLayout()->createBlock("Magento\Framework\View\Element\Template")->setTemplate("Aventi_LocationPopup::form.phtml")->toHtml() ?>
