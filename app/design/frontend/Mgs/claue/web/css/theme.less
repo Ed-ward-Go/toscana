@@ -8437,6 +8437,13 @@ body:not(.page-layout-1column) {
 				width: 45px;
 				border: none;
 				border: white 3px solid;
+				svg {
+					path {
+						&:hover {
+							fill: white;
+						}
+					}
+				}
 				&:hover {
 					svg path {
 						border: white;
@@ -14874,5 +14881,22 @@ span.product-image-wrapper {
 	img {
 		max-height: 100%;
 		max-width: 100%;
+	}
+}
+
+.catalog-product-view .page-title-wrapper {
+	display: none;
+}
+
+.products-grid.wishlist .product-item-info .product-item-photo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+	height: 200px;
+	padding: 20px !important;
+	img {
+		max-height: 200px;
+		min-width: auto !important;
+
 	}
 }
