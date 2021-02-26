@@ -13,8 +13,13 @@
 ?>
 <div class="contact-form-content">
 	<div class="row">
-		<div class="col-sm-6 col-xs-12 margin-bottom60">
-			<h3 class="text-uppercase margin-bottom15"><?php echo __('Send us a message'); ?></h3>
+		<div class="col-sm-6 col-xs-12">
+			<div class="contact__form__title">
+				<h3><?php echo __('Send us a message'); ?></h3>
+				<div class="contact__form__title__social">
+					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('sucesores_contacto_social')->setCanUsePanel($canUsePanel)->toHtml(); ?>
+				</div>
+			</div>
 			<form class="form contact" action="<?php /* @escapeNotVerified */ echo $block->getFormAction(); ?>" id="contact-form" method="post" data-hasrequired="<?php /* @escapeNotVerified */ echo __('* Required Fields') ?>" data-mage-init='{"validation":{}}'>
 				<div class="form-group name required">
 					<label for="name"><?php echo __('Name'); ?></label>
@@ -29,8 +34,8 @@
 					<input name="telephone" id="telephone" title="<?php /* @escapeNotVerified */ echo __('Phone') ?>" value="" class="input-text form-control" type="text" />
 				</div>
 				<div class="form-group comment required">
-					<label for="comment"><?php echo __('Content'); ?></label>
-					<textarea name="comment" id="comment" title="<?php /* @escapeNotVerified */ echo __('Content') ?>" class="input-text form-control" cols="5" rows="7" data-validate="{required:true}"></textarea>
+					<label for="comment"><?php echo __('Message'); ?></label>
+					<textarea name="comment" id="comment" title="<?php /* @escapeNotVerified */ echo __('Message') ?>" class="input-text form-control" cols="5" rows="7" data-validate="{required:true}"></textarea>
 				</div>
 				<?= $block->getChildHtml('form.additional.info') ?>
 				<div class="actions-toolbar">
@@ -41,9 +46,9 @@
 				</div>
 			</form>
 		</div>
-		<div class="col-sm-6 col-xs-12 margin-bottom60">
+		<div class="col-sm-6 col-xs-12">
 			<!-- Static block contact_page_custom_block -->
-			<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('contact_page_custom_block')->setCanUsePanel($canUsePanel)->toHtml(); ?>
+			<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('sucesores_contacto_image')->setCanUsePanel($canUsePanel)->toHtml(); ?>
 		</div>
 	</div>
 	

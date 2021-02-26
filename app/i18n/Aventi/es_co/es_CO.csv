@@ -2347,6 +2347,9 @@ Country,País,module,Magento_Customer
 "Registered Customers","Clientes registrados",module,Magento_Customer
 "If you have an account, sign in with your email address.","Si tiene una cuenta, inicie sesión con su dirección de correo electrónico.",module,Magento_Customer
 Password,Contraseña,module,Magento_Customer
+"Send us a message", "Escríbenos"
+"Send Messages", "Enviar Mensaje"
+"Message", "Mensaje"
 "Forgot Your Password?","¿Olvidaste su contraseña?",module,Magento_Customer
 "Subscription option","Opciones de suscripción",module,Magento_Customer
 "General Subscription","Suscripción general",module,Magento_Customer
