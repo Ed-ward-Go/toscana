@@ -14550,9 +14550,11 @@ body .header.header13 .vertical-menu-widget .vertical-menu {
 		}
 	}
 }
+
 .account-nav {
 	margin-bottom: 30px;
 }
+
 .account-nav-title {
 	cursor: pointer;
 	.title {
@@ -14603,7 +14605,6 @@ body .header.header13 .vertical-menu-widget .vertical-menu {
 }
 
 //CUSTOM POLICIES
-
 .cms-politica-de-privacidad {
 	.page-title-wrapper {
 		display: none;
@@ -14641,6 +14642,7 @@ body .header.header13 .vertical-menu-widget .vertical-menu {
 
 	
 }
+
 .policies-title,
 .policies-content {
     max-width: 1200px;
@@ -14693,6 +14695,7 @@ body .header.header13 .vertical-menu-widget .vertical-menu {
 	}
 }
 
+//CUSTOM CONTACT PAGE
 .contact-index-index {
 	.page-title-wrapper {
 		display: none;
@@ -14785,5 +14788,91 @@ body .header.header13 .vertical-menu-widget .vertical-menu {
 			margin-bottom: 40px;
 			justify-content: center;
 		}
+	}
+}
+
+
+//CUSTOM MINI CART
+
+.close-minicart {
+	background: @sucesores-light-green !important;
+	&__title {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0px 20px;
+		svg {
+			margin-right: 20px;
+		}
+	}
+	button {
+		left: unset !important;
+		right: 15px;
+	}
+}
+
+div#minicart-content-wrapper {
+	height: 100%;
+}
+
+.minicart-wrapper {
+	.block-content {
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		height: 100%;
+		.minicart-items-wrapper {
+			flex: 1;
+			ol {
+				li {
+					padding: 20px 20px 10px;
+					border-bottom: 1px solid #E2E2E2;
+				}
+			}
+		}
+		> .actions {
+			padding: 0 20px;
+			.subtotal{
+				border-top: none;
+			}
+
+			> .actions {
+				display: flex;
+				flex-direction: column-reverse;
+				a {
+					margin: 0;
+				}
+				> div:last-child {
+					margin-bottom: 10px;
+				}
+				.secondary a {
+					border: none;
+					background: transparent;
+					color: @sucesores-light-green;
+					&:hover {
+						color: @sucesores-dark-green;
+					}
+				}
+				.primary button {
+					border: 0;
+					border-radius: 10px;
+					background: @sucesores-dark-green;
+					&:hover {
+						background: @sucesores-light-green;
+					}
+				}
+			}
+		}
+	}
+}
+
+span.product-image-wrapper {
+	display: flex;
+    align-items: center;
+    justify-content: center;
+	img {
+		max-height: 100%;
+		max-width: 100%;
 	}
 }
