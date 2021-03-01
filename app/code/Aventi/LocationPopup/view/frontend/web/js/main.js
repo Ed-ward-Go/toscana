@@ -46,7 +46,7 @@ function( $, modal, customerData ) {
             }, 5000);
         });
 
-        $(document).on('click', '.location-switcher__container', function(){
+        $(document).on('click', '.location-popup-button', function(){
             openModalLocation(false);
         });
 
@@ -81,7 +81,7 @@ function( $, modal, customerData ) {
                     openModal();
                     localStorage.setItem('isDefault', JSON.stringify(json));
                 }
-                $(".location-switcher__container > p").text(json.name);
+                $(".location-popup-button > p > strong > span").text(json.name);
                 $("#pop-location-title__name").text(json.name);
             }
         })
@@ -110,8 +110,7 @@ function( $, modal, customerData ) {
                 var interval = setInterval(function(){
 
                     if(json != null){
-                        $("#locationpopup-region").val(json.region);
-                        loadCitiesByRegion(json.region, json.postcode);
+                        $("#locationpopup-city").val(json.id);
                     }
 
                     if($("#locationpopup-city").find('option')){
@@ -125,7 +124,7 @@ function( $, modal, customerData ) {
     }
 
     function setLocation(url, data){
-        $(".location-switcher__container > p").text(data.city);
+        $(".location-popup-button > p > strong > span").text(data.city);
         $("#pop-location-title__name").text(data.city);
         $('body').trigger('processStart');
         $.ajax({
@@ -162,7 +161,7 @@ function( $, modal, customerData ) {
 
         append += '</ul>';
         $(".toast__message").text('').append(append);
-        $(".toast__type").text('Algunos productos no están disponibles en '+ $(".location-switcher__container p").text());
+        $(".toast__type").text('Algunos productos no están disponibles en '+ $(".location-popup-button p").text());
         $(".toast__container").css('display', 'table-cell');
         setTimeout(function() {
             $(".toast__container").css('display', 'none');
