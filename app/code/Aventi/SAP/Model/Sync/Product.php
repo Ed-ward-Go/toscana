@@ -242,28 +242,17 @@ class Product extends AbstractSync
 
         try {
             if ($product = $this->productRepository->get($sku)) {
-                /*$checkProduct = $this->checkProduct($param, $product);
+                $checkProduct = $this->checkProduct($param, $product);
                 if ($checkProduct == 0) {
                     $result['check'] = 1;
                     return $result;
-                }*/
+                }
                 $result['found'] = 1;
-                $product->setStoreId($param['store_id']);
-                $product->setName($param['name']);
-                $product->setCustomAttribute('tax_class_id', $param['tax']);
-                $product->setStatus($param['status']);
-                $product->setVisibility($param['visibility']);
-                $product->setData('mgs_brand', $param['brand']);
-                $product->setData('presentation', $param['presentation']);
-                $product->setData('business_line', $param['business_line']);
-                $product->setData('format', $param['format']);
+                $this->_saveFields($product, $checkProduct);
                 $this->_eventManager->dispatch(
                     'catalog_product_update_after_sync',
                     ['product' => $product]
                 );
-                $product = $this->productRepository->save($product);
-                //$this->_saveFields($product, $checkProduct);
-
                 try {
                     if ($param['categoryId']) {
                         $this->categoryLinkManagement->assignProductToCategories(
