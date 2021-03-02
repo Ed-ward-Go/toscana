@@ -14937,3 +14937,140 @@ span.product-image-wrapper {
 
 	}
 }
+
+// CUSTOM STYLES FOR PROMOBANNERS
+
+.promobanners-container-desk {
+	.promobanner-container__title {
+		position: absolute;
+		bottom: 80px;
+		text-align: center;
+		font-size: 46px;
+		font-weight: 900;
+		color: white;
+		text-transform: uppercase;
+		line-height: 40px;
+	}
+	.promobanner-container__image {
+		p {
+			margin: 0;
+		}
+		img {
+			border-radius: 25px;
+			width: 100%;
+		}
+	}
+
+	.promobanner-container__image {
+		position: relative;
+		&:after {
+			content: '';
+			width: ~"calc(100% - 30px)";
+			height: 100%;
+			position: absolute;
+			left: 15px;
+			top: 0;
+			background: rgba(62, 176, 73, 0.5);
+			border-radius: 25px;
+		}
+	}
+
+	& > .container > .row > div > .row {
+		position: relative;
+	}
+
+	.promobanner-container__link p {
+		text-align: center;
+		a {
+			background: white;
+			border-radius: 50px;
+			padding: 10px 50px;
+			color: #1A8C43;
+			font-weight: bold;
+			position: absolute;
+			right: 50%;
+			transform: translateX(50%);
+			bottom: 30px;
+		}
+	}
+}
+
+
+
+
+
+.promobanners-container-mob {
+	.promobanner-container__title {
+		position: absolute;
+		bottom: 65px;
+		text-align: center;
+		font-size: 25px;
+		font-weight: 900;
+		color: white;
+		text-transform: uppercase;
+		line-height: 10px;
+		width: 100%;
+		line-height: 29px;
+	}
+	.promobanner-container__image {
+		p {
+			margin: 0;
+		}
+		img {
+			border-radius: 25px;
+			width: 100%;
+		}
+	}
+
+	.promobanners-container-desk > .container > .row > div > .row {
+		position: relative;
+	}
+
+	.promobanner-container__link p {
+		text-align: center;
+		a {
+			background: white;
+			border-radius: 50px;
+			padding: 10px 50px;
+			color: #1A8C43;
+			font-weight: bold;
+			position: absolute;
+			right: 50%;
+			transform: translateX(50%);
+			bottom: 30px;
+			line-height: 13px;
+			width: 80%;
+		}
+	}
+
+	.promobanner-container__image {
+		position: relative;
+		&::after {
+			content: '';
+			width: ~"calc(100% - 30px)";
+			height: 100%;
+			position: absolute;
+			left: 15px;
+			top: 0;
+			background: rgba(62, 176, 73, 0.5);
+			border-radius: 25px;
+			
+		}		
+	}
+}
+
+.toscana-custom-brands-link {
+	position: absolute;
+    right: 20px;
+    top: 20px;
+    text-align: right;
+	a {
+		font-weight: 500;
+		font-size: 16px;
+		line-height: 24px;
+		color: @sucesores-gray1;
+		&:hover {
+			color: @sucesores-dark-green;
+		}
+	}
+}
