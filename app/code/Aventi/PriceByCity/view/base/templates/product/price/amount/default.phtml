@@ -1,0 +1,56 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+
+<?php
+/** @var \Magento\Catalog\Pricing\Render\FinalPriceBox $block */
+
+/** ex: \Magento\Catalog\Pricing\Price\RegularPrice */
+/** @var \Magento\Framework\Pricing\Price\PriceInterface $priceModel */
+$priceModel = $block->getPriceType('regular_price');
+/* @noEscape */ echo $block->renderAmount($priceModel->getAmount(), [
+    'price_id'          => $block->getPriceId('product-price-'),
+    'include_container' => true
+]);
+
+?>
+
+<script type="text/javascript">
+    require([
+        'jquery'
+    ], function ($){
+        $(document).ready(function(){
+            let productId = "<?php echo $block->getSaleableItem()->getId(); ?>";
+            makeRequest(productId);
+        });
+        function makeRequest(productId){
+            $('body').trigger('processStart');
+            $.ajax({
+                url: BASE_URL + 'pricebycity/index/index',
+                type: "post",
+                dataType: "json",
+                data: {productId : productId},
+                cache: false
+            })
+                .done(function (json) {
+                    $('body').trigger('processStop');
+                    if(json.price > 0.0000){
+                        $('[data-product-id="'+ productId +'"] > span > span').html(json.formattedPrice)
+                    }else{
+                        //$('[data-product-id="'+ productId +'"]').parent().parent().remove()
+                        $('input[value="'+ productId +'"]').parent('form').remove()
+                        $('[data-product-id="'+ productId +'"]').parent('div').prev('div').children('span.product-label').remove()
+                        $('[data-product-id="'+ productId +'"] > span > span').html("No disponible en tu ubicación")
+                    }
+                })
+                .fail(function (e) {
+                    alert("error");
+                });
+            $('body').trigger('processStop');
+        }
+    });
+
+</script>

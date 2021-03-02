@@ -65,10 +65,10 @@ class SaveLocation extends \Magento\Framework\App\Action\Action
                 $this->helper->setValue($data);
             }
             //Bad solution, don't try this in house
-            $types = ['block_html'];
+            /*$types = ['block_html'];
             foreach ($types as $type) {
                 $this->_cacheTypeList->cleanType($type);
-            }
+            }*/
 
             $deleted = $this->helperCities->updateItemsInCart($this->_checkoutSession->getQuote());
             //$this->cache->clean('catalog_product_2');
