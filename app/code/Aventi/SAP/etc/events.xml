@@ -6,4 +6,7 @@
 	<event name="order_cancel_after">
 		<observer instance="Aventi\SAP\Observer\Order\OrderCancelAfter" name="aventi_sap_observer_order_cancel_after"/>
 	</event>
+    <event name="catalog_product_update_after_sync">
+        <observer instance="Aventi\SAP\Observer\Catalog\Update\After\Sync" name="aventi_sap_observer_catalog_product_update_after_sync"/>
+    </event>
 </config>

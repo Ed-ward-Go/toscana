@@ -121,6 +121,10 @@ class Product extends AbstractSync
      * @var \Magento\Catalog\Model\CategoryRepository
      */
     private $categoryRepository;
+    /**
+     * @var \Magento\Framework\Event\ManagerInterface
+     */
+    private $_eventManager;
 
     /**
      * Product constructor.
@@ -173,7 +177,8 @@ class Product extends AbstractSync
         \Aventi\PriceByCity\Helper\Data $priceByCityHelper,
         \Aventi\PriceByCity\Api\Data\PriceByCityInterfaceFactory $priceByCityInterfaceFactory,
         \Aventi\PriceByCity\Api\PriceByCityRepositoryInterface $priceByCityRepository,
-        \Magento\Catalog\Model\CategoryRepository $categoryRepository
+        \Magento\Catalog\Model\CategoryRepository $categoryRepository,
+        \Magento\Framework\Event\ManagerInterface $eventManager
     ) {
         $this->directoryList = $directoryList;
         $this->filesystem = $filesystem;
@@ -201,6 +206,7 @@ class Product extends AbstractSync
         $this->priceByCityInterfaceFactory = $priceByCityInterfaceFactory;
         $this->priceByCityRepository = $priceByCityRepository;
         $this->categoryRepository = $categoryRepository;
+        $this->_eventManager = $eventManager;
     }
 
     /**
@@ -237,7 +243,7 @@ class Product extends AbstractSync
         try {
             if ($product = $this->productRepository->get($sku)) {
                 /*$checkProduct = $this->checkProduct($param, $product);
-                if ($checkProduct) {
+                if ($checkProduct == 0) {
                     $result['check'] = 1;
                     return $result;
                 }*/
@@ -251,7 +257,12 @@ class Product extends AbstractSync
                 $product->setData('presentation', $param['presentation']);
                 $product->setData('business_line', $param['business_line']);
                 $product->setData('format', $param['format']);
+                $this->_eventManager->dispatch(
+                    'catalog_product_update_after_sync',
+                    ['product' => $product]
+                );
                 $product = $this->productRepository->save($product);
+                //$this->_saveFields($product, $checkProduct);
 
                 try {
                     if ($param['categoryId']) {
@@ -416,14 +427,14 @@ class Product extends AbstractSync
                     $sourceCode = $source->getSourceCode();
                     $productId = $productFull->getId();
                     $priceBySource = $this->priceByCityHelper->getPriceByProductAndSource($productId, $sourceCode);
-                    $checkPrice = null;
+                    $checkPrice = [];
                     if (!$priceBySource) {
                         $priceBySource = $this->priceByCityInterfaceFactory->create();
-                    }else{
+                    } else {
                         $checkPrice = $this->checkPrice($priceBySource, $productFull);
                     }
 
-                    if ($checkPrice) {
+                    if ($checkPrice == 0) {
                         $check= 1;
                         return [
                             'found' => $found,
@@ -435,8 +446,9 @@ class Product extends AbstractSync
                     $priceBySource->setPrice($price);
                     $priceBySource->setProductId($productId);
                     $this->priceByCityRepository->save($priceBySource);
-                    $productFull->setPrice($price);
-                    $this->productRepository->save($productFull);
+                    $this->_saveFields($productFull, $checkPrice);
+                    /*$productFull->setPrice($price);
+                    $this->productRepository->save($productFull);*/
                     $found = 1;
                 }
             }
@@ -760,14 +772,13 @@ SQL;
     public function checkProduct($data, $product)
     {
         $arrayValues = [];
-        if (is_array($data['category_id'])) {
-            $arrayValues = array_values($data['category_id']);
+        if (is_array($data['categoryId'])) {
+            $arrayValues = array_values($data['categoryId']);
         }
 
         $currentProduct = [
-            'sku' => $data['sku'],
             'name' => $data['name'],
-            'brand' => $data['brand'],
+            'mgs_brand' => $data['brand'],
             'business_line' => $data['business_line'],
             'format' => $data['format'],
             'presentation' => $data['presentation'],
@@ -776,9 +787,8 @@ SQL;
         ];
 
         $headProduct = [
-            'sku' =>  $product->getData('sku'),
             'name' =>  $product->getData('name'),
-            'brand' => $product->getData('mgs_brand'),
+            'mgs_brand' => $product->getData('mgs_brand'),
             'business_line' => $product->getData('business_line'),
             'format' => $product->getData('format'),
             'presentation' => $product->getData('presentation'),
@@ -790,9 +800,9 @@ SQL;
         $checkProduct = array_diff($currentProduct, $headProduct);
 
         if (empty($checkProduct) && empty($categoryDiff)) {
-            return true;
+            return 0;
         }
-        return false;
+        return $checkProduct;
     }
 
     public function checkPrice($data, $product)
@@ -807,9 +817,9 @@ SQL;
 
         $checkPrice = array_diff($current, $head);
         if (empty($checkPrice)) {
-            return true;
+            return 0;
         }
-        return false;
+        return $checkPrice;
     }
 
     public function checkStock($data, $stock)
@@ -838,5 +848,21 @@ SQL;
     public function formatDecimalNumber($number)
     {
         return number_format($number, 6, '.', '');
+    }
+
+    /**
+     * @param $product
+     * @param $fields
+     */
+    private function _saveFields($product, $fields)
+    {
+        foreach ($fields as $key => $field) {
+            $product->setData($key, $field);
+            try {
+                $product->getResource()->saveAttribute($product, $key);
+            } catch (\Exception $e) {
+                echo $e->getMessage() . "\n";
+            }
+        }
     }
 }
