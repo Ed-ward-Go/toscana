@@ -83,8 +83,9 @@ $collection = $block->getCollection();
             <?php endif; ?>
         <?php else: ?>
             <div class="message warning">
-                <div><?php echo __('Have no brands.') ?></div>
+                <div><?php echo __('Have no brands.') ?> <a href="<?php echo $block->getUrl("shop-by-brand")?>">Reiniciar filtro</a></div>
             </div>
         <?php endif; ?>
     </div>
 </div>
+

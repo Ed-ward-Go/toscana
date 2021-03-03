@@ -10618,7 +10618,7 @@ body > .loading-mask {
 			}
 			.product-item-name a{
 				color: #fff;
-				&:hover{color: #56cfe1}
+				&:hover{color: #1A8C43}
 			}
 		}
 		&:hover{ 
@@ -11296,8 +11296,8 @@ html,body{
 	    display: inline-block;
 	    &::hover{
 			color: #fff;
-		    border: 2px solid #56cfe1!important;
-		    background-color: #56cfe1!important;
+		    border: 2px solid #1A8C43!important;
+		    background-color: #1A8C43!important;
 		}
 	}
 	.actions-toolbar .action.primary{display: inline-block}
@@ -12178,8 +12178,8 @@ body.dark{
     line-height: 36px;
     &:hover{
         color: #fff;
-        border: 2px solid #56cfe1;
-        background-color: #56cfe1;
+        border: 2px solid #1A8C43;
+        background-color: #1A8C43;
     }
 }
 .flycart.ajaxcart-catalog_product-view .mfp-bg,
@@ -12851,7 +12851,7 @@ body.dark{
 								display: flex;
 								align-items: center;
 								justify-content: center;
-								width: 80%;
+								width: 100%;
 								border: 2px solid #C4C4C4;
 								background: @sucesores-gray5;
 								.border-radius(25px);;
@@ -13645,7 +13645,7 @@ padding-bottom: 30px;
 				color: #fff;
 			}
 			li.active a {
-				color: #56cfe1;
+				color: #1A8C43;
 			}
 			> li:first-child > a {
 				padding-left: 0;
@@ -13720,7 +13720,7 @@ padding-bottom: 30px;
 			color: #fff;
 		}
 		.title-primary {
-			color: #56cfe1;
+			color: #1A8C43;
 		}
 	}
 }
@@ -14925,18 +14925,6 @@ span.product-image-wrapper {
 	display: none;
 }
 
-.products-grid.wishlist .product-item-info .product-item-photo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-	height: 200px;
-	padding: 20px !important;
-	img {
-		max-height: 200px;
-		min-width: auto !important;
-
-	}
-}
 
 // CUSTOM STYLES FOR PROMOBANNERS
 
@@ -15059,6 +15047,8 @@ span.product-image-wrapper {
 	}
 }
 
+// CUSTOM SHOP BY BRAND
+
 .toscana-custom-brands-link {
 	position: absolute;
     right: 20px;
@@ -15071,6 +15061,201 @@ span.product-image-wrapper {
 		color: @sucesores-gray1;
 		&:hover {
 			color: @sucesores-dark-green;
+		}
+	}
+}
+
+.brand-index-index {
+	.page-title-wrapper {
+		display: none;
+	}
+	.shop-by-brand .description {
+		display: none;
+	}
+
+	.search_brand_form {
+		display: none;
+	}
+
+	.content-heading h3.title {
+		font-weight: bold;
+		font-size: 40px;
+		line-height: 60px;
+		text-transform: inherit;
+		color: @sucesores-dark-green;
+		&:after,
+		&:before {
+			display: none;
+		}
+	}
+
+	.message.warning a {
+		color: @sucesores-gray1;
+		text-decoration: underline;
+		margin-left: 10px;
+		font-weight: bold;
+		color: #6f4400;
+	}
+
+	h4.brand-title a {
+		text-transform: uppercase;
+	}
+}
+
+// CUSTOM WISHLIST
+.products-grid.wishlist {
+	ol.product-items.row {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		> li {
+			width: 175px;
+			flex-shrink: 0;
+			margin: 10px;
+			.product-item-info {
+				border-radius: 25px;
+				background: #F4F4F4;
+				position: relative;
+				.product-item-name {
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					overflow: hidden;
+					-webkit-line-clamp: 2;
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					white-space: normal;
+					line-height: 21px;
+					a {
+						font-weight: 600;
+						font-size: 14px;
+					}
+				}
+				.product-item-photo {
+					background-color: white;
+					border-radius: 25px 25px 0 0;
+					display: flex;
+    				align-items: center;
+					justify-content: center;
+					height: 150px;
+					padding: 20px !important;
+					img {
+    					mix-blend-mode: multiply;
+						max-height: 100%;
+						min-width: auto !important;
+					}
+				}
+				.comment-box {
+					label {
+						display: none;
+					}
+					textarea {
+						border: 2px solid #C4C4C4;
+						box-sizing: border-box;
+						border-radius: 15px;
+						background: #F4F4F4;
+						margin-top: 15px;
+						margin-bottom: 15px;
+					}
+				}
+				.custom-button-tocart-container {
+					position: absolute;
+					right: -25px;
+					bottom: -25px;
+					padding: 10px;
+					background: white;
+					border-radius: 50px;
+					.btn-cart-custom {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						width: 40px;
+						height: 40px;
+						border-radius: 40px;
+						border: none;
+						background: @sucesores-dark-green;
+						padding: 0;
+						&:hover {
+							background: @sucesores-yellow;
+							&:after {
+								-webkit-transform: scale(.7);
+								-moz-transform: scale(.7);
+								-ms-transform: scale(.7);
+								transform: scale(.7);
+								opacity: 1;
+							}
+						}
+						&:after {
+							pointer-events: none;
+							position: absolute;
+							width: 100%;
+							height: 100%;
+							border-radius: 50%;
+							content: '';
+							-webkit-box-sizing: content-box;
+							-moz-box-sizing: content-box;
+							box-sizing: content-box;
+							top: -2px;
+							left: -2px;
+							padding: 2px;
+							box-shadow: 0 0 0 1px @sucesores-yellow;
+							opacity: 0;
+							-webkit-transition: -webkit-transform 0.2s, opacity 0.2s;
+							-moz-transition: -moz-transform 0.2s, opacity 0.2s;
+							transition: transform 0.2s, opacity 0.2s;
+							-webkit-transform: scale(1.5);
+							-moz-transform: scale(1.5);
+							-ms-transform: scale(1.5);
+							transform: scale(1.5);
+							
+						}
+					}
+				}
+				.price-container > span > .price {
+					font-weight: bold;
+					font-size: 12px;
+					line-height: 26px;
+				}
+				.box-tocart .field.qty > .control {
+					border: 2px solid #C4C4C4;
+					box-sizing: border-box;
+					border-radius: 25px;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+				}
+
+				.product-item-actions.custom-item-actions {
+					position: absolute;
+					top: 10px;
+					right: 0;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					flex-direction: column;
+					a {
+						font-size: 16px;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						width: 35px;
+						height: 35px;
+						background: white;
+						margin: 5px 0;
+						border-radius: 20px;
+					}
+				}
+			}
+		}
+	}
+}
+
+@media (max-width: 420px) {
+	
+	.products-grid.wishlist {
+		ol.product-items.row {
+			> li {
+				width: 80%;
+			}
 		}
 	}
 }
