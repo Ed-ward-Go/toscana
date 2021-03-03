@@ -1993,6 +1993,11 @@ System,"Gestionar sistema",module,Magento_CurrencySymbol
 "For more details, go to Credit Limit", "Para más información, ir a Crédito", module, Magento_Customer
 "Credit Balance", "Balance", module, Magento_Customer
 "Available Credit", "Disponible", module, Magento_Customer
+"Credit Available", "Crédito Disponible", module, Magento_Customer
+"If you exceed you can pay on cash", "Si te excedes aún puedes pagar en efectivo"
+"You have exceded your credit.", "Excediste tu cupo de crédito."
+"Do not worry.", "No te preocupes."
+"You can pay in cash.", "Puedes pagar este pedido en efectivo."
 "Credit Limit", "Crédito", module, Magento_Customer
 "Edit your billing information", "Editar información de facturación", module, Magento_Customer
 "Edit your billing address", "Editar dirección de facturación", module, Magento_Customer
