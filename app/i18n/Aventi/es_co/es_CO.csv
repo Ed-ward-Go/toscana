@@ -2051,7 +2051,7 @@ Order,Pedido,module,Magento_Customer
 Purchased,Comprada,module,Magento_Customer
 "Bill-to Name","Nombre de facturación",module,Magento_Customer
 "Ship-to Name","Nombre de envío",module,Magento_Customer
-"Order Total","Total del Pedido",module,Magento_Customer
+"Order Total","Total",module,Magento_Customer
 "Purchase Point","Punto de compra",module,Magento_Customer
 "Customer View","Vista cliente",module,Magento_Customer
 "There are no items in customer's shopping cart.","No hay artículos en la cesta de la compra del cliente.",module,Magento_Customer
@@ -2517,7 +2517,7 @@ Availability,Disponibilidad,module,Magento_Downloadable
 Date,Fecha,module,Magento_Downloadable
 Status,Estatus,module,Magento_Downloadable
 "Remaining Downloads","Descargas restantes",module,Magento_Downloadable
-"View Order","Ver pedido",module,Magento_Downloadable
+"View Order","Ver",module,Magento_Downloadable
 "Start Download","Iniciar la descarga",module,Magento_Downloadable
 "You have not purchased any downloadable products yet.","Todavía no ha adquirido ningún artículo descargable.",module,Magento_Downloadable
 Back,Volver,module,Magento_Downloadable
@@ -3385,7 +3385,7 @@ Order,Encargar,module,Magento_Paypal
 Purchased,Comprada,module,Magento_Paypal
 "Bill-to Name","Nombre de facturación",module,Magento_Paypal
 "Ship-to Name","Nombre de envío",module,Magento_Paypal
-"Order Total","Total del Pedido",module,Magento_Paypal
+"Order Total","Total",module,Magento_Paypal
 "Purchase Point","Punto de compra",module,Magento_Paypal
 "Billing Agreement View","Ver acuerdo de pago",module,Magento_Paypal
 "View Transaction Details","Ver detalles de la transacción",module,Magento_Paypal
@@ -3722,7 +3722,7 @@ Updated:,Actualizado:,module,Magento_Paypal
 Date,Fecha,module,Magento_Paypal
 "Ship To","Enviar a",module,Magento_Paypal
 "Order Status","Estado de pedido",module,Magento_Paypal
-"View Order","Ver pedido",module,Magento_Paypal
+"View Order","Ver",module,Magento_Paypal
 "Back to Billing Agreements","Volver a los contratos de facturación",module,Magento_Paypal
 "Payment Method","Método de pago",module,Magento_Paypal
 View,Ver,module,Magento_Paypal
@@ -4887,7 +4887,7 @@ Continue,Continuar,module,Magento_Sales
 Date,Fecha,module,Magento_Sales
 "Ship To","Enviar a",module,Magento_Sales
 Actions,Acciones,module,Magento_Sales
-"View Order","Ver pedido",module,Magento_Sales
+"View Order","Ver",module,Magento_Sales
 "You have placed no orders.","No ha hecho ningún pedido.",module,Magento_Sales
 "No shipping information available","No hay información disponible sobre el envío",module,Magento_Sales
 "Print Order","Imprimir pedido",module,Magento_Sales
@@ -5142,7 +5142,7 @@ Action,Acción,module,Magento_Shipping
 "Shipping and Tracking Information","Información de envío y seguimiento",module,Magento_Shipping
 "Track this shipment","Realizar un seguimiento de este envío",module,Magento_Shipping
 "Items Shipped","Artículos enviados",module,Magento_Shipping
-"Order Total","Total del Pedido",module,Magento_Shipping
+"Order Total","Total",module,Magento_Shipping
 "Shipment History","Historial de envío",module,Magento_Shipping
 "Qty Shipped","Cantidad enviada",module,Magento_Shipping
 "Print All Shipments","Imprimir todos los envíos",module,Magento_Shipping
@@ -6924,7 +6924,7 @@ Details,Detalles,module,Magento_Catalog
 "Separate by "","".","Separados por "","".",module,Magento_Checkout
 "Send Payment Failed Email Copy Method","Sende Zahlungsfehler in Kopie (Methode)",module,Magento_Checkout
 Summary,Resumen,module,Magento_Checkout
-"Order Total","Total del Pedido",module,Magento_Checkout
+"Order Total","Total",module,Magento_Checkout
 "We'll send your order confirmation here.","Aquí te enviaremos la confirmación de su pedido.",module,Magento_Checkout
 Payment,Pago,module,Magento_Checkout
 "Not yet calculated","Aún no se ha calculado",module,Magento_Checkout
@@ -7941,7 +7941,7 @@ Rate,Tasa,module,Magento_Tax
 "(Incl. Tax)","(Incl. impuesto)",module,Magento_Tax
 "Order Total Excl. Tax","Total sin impuestos",module,Magento_Tax
 "Order Total Incl. Tax","Total pedido",module,Magento_Tax
-"Order Total","Total del Pedido",module,Magento_Tax
+"Order Total","Total",module,Magento_Tax
 "Your credit card will be charged for","Se cargará en su tarjeta de crédito",module,Magento_Tax
 Empty,Vacío,module,Magento_Theme
 "1 column","1 columna",module,Magento_Theme

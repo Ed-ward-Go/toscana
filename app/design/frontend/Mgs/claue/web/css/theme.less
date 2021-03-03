@@ -15345,3 +15345,74 @@ span.product-image-wrapper {
 		}
 	}
 }
+
+// CUSTOM ORDER TABLES
+.account {
+	.table-order-items {
+		th {
+			text-transform: unset !important;
+			text-align: left !important;
+		}
+		td.col {
+			vertical-align: middle;
+			padding: 20px 10px;
+			text-align: left;
+		}
+		td.col.actions {
+			min-width: 210px;
+			.action.view {
+				font-weight: bold;
+				font-size: 14px;
+				color: @sucesores-light-green;
+				margin-right: 10px;
+				&:after{
+					display: none;
+				}
+			}
+			.action.order {
+				background: @sucesores-light-green;
+				color: white;
+				font-weight: bold;
+				font-size: 14px;
+				padding: 10px 18px;
+				border-radius: 20px;
+			}
+		}
+	}
+
+	.table-wrapper.orders-history {
+		overflow: auto;
+		table {
+			min-width: 750px;
+		}
+	}
+}
+.related-product-main {
+	div#product-carousel-related .product-item-info {
+		background: #F4F4F4;
+		border-radius: 30px;
+	
+		.product-item-info .product-top .product-image-photo.img-thumbnail {
+			max-width: 100%;
+			width: auto;
+		}
+		.product-item-details {
+			padding: 20px;
+		}
+	}
+
+	h3.title.text-uppercase {
+		&:before,
+		&:after {
+			display: none;
+		}
+		span {
+			font-weight: 600;
+			font-size: 24px;
+			line-height: 24px;
+			letter-spacing: 0.5px;
+			color: #219653;
+			text-transform: initial;
+		}
+	}
+}
