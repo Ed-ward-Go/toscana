@@ -33,15 +33,15 @@
                 ifnot="canPayOrder()"
                 data-bind="text: getNotPayMessage()"></span>
             </p>
-            
+
             <p>
                 <span data-bind="i18n: 'Available: '"></span>
                 <b>
                     <span class="available-balance" data-bind="text: getAvailableCreditBalance()"></span>
                 </b>
             </p>
-            
-            
+
+
         </div>
         <div class="actions-toolbar" if="isActionToolbarVisible()">
             <div class="primary">
