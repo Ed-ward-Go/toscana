@@ -60,6 +60,9 @@ function( $, modal, customerData ) {
             }
         });
 
+        $(document).on("click","#close-minicart",function(e){
+            $('.minicart-wrapper .action.showcart').click();
+        });
     });
 
     function openModalLocation(validate){
