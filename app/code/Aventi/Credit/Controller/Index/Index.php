@@ -24,6 +24,9 @@ namespace Aventi\Credit\Controller\Index;
 use Aventi\Credit\Api\Data\CreditInterface;
 use Aventi\Credit\Model\Service\CreditService;
 use Magento\Checkout\Model\Session as CheckoutSession;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Psr\Log\LoggerInterface;
 
 class Index extends \Magento\Framework\App\Action\Action
 {
@@ -44,6 +47,10 @@ class Index extends \Magento\Framework\App\Action\Action
      * @var \Magento\Framework\Pricing\Helper\Data
      */
     private $priceHelper;
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
     /**
      * Constructor
@@ -51,6 +58,10 @@ class Index extends \Magento\Framework\App\Action\Action
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
      * @param \Magento\Framework\Json\Helper\Data $jsonHelper
+     * @param CreditService $creditService
+     * @param CheckoutSession $checkoutSession
+     * @param \Magento\Framework\Pricing\Helper\Data $priceHelper
+     * @param LoggerInterface $logger
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -58,7 +69,8 @@ class Index extends \Magento\Framework\App\Action\Action
         \Magento\Framework\Json\Helper\Data $jsonHelper,
         CreditService $creditService,
         CheckoutSession $checkoutSession,
-        \Magento\Framework\Pricing\Helper\Data $priceHelper
+        \Magento\Framework\Pricing\Helper\Data $priceHelper,
+        LoggerInterface $logger
     ) {
         $this->resultPageFactory = $resultPageFactory;
         parent::__construct($context);
@@ -66,6 +78,7 @@ class Index extends \Magento\Framework\App\Action\Action
         $this->creditService = $creditService;
         $this->checkoutSession = $checkoutSession;
         $this->priceHelper = $priceHelper;
+        $this->logger = $logger;
     }
 
     /**
@@ -75,16 +88,26 @@ class Index extends \Magento\Framework\App\Action\Action
      */
     public function execute()
     {
-        $quote = $this->checkoutSession->getQuote();
-        $grandTotal = $quote->getGrandTotal();
-        $creditAvailable = $this->creditService->getCreditAvailableAmount($quote->getCustomerId());
-
         $return = [
-            CreditInterface::AVAILABLE => $creditAvailable,
-            'canPay' => ($grandTotal > $creditAvailable) ? false : true,
-            'formatPrice' => $this->priceHelper->currency($creditAvailable, true, false)
+            CreditInterface::AVAILABLE => 0,
+            'canPay' => false,
+            'formatPrice' => $this->priceHelper->currency(0, true, false)
         ];
+        try {
+            $quote = $this->checkoutSession->getQuote();
+            $grandTotal = $quote->getGrandTotal();
+            $creditAvailable = $this->creditService->getCreditAvailableAmount($quote->getCustomerId());
 
+            $return = [
+                CreditInterface::AVAILABLE => $creditAvailable,
+                'canPay' => ($grandTotal > $creditAvailable) ? false : true,
+                'formatPrice' => $this->priceHelper->currency($creditAvailable, true, false)
+            ];
+        } catch (NoSuchEntityException $e) {
+            $this->logger->debug("QUOTE NOT FOUND: " . $e->getMessage());
+        } catch (LocalizedException $e) {
+            $this->logger->debug("QUOTE NOT FOUND: " . $e->getMessage());
+        }
         return $this->jsonResponse($return);
     }
 

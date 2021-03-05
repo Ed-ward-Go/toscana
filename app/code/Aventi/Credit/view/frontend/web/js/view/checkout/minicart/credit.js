@@ -44,7 +44,7 @@ define(
                     }
                 })
                 .fail(function (e) {
-                    alert("error");
+                    console.log("ERROR CREDIT: ", e)
                 });
             },
             getAvailableCredit: function () {

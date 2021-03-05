@@ -318,8 +318,8 @@ class SendToSAP
                 $Authorization = 2;
             }
 
-            $comments = 'toscana.com.ec #%s pago:%s email:%s';
-            $comments = sprintf($comments, $idMagento, $paymenTitle, $order->getCustomerEmail());
+            $comments = 'eCommerce #%s pago:%s';
+            $comments = sprintf($comments, $idMagento, $paymenTitle);
 
             $discount = 0;
             $baseDiscount = (($order->getBaseDiscountAmount()) < 0) ? $order->getBaseDiscountAmount() * -1 : 0;

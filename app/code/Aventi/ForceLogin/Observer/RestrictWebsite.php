@@ -45,19 +45,20 @@ class RestrictWebsite implements ObserverInterface
             return true;
         }
         $allowedRoutes = [
-        'customer_account_login',
-        'customer_account_loginpost',
-        'customer_account_logoutsuccess',
-        'customer_account_confirm',
-        'customer_account_confirmation',
-        'customer_account_forgotpassword',
-        'customer_account_forgotpasswordpost',
-        'customer_account_createpassword',
-        'customer_account_resetpasswordpost',
-        'customer_section_load',
-        'locationpopup_index_index',
-        'citydropdown_index_index',
-      ];
+            'customer_account_login',
+            'customer_account_loginpost',
+            'customer_account_logoutsuccess',
+            'customer_account_confirm',
+            'customer_account_confirmation',
+            'customer_account_forgotpassword',
+            'customer_account_forgotpasswordpost',
+            'customer_account_createpassword',
+            'customer_account_resetpasswordpost',
+            'customer_section_load',
+            'locationpopup_index_index',
+            'citydropdown_index_index',
+            'credit_index_index'
+        ];
 
         $request = $observer->getEvent()->getRequest();
         $isCustomerLoggedIn = $this->_context->getValue(Context::CONTEXT_AUTH);
