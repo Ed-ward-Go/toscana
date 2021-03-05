@@ -20,9 +20,6 @@
 			</argument>
 		</arguments>
 	</type>
-	<type name="Aheadworks\Ca\Controller\User\SavePost">
-		<plugin disabled="false" name="Aventi_SAP_Plugin_Aheadworks_Ca_Controller_User_SavePost" sortOrder="10" type="Aventi\SAP\Plugin\Aheadworks\Ca\Controller\User\SavePost"/>
-	</type>
 	<type name="Magento\Checkout\Model\ShippingInformationManagement">
         <plugin name="Aventi_SAP_Plugin_Magento_Checkout_Model_ShippingInformationManagment" type="Aventi\SAP\Plugin\Magento\Checkout\Model\ShippingInformationManagement" sortOrder="1"/>
     </type>

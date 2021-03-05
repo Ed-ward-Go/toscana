@@ -138,7 +138,6 @@ class Data extends AbstractHelper
                     $this->cart->removeItem($item->getItemId())->save();
                     continue;
                 }
-                $this->logger->error("TEST FROM HELPER: ". $price);
                 $item->setCustomPrice($price);
                 $item->setOriginalCustomPrice($price);
                 $item->getProduct()->setIsSuperMode(true);
@@ -148,7 +147,6 @@ class Data extends AbstractHelper
                 $quoteObject = $this->cartRepositoryInterface->get($quote->getId());
                 $quoteObject->setTriggerRecollect(1);
                 $quoteObject->setIsActive(true);
-                $this->logger->error("TEST FROM HELPER 2: ". $quote->getId());
                 $quoteObject->collectTotals()->save();
             }
         }

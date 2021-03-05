@@ -343,7 +343,7 @@ class SendToSAP
             }
 
             $source = $this->sourceRepository->get($order->getData('source_code'));
-            $seller = $source->getFax();
+            $seller = $source->getPostcode();
             $prefixIncrement = $this->data->getIncrement();
             $orderWeb = $prefixIncrement . $idMagento;
             $userFields = [
