@@ -58,7 +58,6 @@ define(
                 $.each(credit(), function (index, value) {
                     returnElement = value[indexArray];
                 });
-                console.log(returnElement);
                 return returnElement;
             }
         });
