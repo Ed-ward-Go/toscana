@@ -52,6 +52,7 @@ class Stock extends Command
         }
         $this->state->setAreaCode(\Magento\Framework\App\Area::AREA_CRONTAB);
         $this->productManager->setOutput($output);
+        die();
         $this->productManager->updateStock($process);
     }
 

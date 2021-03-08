@@ -37,6 +37,7 @@ class StockFaster
     public function execute()
     {
         $this->logger->addInfo("Cronjob StockFaster is executed.");
+        die();
         $this->product->updateStock(1);
     }
 }

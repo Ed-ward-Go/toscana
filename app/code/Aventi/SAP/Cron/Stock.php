@@ -38,6 +38,7 @@ class Stock
     public function execute()
     {
         $this->logger->addInfo("Cronjob Stock is executed.");
+        die();
         $this->product->updateStock(0);
     }
 }

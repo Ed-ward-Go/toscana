@@ -317,9 +317,9 @@ class SendToSAP
             if ($PaymentCode == 'banktransfer') {
                 $Authorization = 2;
             }
-
-            $comments = 'eCommerce #%s pago:%s';
-            $comments = sprintf($comments, $idMagento, $paymenTitle);
+            $source = $this->sourceRepository->get($order->getData('source_code'));
+            $comments = 'eCommerce #%s pago:%s, Sucursal:%s ';
+            $comments = sprintf($comments, $idMagento, $paymenTitle, $source->getName());
 
             $discount = 0;
             $baseDiscount = (($order->getBaseDiscountAmount()) < 0) ? $order->getBaseDiscountAmount() * -1 : 0;
@@ -342,7 +342,6 @@ class SendToSAP
                 $officeSAP = trim($sapCode->getSap());
             }
 
-            $source = $this->sourceRepository->get($order->getData('source_code'));
             $seller = $source->getPostcode();
             $prefixIncrement = $this->data->getIncrement();
             $orderWeb = $prefixIncrement . $idMagento;

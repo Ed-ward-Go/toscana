@@ -125,6 +125,14 @@ class Product extends AbstractSync
      * @var \Magento\Framework\Event\ManagerInterface
      */
     private $_eventManager;
+    /**
+     * @var array
+     */
+    private $arrayItems = [];
+    /**
+     * @var string
+     */
+    private $lastItem;
 
     /**
      * Product constructor.
@@ -208,7 +216,42 @@ class Product extends AbstractSync
         $this->categoryRepository = $categoryRepository;
         $this->_eventManager = $eventManager;
     }
+    /**
+     * @return mixed
+     */
+    public function getLastItem()
+    {
+        return $this->lastItem;
+    }
 
+    /**
+     * @param $item
+     */
+    public function setLastItem($item)
+    {
+        $this->lastItem = $item;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getArrayItems()
+    {
+        return $this->arrayItems;
+    }
+
+    /**
+     * @param $arrayItems
+     */
+    public function setArrayItems($arrayItems)
+    {
+        $this->arrayItems[] = $arrayItems;
+    }
+
+    public function unsArrayItems()
+    {
+        $this->arrayItems = [];
+    }
     /**
      * @param $sku
      * @param $name
@@ -373,18 +416,10 @@ class Product extends AbstractSync
                 $stockItem->setSku($sku);
                 $stockItem->setQuantity($stock);
                 $stockItem->setStatus($stock > 0 ? 1 : 0);
-                $this->sourceItemSave->execute([$stockItem]);
+                $this->assignToSource($sku, $stockItem);
 
                 $found = 1;
             }
-            /*if ($stockItem = $this->stockRegistry->getStockItemBySku($sku)) {
-                $stockItem->setQty($stock);
-                $stockItem->setIsInStock($stock > 0 ? 1 : 0);
-                $this->stockRegistry->updateStockItemBySku($sku, $stockItem);
-                $found = 1;
-            } else {
-                $notFound = 1;
-            }*/
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
             $notFound = 1;
@@ -853,5 +888,25 @@ SQL;
                 echo $e->getMessage() . "\n";
             }
         }
+    }
+
+    /**
+     * @param $sku
+     * @param $stockItem
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
+     * @throws \Magento\Framework\Exception\InputException
+     * @throws \Magento\Framework\Validation\ValidationException
+     */
+    public function assignToSource($sku, $stockItem)
+    {
+        if (empty($this->getLastItem())) {
+            $this->setLastItem($sku);
+        }
+        if ($sku != $this->getLastItem()) {
+            $this->sourceItemSave->execute($this->getArrayItems());
+            $this->unsArrayItems();
+        }
+        $this->setArrayItems($stockItem);
+        $this->setLastItem($sku);
     }
 }
