@@ -4,6 +4,7 @@ namespace Aventi\LocationPopup\Helper;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\App\Helper\AbstractHelper;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class Data extends AbstractHelper
 {
@@ -222,7 +223,6 @@ class Data extends AbstractHelper
             $filterGroup = $this->filterGroupBuilder
                 ->addFilter($filter)->create();
 
-
             $sortOrder
                 ->setField("name")
                 ->setDirection("ASC");
@@ -252,5 +252,33 @@ class Data extends AbstractHelper
     public function getRegionName($id)
     {
         return $this->region->load($id)->getName();
+    }
+
+    public function getCurrentSourceInformation()
+    {
+        $selectedSource = $this->getValue();
+        $currentSource = [
+            'id' => '',
+            'name' => '',
+            'address' => '',
+            'city' => ''
+        ];
+        if ($selectedSource) {
+            try {
+                $source = $this->_sourceRepository->get($selectedSource['id']);
+                if ($source) {
+                    $currentSource = [
+                        'id' => $source->getSourceCode(),
+                        'name' => $source->getName(),
+                        'address' => $source->getStreet(),
+                        'city' => $source->getCity()
+                    ];
+                }
+            } catch (NoSuchEntityException $e) {
+                $this->logger->error("Error to get the source information");
+            }
+        }
+
+        return $currentSource;
     }
 }
