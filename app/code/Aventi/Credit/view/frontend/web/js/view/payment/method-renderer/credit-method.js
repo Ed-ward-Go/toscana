@@ -17,7 +17,6 @@ define(
                 return window.checkoutConfig.payment.instructions[this.item.method];
             },
             getAvailableCreditBalance: function () {
-                console.log(window.checkoutConfig.payment);
                 return CreditManagment.getAvailableCredit();
             },
             canPayOrder: function () {
