@@ -6,7 +6,9 @@ require([
     const getLocationUrl = 'locationpopup/index/getsourceinformation';
 
     $(document).on('ready', function(){
-        loadSources();
+        setTimeout(function(){
+            loadSources();
+        }, 8000);
     });
 
     function loadSources() {
