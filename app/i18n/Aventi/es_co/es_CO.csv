@@ -8447,7 +8447,7 @@ Home,"Inicio"
 
 "Select your current location","Selecciona tu ubicación actual"
 "and you can help us to improve your experience, showing availabilities and customizing your journey. If its not your location, you can change it later","así nos ayudas a darte una mejor experiencia de compra al mostrarte las disponibilidades de acuerdo a tu ubicación."
-"Do not change","Dejar como está"
+"Do not change","Mantener"
 "Change location","Cambiar"
 
 "Shop By Brand", "Comprar por Marca"
@@ -8461,3 +8461,5 @@ Shop By Brand, Shop By Brand
 "Source selected", "Sucursal seleccionada"
 
 "Your order will be ready to be picked up in:", "Tu pedido estará listo para ser recogido en:"
+
+"You have added %1 to shopping cart.", "Has agregado %1 to al carrito."

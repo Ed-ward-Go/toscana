@@ -105,8 +105,8 @@
 .modal_location_popup form .actions .btn-primary:focus,
 .modal_location_popup form .actions .btn-primary:active {
   color: #fff;
-  border: 2px solid #222;
-  background-color: #222;
+  border: none ;
+  background-color: #3EB049;
 }
 
 .modal_location_popup form .actions .btn-secondary {
