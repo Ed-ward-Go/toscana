@@ -11,7 +11,6 @@ require([
 
     function loadSources() {
         var _self = this;
-        console.log("EPAAAAASas232");
         $.ajax({
             url: BASE_URL + getLocationUrl,
             type: "get",

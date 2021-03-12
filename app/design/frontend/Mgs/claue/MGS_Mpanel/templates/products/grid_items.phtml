@@ -9,7 +9,7 @@
 <?php $image = 'category_page_grid'; ?>
 <?php $_image = 'product_thumbnail_image'; ?>
 
-<?php 
+<?php
 	/** Add code */
 		$_aHelper = $this->helper('MGS\AjaxCart\Helper\Data');
 		$animationType = $_aHelper->getConfig('ajaxcart/additional/animation_type');
@@ -37,8 +37,8 @@
 			<?php // Product Image ?>
 			<?php $size = $themeHelper->getImageSize($this->getRatio()); ?>
 			<?php $padding = $themeHelper->getImagePadding($this->getRatio()); ?>
-			
-			<?php 
+
+			<?php
 				$productImage = $_imagehelper->init($_product, $image)->resize($size['width'], $size['height'])->getUrl();
 				 $productImageSmall = $_imagehelper->init($_product, 'product_small_image')->resize($size['width'], $size['height'])->getUrl();
 				$productThumbnail = $_imagehelper->init($_product, 'product_thumbnail_image')->resize($size['width'], $size['height'])->getUrl();
@@ -59,39 +59,39 @@
 						<img src="<?php echo $productThumbnail ?>" alt="<?php echo $_productNameStripped ?>" class="img-responsive product-image-photo img-thumbnail" data-src="<?php echo $productThumbnail ?>"/>
 					   </a>
 				   <?php endif;?>
-				   
+
 				  <?php if((basename($_product->getData('small_image')) != basename($_product->getData('image'))) && (basename($_product->getData('small_image')) != basename($_product->getData('thumbnail')))): ?>
 						<a href="<?php  echo $_product->getProductUrl() ?>" class="product photo product-item-photo" style="padding-bottom: <?php echo $padding ?>;"  tabindex="-1">
 							<img src="<?php echo $productImageSmall ?>" alt="<?php echo $_productNameStripped ?>" class="img-responsive product-image-photo img-thumbnail" data-src="<?php echo $productImageSmall ?>"/>
 					   </a>
 				   <?php endif;?>
-				   
+
 				</div>
-				
+
 			<?php else:?>
 			 <a href="<?php  echo $_product->getProductUrl() ?>" class="product photo product-item-photo" style="padding-bottom: <?php echo $padding ?>;"  tabindex="-1">
-				
+
 				<img src="<?php echo $baseImage ?>" alt="<?php echo $_productNameStripped ?>" class="img-responsive product-image-photo img-thumbnail<?php if($lazyLoad): ?> <?php if($useSlider): ?> owl-lazy<?php else: ?> lazy<?php endif ?><?php endif ?>"  data-src="<?php echo $productImage ?>"/>
-				
+
 				<?php if(basename($_product->getData('thumbnail')) !=  'no_selection'): ?>
 					<?php if(basename($_product->getData('thumbnail')) != basename($_product->getData('small_image'))): ?>
 						<img src="<?php echo $baseImageHover ?>" alt="<?php echo $_productNameStripped ?>" class="img-responsive img-hover-show<?php if($lazyLoad): ?> <?php if($useSlider): ?> owl-lazy<?php else: ?> lazy<?php endif ?><?php endif ?>"  data-src="<?php echo $productImageHover ?>"/>
 					<?php endif ?>
 				<?php endif ?>
-				
+
 				<div class="product-image-photo"></div>
 			</a>
-			   
+
 			<?php endif;?>
-			
-			
+
+
 			<?php // Product Label ?>
 			<?php echo $themeHelper->getProductLabel($_product) ?>
-			
+
 			<?php // Product Action ?>
 			<ul class="actions-link">
-			
-				
+
+
 				<?php // Wishlist  ?>
 				<?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && !$themeSettings['catalog']['wishlist_button']): ?>
 					<li>
@@ -108,7 +108,7 @@
 						</button>
 					</li>
 				<?php endif; ?>
-				
+
 				<!-- <?php // Compare  ?>
 				<?php $compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare'); ?>
 				<?php if(!$themeSettings['catalog']['compare_button']): ?>
@@ -125,17 +125,17 @@
 				<?php endif ?> -->
 			</ul>
 			<?php // QuickView  ?>
-	
+
 			<div class="quick-view-container hidden-sm hidden-xs">
 				<?php $quickViewHelper = $this->helper('MGS\QuickView\Helper\Data'); ?>
 				<?php echo $quickViewHelper->aroundQuickViewHtml($_product); ?>
 			</div>
 		</div>
-		
+
 		<?php // Product Detail ?>
 		<div class="product details product-item-details">
-		
-	
+
+
 			<?php // Product Qty x Unit ?>
 			<!-- <h6 class="price-by-unit">
 				250g...
@@ -148,13 +148,13 @@
 					<?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
 				</a>
 			</h5>
-			
+
 			<?php // Swatches Product ?>
 			<?php echo $this->getLayout()->createBlock('Magento\Swatches\Block\Product\Renderer\Listing\Configurable')->setProduct($_product)->setTextSwatch($swatches)->setTemplate('Magento_Swatches::product/listing/renderer.phtml')->toHtml() ?>
-			
+
 			<?php // Price ?>
 			<?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
-			
+
 			<div class="field qty">
 											<div class="control">
 												<span class="edit-qty minus" onclick="minusQty('qty')">-</span>
@@ -162,7 +162,7 @@
 												<span class="edit-qty plus" onclick="plusQty('qty')">+</span>
 											</div>
 										</div>
-	
+
 			<?php if ($themeHelper->getStoreConfig('mpanel/catalog/disable_add_to_cart') == 0 && ($themeHelper->getStoreConfig('mpanel/catalog/disable_hover_effect') == 1 || $themeHelper->getStoreConfig('mpanel/catalog/disable_button_cart_hover_effect') ==1)): ?>
 				<?php if ($_product->isSaleable()): ?>
 					<div>
@@ -171,15 +171,15 @@
 							<input type="hidden" name="product" value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
 							<input type="hidden" name="uenc" value="<?php /* @escapeNotVerified */ echo $postParams['data']['uenc']; ?>">
 							<input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />
-			
-							<?php 
+
+							<?php
 								$has_option = 0;
 								if($_product->getTypeId() == 'simple'){
 									$data = $_product->getData();
 									$has_option = ( isset($data['has_options']) && $data['has_options'] == 1) ? 1 : 0;
 								}
 							?>
-	
+
 							<?php if($animationType == 'cartshow' && ($_product->getTypeId() == 'configurable' || $_product->getTypeId() == 'bundle' || $_product->getTypeId() == 'grouped' || ($_product->getTypeId() == 'simple' && $has_option == 1) )): ?>
 								<button class="action tocart btn-cart hover_effect" type="button" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>" onclick="window.location.href = '<?php echo $_product->getProductUrl() ?>'">
 									<span class="icon pe-7s-shopbag"></span>
@@ -195,7 +195,7 @@
 					</div>
 				<?php endif ?>
 			<?php endif ?>
-			
+
 			<?php // Add to cart ?>
 			<?php if ($themeHelper->getStoreConfig('mpanel/catalog/hover') == 'template-2' ) : ?>
 				<?php if ($_product->isSaleable()): ?>
@@ -205,14 +205,14 @@
 							<input type="hidden" name="product" value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
 							<input type="hidden" name="uenc" value="<?php /* @escapeNotVerified */ echo $postParams['data']['uenc']; ?>">
 							<input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />
-							<?php 
+							<?php
 								$has_option = 0;
 								if($_product->getTypeId() == 'simple'){
 									$data = $_product->getData();
 									$has_option = ( isset($data['has_options']) && $data['has_options'] == 1) ? 1 : 0;
 								}
 							?>
-							
+
 							<?php if($animationType == 'cartshow' && ($_product->getTypeId() == 'configurable' || $_product->getTypeId() == 'bundle' || $_product->getTypeId() == 'grouped' || ($_product->getTypeId() == 'simple' && $has_option == 1) )): ?>
 								<button class="action tocart btn-cart" type="button" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>" onclick="window.location.href = '<?php echo $_product->getProductUrl() ?>'">
 									<span class="icon pe-7s-shopbag"></span>
@@ -228,7 +228,7 @@
 					</div>
 				<?php endif ?>
 			<?php endif ?>
-	
+
 			<?php // Add to cart ?>
 			<?php if ($themeHelper->getStoreConfig('mpanel/catalog/disable_add_to_cart')== 0 && $themeHelper->getStoreConfig('mpanel/catalog/disable_hover_effect') == 0 && $themeHelper->getStoreConfig('mpanel/catalog/disable_button_cart_hover_effect') == 0): ?>
 				<?php if ($_product->isSaleable()): ?>
@@ -239,8 +239,8 @@
 								<input type="hidden" name="product" value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
 								<input type="hidden" name="uenc" value="<?php /* @escapeNotVerified */ echo $postParams['data']['uenc']; ?>">
 								<input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />
-								
-								<?php 
+
+								<?php
 									$has_option = 0;
 									if($_product->getTypeId() == 'simple'){
 										$data = $_product->getData();
@@ -253,7 +253,7 @@
 											<path d="M4 1L1 5V19C1 19.5304 1.21071 20.0391 1.58579 20.4142C1.96086 20.7893 2.46957 21 3 21H17C17.5304 21 18.0391 20.7893 18.4142 20.4142C18.7893 20.0391 19 19.5304 19 19V5L16 1H4Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 											<path d="M1 5H19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 											<path d="M14 9C14 10.0609 13.5786 11.0783 12.8284 11.8284C12.0783 12.5786 11.0609 13 10 13C8.93913 13 7.92172 12.5786 7.17157 11.8284C6.42143 11.0783 6 10.0609 6 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-										</svg>	
+										</svg>
 									</button>
 								<?php else: ?>
 									<button class="action tocart btn-cart-custom" type="submit" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>">
@@ -261,7 +261,7 @@
 										<path d="M4 1L1 5V19C1 19.5304 1.21071 20.0391 1.58579 20.4142C1.96086 20.7893 2.46957 21 3 21H17C17.5304 21 18.0391 20.7893 18.4142 20.4142C18.7893 20.0391 19 19.5304 19 19V5L16 1H4Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 										<path d="M1 5H19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 										<path d="M14 9C14 10.0609 13.5786 11.0783 12.8284 11.8284C12.0783 12.5786 11.0609 13 10 13C8.93913 13 7.92172 12.5786 7.17157 11.8284C6.42143 11.0783 6 10.0609 6 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-									</svg>									
+									</svg>
 								</button>
 								<?php endif; ?>
 							</form>
@@ -269,7 +269,41 @@
 					<?php endif ?>
 				<?php endif ?>
 			<?php endif ?>
-			
+
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+    function plusQty(qtyInput){
+        require([
+            'jquery'
+        ], function(jQuery){
+            (function($) {
+                if($('#'+qtyInput).attr('disabled')!='disabled'){
+                    qty = $('#'+qtyInput).attr('value');
+                    qty = parseInt(qty);
+                    qty++;
+                    $('#'+qtyInput).val(qty);
+                }
+            })(jQuery);
+        });
+
+    }
+    function minusQty(qtyInput){
+        require([
+            'jquery'
+        ], function(jQuery){
+            (function($) {
+                if($('#'+qtyInput).attr('disabled')!='disabled'){
+                    qty = $('#'+qtyInput).attr('value');
+                    qty = parseInt(qty);
+
+                    if(qty>1){
+                        qty--;
+                        $('#'+qtyInput).val(qty);
+                    }
+                }
+            })(jQuery);
+        });
+    }
+</script>

@@ -78,7 +78,7 @@ $dataCol = '';
 				?>
 				<?php $arrayValues = $themeHelper->getValuesNumberProductPerRow();?>
 				<?php foreach ($arrayValues as $number): ?>
-					<?php 
+					<?php
 					switch ($number) {
 						case '1':
 							$classNumber = 'one';
@@ -112,7 +112,7 @@ $dataCol = '';
 							$classNumber = 'eight';
 							$dataCol = '8';
 							break;
-						
+
 						default:
 							$classNumber = 'four';
 							$dataCol = '3';
@@ -124,7 +124,7 @@ $dataCol = '';
 				<?php endforeach;?>
 
 			</div>
-		    	<?php 
+		    	<?php
 		    	$colCheck = $themeHelper->convertPerRowtoCol($defaultValueProduct);
 				$colClass = $themeHelper->convertColClass($colCheck, 'col', null);
 		    	?>
@@ -160,36 +160,36 @@ $dataCol = '';
     <div class="products wrapper <?php /* @escapeNotVerified */ echo $viewMode; ?> products-<?php /* @escapeNotVerified */ echo $viewMode; ?>" id="product-wrapper">
         <?php $iterator = 1; ?>
         <ol class="products <?php if ($changeProductPerRow): ?>product-list-masonry-change-product<?php endif ?> list items product-items <?php if ($block->getMode() == 'grid'): ?>row<?php endif ?> <?php echo 'row-'.$arrColClass[0] ?>">
-		
+
 			<?php $_imagehelper = $this->helper('Magento\Catalog\Helper\Image'); ?>
 			<?php $size = $themeHelper->getImageSize(); ?>
 			<?php $padding = $themeHelper->getImagePadding(); ?>
 			<?php $quickViewHelper = $this->helper('MGS\QuickView\Helper\Data'); ?>
 			<?php $compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare'); ?>
-			
+
 			<?php if ($block->getMode() == 'grid'): ?>
 				<?php $params = $block->getRequest()->getParams();  ?>
 				<?php if($settings['catalog']['ajaxscroll']): ?>
-				
+
 					<?php if(isset($params['product_list_limit'])): ?>
 						<?php $countAll = $params['product_list_limit']; ?>
 					<?php else: ?>
-						<?php $countAll = $themeHelper->getStoreConfig('catalog/frontend/grid_per_page'); ?>		
+						<?php $countAll = $themeHelper->getStoreConfig('catalog/frontend/grid_per_page'); ?>
 					<?php endif ?>
-					
+
 					<?php if(isset($params['p'])): ?>
 						<?php $i = ($params['p'] - 1) * $countAll; ?>
 					<?php else: ?>
 						<?php $i = 0; ?>
 					<?php endif ?>
-					
+
 				<?php else: ?>
 					<?php $i = 0; ?>
 				<?php endif ?>
-				
+
 				<?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
 				<?php foreach ($_productCollection as $_product): $i++; ?>
-					
+
 					<li class="item product <?php if ($changeProductPerRow): ?>product-item-masonry<?php else: ?><?php echo $themeHelper->getClearClass($perrow, $i) ?><?php endif ?> product-item-info product-item <?php echo $colClass ?> <?php echo $hover_effect ?>">
 						<?php $_productNameStripped = $block->stripTags($_product->getName(), null, true); ?>
 						<?php $productImage = $_imagehelper->init($_product, $image)->resize($size['width'], $size['height'])->getUrl(); ?>
@@ -201,7 +201,7 @@ $dataCol = '';
 						<div class="product-in-grid-container">
 							<div class="product-top">
 								<?php if($themeHelper->getStoreConfig('mpanel/catalog/images_slides')== 1): ?>
-									<?php 
+									<?php
 									$productImageSmall = $_imagehelper->init($_product, 'product_small_image')->resize($size['width'], $size['height'])->getUrl();
 									$productThumbnail = $_imagehelper->init($_product, 'product_thumbnail_image')->resize($size['width'], $size['height'])->getUrl();
 									$productImageBase = $_imagehelper->init($_product, 'product_base_image')->resize($size['width'], $size['height'])->getUrl();
@@ -215,28 +215,28 @@ $dataCol = '';
 											<img src="<?php echo $productThumbnail ?>" alt="<?php echo $_productNameStripped ?>" class="img-responsive product-image-photo img-thumbnail" data-src="<?php echo $productThumbnail ?>"/>
 										   </a>
 									   <?php endif;?>
-									   
+
 									  <?php if((basename($_product->getData('small_image')) != basename($_product->getData('image'))) && (basename($_product->getData('small_image')) != basename($_product->getData('thumbnail')))): ?>
 											<a href="<?php  echo $_product->getProductUrl() ?>" class="product photo product-item-photo" style="padding-bottom: <?php echo $padding ?>;"  tabindex="-1">
 												<img src="<?php echo $productImageSmall ?>" alt="<?php echo $_productNameStripped ?>" class="img-responsive product-image-photo img-thumbnail" data-src="<?php echo $productImageSmall ?>"/>
 										   </a>
 									   <?php endif;?>
-									   
+
 									</div>
-									
+
 								<?php else:?>
 								 <a href="<?php echo $_product->getProductUrl() ?>" style="padding-bottom: <?php echo $padding; ?>;" class="product photo product-item-photo" tabindex="-1">
 									<img src="<?php echo $baseImage ?>" alt="<?php echo $_productNameStripped ?>" class="img-responsive product-image-photo img-thumbnail<?php if($lazyLoad): ?> lazy<?php endif ?>" data-src="<?php echo $productImage ?>"/>
-									
+
 									<?php if(basename($_product->getData('thumbnail')) !=  'no_selection'): ?>
 										<?php if(basename($_product->getData('thumbnail')) != basename($_product->getData('small_image'))): ?>
 											<img src="<?php echo $baseImageHover ?>" alt="<?php echo $_productNameStripped ?>" class="img-responsive img-hover-show<?php if($lazyLoad): ?> lazy<?php endif ?>" data-src="<?php echo $productImageHover ?>" />
 										<?php endif ?>
 									<?php endif ?>
-									
+
 									<div class="product-image-photo"></div>
 								</a>
-								   
+
 								<?php endif;?>
 								<?php echo $themeHelper->getProductLabel($_product) ?>
 								<div class="quick-view-container hidden-sm hidden-xs">
@@ -256,7 +256,7 @@ $dataCol = '';
 											</svg>
 										</button></li>
 									<?php endif; ?>
-										
+
 									<?php if(!$settings['catalog']['compare_button']): ?>
 										<li><button data-title="<?php echo $block->escapeHtml(__('Add to Compare')); ?>"
 										   class="action tocompare"
@@ -277,36 +277,37 @@ $dataCol = '';
 										<?php echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
 									</a>
 								</h5>
-								
+
 								<!-- <?php if(!$themeHelper->getStoreConfig('mpanel/catalog/review')): ?>
 									<?php echo $block->getReviewsSummaryHtml($_product, $templateType,true); ?>
 								<?php endif ?> -->
-								
+
 								<?php echo $block->getProductPrice($_product) ?>
-								
+
 								<?php if ($_product->isSaleable()): ?>
 									<div class="field qty">
 										<div class="control">
-											<span class="edit-qty minus" onclick="minusQty('qty')">-</span>
-											<input type="number" name="qty" id="qty" maxlength="12" value="1" title="Qty" class="input-text qty" data-validate="{&quot;required-number&quot;:true,&quot;validate-item-quantity&quot;:{&quot;minAllowed&quot;:1,&quot;maxAllowed&quot;:10000}}">
-											<span class="edit-qty plus" onclick="plusQty('qty')">+</span>
+											<span class="edit-qty minus" data-id="<?php echo $_product->getId(); ?>">-</span>
+											<input type="number" data-id="<?php echo $_product->getId(); ?>" name="qtyFront" id="qty" maxlength="12" value="1" title="Qty" class="input-text qty" data-validate="{&quot;required-number&quot;:true,&quot;validate-item-quantity&quot;:{&quot;minAllowed&quot;:1,&quot;maxAllowed&quot;:10000}}">
+											<span class="edit-qty plus" data-id="<?php echo $_product->getId(); ?>">+</span>
 										</div>
-									</div> 
+									</div>
 								<?php endif ?>
-	
+
 								<?php if ($_product->isSaleable()): ?>
 									<div>
 										<?php $postParams = $block->getAddToCartPostParams($_product); ?>
 										<form class="to-cart-form" data-role="tocart-form" action="<?php /* @escapeNotVerified */ echo $this->getUrl('checkout/cart/add', ['uenc'=>$postParams['data']['uenc'], 'product'=>$postParams['data']['product']]); ?>" method="post">
 											<input type="hidden" name="product" value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
 											<input type="hidden" name="uenc" value="<?php /* @escapeNotVerified */ echo $postParams['data']['uenc']; ?>">
+                                            <input type="hidden" id="addto_<?= $_product->getId(); ?>" name="qty" value="">
 											<input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />
-											<?php 
+											<?php
 												$has_option = 0;
 												if($_product->getTypeId() == 'simple'){
 													$data = $_product->getData();
 													$has_option = ( isset($data['has_options']) && $data['has_options'] == 1) ? 1 : 0;
-												}	
+												}
 											 ?>
 											<?php if($animationType == 'cartshow' && ($_product->getTypeId() == 'configurable' || $_product->getTypeId() == 'bundle' || $_product->getTypeId() == 'grouped' || ($_product->getTypeId() == 'simple' && $has_option == 1) )): ?>
 												<button class="action btn-cart-custom" type="button" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>" onclick="window.location.href = '<?php echo $_product->getProductUrl() ?>'">
@@ -315,7 +316,7 @@ $dataCol = '';
 														<path d="M1 5H19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 														<path d="M14 9C14 10.0609 13.5786 11.0783 12.8284 11.8284C12.0783 12.5786 11.0609 13 10 13C8.93913 13 7.92172 12.5786 7.17157 11.8284C6.42143 11.0783 6 10.0609 6 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 													</svg>
-												</button>	
+												</button>
 											<?php else: ?>
 												<button class="action btn-cart-custom" type="submit" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>">
 													<svg width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -348,7 +349,7 @@ $dataCol = '';
 								<div class="product-image-content">
 									<a href="<?php echo $_product->getProductUrl() ?>" style="padding-bottom: <?php echo $padding; ?>;" class="product photo product-item-photo" tabindex="-1">
 										<img src="<?php echo $baseImage ?>" alt="<?php echo $_productNameStripped ?>" class="img-responsive product-image-photo img-thumbnail<?php if($lazyLoad): ?> lazy<?php endif ?>" data-src="<?php echo $productImage ?>"/>
-								
+
 										<?php if(basename($_product->getData('thumbnail')) !=  'no_selection'): ?>
 											<?php if(basename($_product->getData('thumbnail')) != basename($_product->getData('small_image'))): ?>
 												<img src="<?php echo $baseImageHover ?>" alt="<?php echo $_productNameStripped ?>" class="img-responsive img-hover-show<?php if($lazyLoad): ?> lazy<?php endif ?>" data-src="<?php echo $productImageHover ?>" />
@@ -385,12 +386,12 @@ $dataCol = '';
 										<!--
 											<?php if(!$themeHelper->getStoreConfig('mpanel/catalog/review')): ?>
 											<?php echo $block->getReviewsSummaryHtml($_product, $templateType,true); ?>
-											<?php endif ?> 
+											<?php endif ?>
 											<?php if($_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description')): ?>
 												<div class="product description product-item-description">
 													<?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?>
 												</div>
-											<?php endif ?> 
+											<?php endif ?>
 										-->
 									</div>
 									<ul class="actions-link" data-role="add-to-links">
@@ -398,20 +399,21 @@ $dataCol = '';
 											<li>
 											<div class="field qty">
 												<div class="control">
-													<span class="edit-qty minus" onclick="minusQty('qty')">-</span>
-													<input type="number" name="qty" id="qty" maxlength="12" value="1" title="Qty" class="input-text qty" data-validate="{&quot;required-number&quot;:true,&quot;validate-item-quantity&quot;:{&quot;minAllowed&quot;:1,&quot;maxAllowed&quot;:10000}}">
-													<span class="edit-qty plus" onclick="plusQty('qty')">+</span>
+													<span class="edit-qty minus" data-id="<?php echo $_product->getId(); ?>">-</span>
+													<input type="number" name="qtyFront" data-id="<?php echo $_product->getId(); ?>"  id="qty" maxlength="12" value="1" title="Qty" class="input-text qty" data-validate="{&quot;required-number&quot;:true,&quot;validate-item-quantity&quot;:{&quot;minAllowed&quot;:1,&quot;maxAllowed&quot;:10000}}">
+													<span class="edit-qty plus" data-id="<?php echo $_product->getId(); ?>">+</span>
 												</div>
-											</div> 
+											</div>
 											</li>
 											<li>
 												<?php $postParams = $block->getAddToCartPostParams($_product); ?>
 												<form data-role="tocart-form" action="<?php /* @escapeNotVerified */ echo $this->getUrl('checkout/cart/add', ['uenc'=>$postParams['data'][Action::PARAM_NAME_URL_ENCODED], 'product'=>$postParams['data']['product']]); ?>" method="post">
 													<input type="hidden" name="product" value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
-													<input type="hidden" name="<?php /* @escapeNotVerified */ echo Action::PARAM_NAME_URL_ENCODED; ?>" value="<?php /* @escapeNotVerified */ echo $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>">
+                                                    <input type="hidden" id="addto_<?= $_product->getId(); ?>" name="qty" value="">
+                                                    <input type="hidden" name="<?php /* @escapeNotVerified */ echo Action::PARAM_NAME_URL_ENCODED; ?>" value="<?php /* @escapeNotVerified */ echo $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>">
 													<?php echo $block->getBlockHtml('formkey')?>
-												
-													<?php 
+
+													<?php
 														$has_option = 0;
 														if($_product->getTypeId() == 'simple'){
 															$data = $_product->getData();
@@ -428,7 +430,7 @@ $dataCol = '';
 															<span class="product-item-link">
 																<?php echo __('Add to cart'); ?>
 															</span>
-														</button>	
+														</button>
 													<?php else: ?>
 														<button class="action tocart btn-cart" type="submit" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>">
 															<svg width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -454,7 +456,7 @@ $dataCol = '';
 												<i class="pe-7s-graph3"></i>
 											</button></li>
 										<?php endif ?>
-										
+
 									</ul>
 								</div>
 							</div>
@@ -494,11 +496,11 @@ $dataCol = '';
 
 <script type="text/javascript">
 
-	requirejs([ 
+	requirejs([
 
 		'require',
 
-		'jquery', 
+		'jquery',
 
 		'mgsmasonry',
 
@@ -544,7 +546,7 @@ $dataCol = '';
 
 				  	});
 
-				});  
+				});
 
 
 
@@ -564,7 +566,7 @@ $dataCol = '';
 
 				});
 
-			});  
+			});
 
 			$(document).ajaxComplete(function() {
 
@@ -601,7 +603,7 @@ $dataCol = '';
 
 				  	});
 
-				});  
+				});
 
 
 
@@ -630,10 +632,43 @@ $dataCol = '';
 					});
 				});
 
-			});  
+			});
 
 		});
 
 	});
+
+</script>
+<script type="text/javascript">
+    requirejs([
+        'jquery'
+    ], function($){
+        $(window).load(function() {
+            $(document).on('click', '.edit-qty.plus', function (){
+                let self = $(this);
+                let element = $('input[name="qtyFront"][data-id="'+self.data('id')+'"]');
+                if(element.attr('disabled')!='disabled'){
+                    qty = element.attr('value');
+                    qty = parseInt(qty);
+                    qty++;
+                    element.val(qty);
+                    $('#addto_'+self.data('id')).val(qty);
+                }
+            });
+            $(document).on('click', '.edit-qty.minus', function (){
+                let self = $(this);
+                let element = $('input[name="qtyFront"][data-id="'+self.data('sku')+'"]');
+                if(element.attr('disabled')!='disabled'){
+                    qty = element.attr('value');
+                    qty = parseInt(qty);
+                    if(qty>1){
+                        qty--;
+                        element.val(qty);
+                        $('#addto_'+self.data('id')).val(qty);
+                    }
+                }
+            });
+        });
+    });
 
 </script>
