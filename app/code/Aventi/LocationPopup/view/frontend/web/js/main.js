@@ -47,10 +47,13 @@ function( $, modal, customerData ) {
         });
 
         $(document).on('click', '.location-popup-button', function(){
+            document.querySelector('.location-popup-button > button').disabled = true;
             openModalLocation(false);
         });
 
         $(document).on('click', '.dont-change', function(){
+            alert('closing')
+            document.querySelector('.location-popup-button > button').disabled = false;
             var isDefault = localStorage.getItem('isDefault');
             if(isDefault !== undefined){
                 localStorage.removeItem('isDefault');
@@ -145,6 +148,7 @@ function( $, modal, customerData ) {
                 }
             }
             window.location.reload(true);
+            document.querySelector('.location-popup-button > button').disabled = false;
         })
         .fail(function (e) {
             console.log("error to set location ", e);
