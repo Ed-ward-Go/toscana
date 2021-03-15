@@ -52,7 +52,6 @@ function( $, modal, customerData ) {
         });
 
         $(document).on('click', '.dont-change', function(){
-            alert('closing')
             document.querySelector('.location-popup-button > button').disabled = false;
             var isDefault = localStorage.getItem('isDefault');
             if(isDefault !== undefined){
