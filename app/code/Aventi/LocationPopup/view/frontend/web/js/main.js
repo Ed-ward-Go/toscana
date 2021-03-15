@@ -147,7 +147,7 @@ function( $, modal, customerData ) {
             window.location.reload(true);
         })
         .fail(function (e) {
-            alert("error");
+            console.log("error to set location ", e);
         });
     }
 
