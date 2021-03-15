@@ -8444,6 +8444,7 @@ Home,"Inicio"
 
 "Mini Cart", "Carrito"
 "Related Products By Brand", "De la misma marca"
+"Back to the cart", "Volver al carrito"
 
 "Select your current location","Selecciona tu ubicación actual"
 "and you can help us to improve your experience, showing availabilities and customizing your journey. If its not your location, you can change it later","así nos ayudas a darte una mejor experiencia de compra al mostrarte las disponibilidades de acuerdo a tu ubicación."
@@ -8463,3 +8464,6 @@ Shop By Brand, Shop By Brand
 "Your order will be ready to be picked up in:", "Tu pedido estará listo para ser recogido en:"
 
 "You have added %1 to shopping cart.", "Has agregado %1 to al carrito."
+
+"Confirmation", "Confirmación"
+"Go Back", "Volver"
