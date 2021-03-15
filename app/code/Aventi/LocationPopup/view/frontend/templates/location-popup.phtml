@@ -4,10 +4,10 @@ $width = '530px';
 
 ?>
 <div class="modal_location_popup" style="display:none">
-		<div class="location_popup" id="location-popup" style="width: <?php echo $width; ?>;">	
-			<button class="action-close" data-role="closeBtn" type="button">
+		<div class="location_popup" id="location-popup" style="width: <?php echo $width; ?>;">
+			<!--<button class="action-close" data-role="closeBtn" type="button">
 				<em class="pe-7s-close"></em>
-            </button>		
+            </button>-->
 			<div class="block-popup-subscribe">
 				<div class="block-popup-top">
 					<div class="pop-location-title">
@@ -16,10 +16,10 @@ $width = '530px';
 							<path d="M10 13C11.6569 13 13 11.6569 13 10C13 8.34315 11.6569 7 10 7C8.34315 7 7 8.34315 7 10C7 11.6569 8.34315 13 10 13Z" stroke="#142A75" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
 						</svg>
 						<p id="pop-location-title__name"></p>
-					</div>					
+					</div>
                     <div class="location-popup-content">
-						<p><b><?php /* @escapeNotVerified */ echo __('Select your current location') ?>:</b><br><?php /* @escapeNotVerified */ echo __('and you can help us to improve your experience, showing availabilities and customizing your journey. If its not your location, you can change it later') ?></p> 
-                    </div>					
+						<p><b><?php /* @escapeNotVerified */ echo __('Select your current location') ?>:</b><br><?php /* @escapeNotVerified */ echo __('and you can help us to improve your experience, showing availabilities and customizing your journey. If its not your location, you can change it later') ?></p>
+                    </div>
 					<div class="location-popup-form">
 						<?php echo $this->getLayout()->createBlock("Magento\Framework\View\Element\Template")->setTemplate("Aventi_LocationPopup::form.phtml")->toHtml() ?>
 					</div>
@@ -53,6 +53,5 @@ $width = '530px';
 				</svg>
 			</div>
 		</div>
-	</div>	
+	</div>
 </div>
-	
