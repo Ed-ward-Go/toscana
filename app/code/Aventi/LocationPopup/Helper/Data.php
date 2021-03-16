@@ -110,7 +110,7 @@ class Data extends AbstractHelper
     public function getValue()
     {
         $this->coreSession->start();
-        $result = $this->coreSession->getLocation();
+        $result = false;//$this->coreSession->getLocation();
 
         if (!$result) {
             if ($this->_customerSession->isLoggedIn()) {

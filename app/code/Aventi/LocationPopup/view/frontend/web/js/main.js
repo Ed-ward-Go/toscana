@@ -46,10 +46,10 @@ function( $, modal, customerData ) {
             }, 5000);
         });
 
-        $(document).on('click', '.location-popup-button', function(){
+        /*$(document).on('click', '.location-popup-button', function(){
             document.querySelector('.location-popup-button > button').disabled = true;
             openModalLocation(false);
-        });
+        });*/
 
         $(document).on('click', '.dont-change', function(){
             document.querySelector('.location-popup-button > button').disabled = false;
@@ -78,15 +78,16 @@ function( $, modal, customerData ) {
 
             //var count = Object.keys(json).length;
             if(!validate && json != null){
-                openModal(json);
+                //openModal(json);
                 $("#pop-location-title__name").text(json.name);
             }
             else if(validate && json != null){
                 if(json.hasOwnProperty('default')){
-                    openModal();
+                    //openModal();
                     localStorage.setItem('isDefault', JSON.stringify(json));
                 }
-                $(".location-popup-button > p > strong > span").text(json.name);
+                console.log("ETNRA");
+                $(".location-popup-button > button > strong > span").text(json.name);
                 $("#pop-location-title__name").text(json.name);
             }
         })
