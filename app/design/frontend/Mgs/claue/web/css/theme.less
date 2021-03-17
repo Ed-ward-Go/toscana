@@ -4768,6 +4768,73 @@ body:not(.page-layout-1column) .category-product-actions .toolbar.toolbar-produc
 			}
 		}
 	}
+	@media (max-height: 780px) {
+		.login-right-background {
+			
+			&__container {
+				
+				.block-login-bck {
+					width: 750px;
+					height: 160px;
+					left: 50px;
+					top: 50px;
+	
+					h2 {
+						font-weight: 900;
+						font-size: 40px;
+						line-height: 60px;
+						color: white;
+						padding: 20px 50px;
+					}
+				}
+				.__blck-2 {
+					top: 250px;
+					left: 180px;
+				}
+				.__blck-3 {
+					top: 450px;
+					left: 320px;
+				}
+			}
+		}
+	}
+	@media (max-width: 1200px) {
+		.login-right-background {
+			
+			&__container {
+				
+				.block-login-bck {
+					left: 0;
+				}
+				.__blck-2 {
+					left: 0;
+				}
+				.__blck-3 {
+					left: 0;
+				}
+			}
+		}
+	}
+
+	@media (max-width: 1000px) {
+		.login-right-background {
+			
+			&__container {
+				
+				.block-login-bck {
+					h2 {
+						font-size: 25px;
+						line-height: 40px;
+					}
+				}
+			}
+		}
+	}
+	@media (max-width: 850px) {
+		.login-right-background {
+			display: none;	
+		}
+	}
 }
 
 @media (max-width: 550px) {
@@ -14752,6 +14819,17 @@ body .header.header13 .vertical-menu-widget .vertical-menu {
 	}
 }
 
+.account.sales-order-view {
+	.account-nav-content {
+		ul li {
+			strong {
+				display: block;
+				padding: 0 !important;
+				padding-left: 30px impo !important;
+			}
+		}
+	}
+}
 //CUSTOM POLICIES
 .cms-politica-de-privacidad {
 	.page-title-wrapper {
