@@ -3,4 +3,7 @@
     <type name="Magento\Customer\Controller\Account\LoginPost">
         <plugin name="aventi_force_login_loginpostplugin" type="Aventi\ForceLogin\Plugin\Customer\Account\LoginPostPlugin" sortOrder="1" />
     </type>
+    <type name="Magento\Customer\Controller\Account\Logout">
+        <plugin name="LogoutRedirect" type="Aventi\ForceLogin\Plugin\Customer\Account\LogoutRedirect" sortOrder="1"/>
+    </type>
 </config>
