@@ -657,7 +657,7 @@ $dataCol = '';
             });
             $(document).on('click', '.edit-qty.minus', function (){
                 let self = $(this);
-                let element = $('input[name="qtyFront"][data-id="'+self.data('sku')+'"]');
+                let element = $('input[name="qtyFront"][data-id="'+self.data('id')+'"]');
                 if(element.attr('disabled')!='disabled'){
                     qty = element.attr('value');
                     qty = parseInt(qty);
