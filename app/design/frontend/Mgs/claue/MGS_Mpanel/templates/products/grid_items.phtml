@@ -238,6 +238,7 @@
 							<form data-role="tocart-form" class="to-cart-form" action="<?php /* @escapeNotVerified */ echo $this->getUrl('checkout/cart/add', ['uenc'=>$postParams['data']['uenc'], 'product'=>$postParams['data']['product']]); ?>" method="post">
 								<input type="hidden" name="product" value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
 								<input type="hidden" name="uenc" value="<?php /* @escapeNotVerified */ echo $postParams['data']['uenc']; ?>">
+                                <input type="hidden" id="addto_<?= $_product->getId(); ?>" name="qty" value="">
 								<input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />
 
 								<?php
@@ -285,6 +286,7 @@
                     qty = parseInt(qty);
                     qty++;
                     element.val(qty);
+                    $('#addto_'+id).val(qty);
                 }
             })(jQuery);
         });
@@ -303,6 +305,7 @@
                     if(qty>1){
                         qty--;
                         element.val(qty);
+                        $('#addto_'+id).val(qty);
                     }
                 }
             })(jQuery);
