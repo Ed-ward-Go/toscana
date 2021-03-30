@@ -347,7 +347,8 @@ class SendToSAP
             $orderWeb = $prefixIncrement . $idMagento;
             $userFields = [
                 "U_OS_COBRADOR~$seller",
-                "U_GC_NUM_PEDIDO_WEB~$orderWeb"
+                "U_GC_NUM_PEDIDO_WEB~$orderWeb",
+                "U_FORMA_PAGO~01"
             ];
             $userFields = trim(implode("|", $userFields));
             $customerIdentification = trim($attributes['sap_customer_id']);
