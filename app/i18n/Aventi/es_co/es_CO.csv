@@ -4991,7 +4991,7 @@ None,Ninguno,module,Magento_Security
 "Please enter a sender name.","Por favor, introduzca un nombre de remitente.",module,Magento_SendFriend
 "Invalid Sender Email","Correo electrónico de remitente inválido",module,Magento_SendFriend
 "Please enter a message.","Por favor, ingrese el mensaje.",module,Magento_SendFriend
-"Please specify at least one recipient.","Por favor especificar a al menos un destinatario.",module,Magento_SendFriend
+"Please specify at least one recipient.","Por favor especificar al menos un destinatario.",module,Magento_SendFriend
 "Please enter a correct recipient email address.","Introduzca una dirección de correo electrónico de destinatario correcta.",module,Magento_SendFriend
 "No more than %1 emails can be sent at a time.","No se puede enviar más que %1 correos electrónicos al mismo tiempo.",module,Magento_SendFriend
 "Please define a correct product instance.","Por favor, defina una correcta instancia de artículo.",module,Magento_SendFriend
@@ -8463,7 +8463,7 @@ Shop By Brand, Shop By Brand
 
 "Your order will be ready to be picked up in:", "Tu pedido estará listo para ser recogido en:"
 
-"You have added %1 to shopping cart.", "Has agregado %1 a al carrito."
+"You have added %1 to shopping cart.", "Has agregado %1 al carrito."
 
 "Confirmation", "Confirmación"
 "Go Back", "Volver"
