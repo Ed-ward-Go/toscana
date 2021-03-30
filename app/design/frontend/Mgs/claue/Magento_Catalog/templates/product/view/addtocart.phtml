@@ -13,18 +13,18 @@
 <?php if ($_product->isSaleable() && $_product->isAvailable()): ?>
 
 	<?php $themeHelper = $this->helper('MGS\Mpanel\Helper\Data'); ?>
-	
+
 	<?php // If is deals product. Show countdown time ?>
 	<?php if($_product->getSpecialPrice() && $_product->getSpecialToDate() && $_product->getSpecialFromDate()): ?>
-		
+
 		<?php $dateTimeFormat = \Magento\Framework\Stdlib\DateTime::DATETIME_PHP_FORMAT; ?>
 		<?php $now = $themeHelper->getCurrentDateTime(); ?>
 		<?php $specialFromDate = date($dateTimeFormat, strtotime($_product->getSpecialFromDate())); ?>
 		<?php $specialToDate = date($dateTimeFormat, strtotime($_product->getSpecialToDate())); ?>
-		
+
 		<?php if($specialFromDate <= $now && $specialToDate > $now): ?>
 			<div class="product-detail-deals margin-top25">
-				<?php 
+				<?php
 					$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 					$StockState = $objectManager->get('\Magento\CatalogInventory\Api\StockStateInterface');
 					$stockItem = $StockState->getStockQty($_product->getId(), $_product->getStore()->getWebsiteId());
@@ -33,20 +33,20 @@
 				<?php echo $this->getLayout()->createBlock('MGS\Mpanel\Block\Products\Deals')->setProduct($_product)->setTemplate('MGS_Mpanel::products/deals/item.phtml')->toHtml() ?>
 			</div>
 		<?php endif ?>
-		
+
 	<?php endif ?>
 	<?php // End Deals ?>
-	
+
 	<div class="box-tocart">
 
 		<?php echo $block->getChildHtml('', true) ?>
-		
+
 		<div class="fieldset">
 			<?php if ($block->shouldRenderQuantity()): ?>
 			<div class="field qty">
 				<label class="label" for="qty"><span><?php /* @escapeNotVerified */ echo __('Qty') ?></span></label>
 				<div class="control">
-					<span class="edit-qty minus" onclick="minusQty('qty')">-</span>
+					<span class="edit-qty minus" data-id="<?php echo $_product->getId(); ?>">-</span>
 					<input type="number"
 						   name="qty"
 						   id="qty"
@@ -55,7 +55,7 @@
 						   title="<?php /* @escapeNotVerified */ echo __('Qty') ?>" class="input-text qty"
 						   data-validate="<?php echo $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>"
 						   />
-					<span class="edit-qty plus" onclick="plusQty('qty')">+</span>
+					<span class="edit-qty plus" data-id="<?php echo $_product->getId(); ?>">+</span>
 				</div>
 			</div>
 			<?php endif; ?>
@@ -79,7 +79,7 @@
 				<?php
 				$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 				$session = $objectManager->get('Magento\Customer\Model\Session');
-				$customer_id = $session->getCustomer()->getId(); 				
+				$customer_id = $session->getCustomer()->getId();
 				?>
 
 
@@ -89,7 +89,7 @@
                 ->addFieldToFilter('product_id', $_product->getId())->setOrder('created_at', 'ASC');
 				?>
 
-							
+
 				<div class="actions action-add-to">
 					<?php if ($themeHelper->getStoreConfig('mpanel/product_details/wishlist') && $this->helper('Magento\Wishlist\Helper\Data')->isAllow()) : ?>
 						<button type="button" class="action towishlist
@@ -103,7 +103,7 @@
 							} else {
 								echo '';
 							}
-						}			
+						}
 						?>
 						"
 							data-post='<?php /* @escapeNotVerified */ echo $_wishlistSubmitParams; ?>'
@@ -111,7 +111,7 @@
 							title="<?php /* @escapeNotVerified */ echo __('Add to Wish List') ?>">
 							<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<path d="M11 1L14.09 7.26L21 8.27L16 13.14L17.18 20.02L11 16.77L4.82 20.02L6 13.14L1 8.27L7.91 7.26L11 1Z" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-							</svg>	
+							</svg>
 							<!-- <span class="pe-7s-like"></span> -->
 						</button>
 						<script type="text/x-magento-init">
@@ -122,18 +122,18 @@
 							}
 						</script>
 					<?php endif; ?>
-					
+
 					<?php if($themeHelper->getStoreConfig('mpanel/product_details/compare')): ?>
-						<button type="button" class="action tocompare" 
+						<button type="button" class="action tocompare"
 							data-post='<?php /* @escapeNotVerified */ echo $compareHelper->getPostDataParams($_product);?>'
 							data-role="add-to-links"
 							title="<?php /* @escapeNotVerified */ echo __('Add to Compare') ?>">
 								<span class="pe-7s-graph3"></span>
 						</button>
 					<?php endif ?>
-					
+
 					<?php if ($block->canEmailToFriend()): ?>
-						<button type="button" onclick="setLocation('<?php /* @escapeNotVerified */ echo $this->helper('Magento\Catalog\Helper\Product')->getEmailToFriendUrl($_product) ?>')" 
+						<button type="button" onclick="setLocation('<?php /* @escapeNotVerified */ echo $this->helper('Magento\Catalog\Helper\Product')->getEmailToFriendUrl($_product) ?>')"
 					class="action mailto friend" title="<?php /* @escapeNotVerified */ echo __('Send Email to Friend') ?>"><span class="pe-7s-mail"></span></button>
 					<?php endif; ?>
 					<div class="clearfix"></div>
@@ -165,38 +165,37 @@
 <?php endif; ?>
 
 <?php if ($block->shouldRenderQuantity()): ?>
-	<script type="text/javascript">
-		function plusQty(qtyInput){
-			require([
-			'jquery'
-			], function(jQuery){
-				(function($) {
-					if($('#'+qtyInput).attr('disabled')!='disabled'){
-						qty = $('#'+qtyInput).attr('value');
-						qty = parseInt(qty);
-						qty++;
-						$('#'+qtyInput).val(qty);
-					}
-				})(jQuery);
-			});
-			
-		}
-		function minusQty(qtyInput){
-			require([
-			'jquery'
-			], function(jQuery){
-				(function($) {
-					if($('#'+qtyInput).attr('disabled')!='disabled'){
-						qty = $('#'+qtyInput).attr('value');
-						qty = parseInt(qty);
-						
-						if(qty>1){
-							qty--;
-							$('#'+qtyInput).val(qty);
-						}
-					}
-				})(jQuery);
-			});
-		}
-	</script>
+    <script type="text/javascript">
+        requirejs([
+            'jquery'
+        ], function($){
+            $(window).load(function() {
+                $(document).on('click', '.edit-qty.plus', function (){
+                    let self = $(this);
+                    let element = $('input[name="qtyFront"][data-id="'+self.data('id')+'"]');
+                    if(element.attr('disabled')!='disabled'){
+                        qty = element.attr('value');
+                        qty = parseInt(qty);
+                        qty++;
+                        element.val(qty);
+                        $('#addto_'+self.data('id')).val(qty);
+                    }
+                });
+                $(document).on('click', '.edit-qty.minus', function (){
+                    let self = $(this);
+                    let element = $('input[name="qtyFront"][data-id="'+self.data('id')+'"]');
+                    if(element.attr('disabled')!='disabled'){
+                        qty = element.attr('value');
+                        qty = parseInt(qty);
+                        if(qty>1){
+                            qty--;
+                            element.val(qty);
+                            $('#addto_'+self.data('id')).val(qty);
+                        }
+                    }
+                });
+            });
+        });
+
+    </script>
 <?php endif; ?>

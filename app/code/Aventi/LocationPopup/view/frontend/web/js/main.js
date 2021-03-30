@@ -86,7 +86,6 @@ function( $, modal, customerData ) {
                     //openModal();
                     localStorage.setItem('isDefault', JSON.stringify(json));
                 }
-                console.log("ETNRA");
                 $(".location-popup-button > button > strong > span").text(json.name);
                 $("#pop-location-title__name").text(json.name);
             }

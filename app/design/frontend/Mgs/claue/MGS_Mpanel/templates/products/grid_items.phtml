@@ -157,9 +157,9 @@
 
 			<div class="field qty">
 											<div class="control">
-												<span class="edit-qty minus" onclick="minusQty('qty')">-</span>
-												<input type="number" name="qty" id="qty" maxlength="12" value="1" title="Qty" class="input-text qty" data-validate="{&quot;required-number&quot;:true,&quot;validate-item-quantity&quot;:{&quot;minAllowed&quot;:1,&quot;maxAllowed&quot;:10000}}">
-												<span class="edit-qty plus" onclick="plusQty('qty')">+</span>
+												<span class="edit-qty minus" onclick="minusQty('qty', '<?php echo $_product->getId(); ?>')" data-id="<?php echo $_product->getId(); ?>">-</span>
+												<input type="number" name="qty" id="qty" maxlength="12" value="1" title="Qty" class="input-text qty" data-id="<?php echo $_product->getId(); ?>" data-validate="{&quot;required-number&quot;:true,&quot;validate-item-quantity&quot;:{&quot;minAllowed&quot;:1,&quot;maxAllowed&quot;:10000}}">
+												<span class="edit-qty plus" onclick="plusQty('qty', '<?php echo $_product->getId(); ?>')" data-id="<?php echo $_product->getId(); ?>">+</span>
 											</div>
 										</div>
 
@@ -274,33 +274,35 @@
 	</div>
 </div>
 <script type="text/javascript">
-    function plusQty(qtyInput){
+    function plusQty(qtyInput, id){
         require([
             'jquery'
         ], function(jQuery){
             (function($) {
-                if($('#'+qtyInput).attr('disabled')!='disabled'){
-                    qty = $('#'+qtyInput).attr('value');
+                let element = $('input[id="'+qtyInput+'"][data-id="'+id+'"]');
+                if(element.attr('disabled')!='disabled'){
+                    qty = element.attr('value');
                     qty = parseInt(qty);
                     qty++;
-                    $('#'+qtyInput).val(qty);
+                    element.val(qty);
                 }
             })(jQuery);
         });
 
     }
-    function minusQty(qtyInput){
+    function minusQty(qtyInput, id){
         require([
             'jquery'
         ], function(jQuery){
             (function($) {
-                if($('#'+qtyInput).attr('disabled')!='disabled'){
-                    qty = $('#'+qtyInput).attr('value');
+                let element = $('input[id="'+qtyInput+'"][data-id="'+id+'"]');
+                if(element.attr('disabled')!='disabled'){
+                    qty = element.attr('value');
                     qty = parseInt(qty);
 
                     if(qty>1){
                         qty--;
-                        $('#'+qtyInput).val(qty);
+                        element.val(qty);
                     }
                 }
             })(jQuery);

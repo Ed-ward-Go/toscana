@@ -17,9 +17,9 @@
             <div class="field qty">
                 <label class="label" for="qty"><span><?php /* @escapeNotVerified */ echo __('Qty') ?></span></label>
                 <div class="control">
-					<span class="edit-qty minus" onclick="minusQty('qty')">-</span>
+					<span class="edit-qty minus" data-id="<?php echo $_product->getId(); ?>">-</span>
                     <input type="number" name="qty" id="qty" maxlength="12" value="<?php /* @escapeNotVerified */ echo $block->getProductDefaultQty() * 1 ?>" title="<?php /* @escapeNotVerified */ echo __('Qty') ?>" class="input-text qty" data-validate="{'required-number':true,digits:true}"/>
-					<span class="edit-qty plus" onclick="plusQty('qty')">+</span>
+					<span class="edit-qty plus" data-id="<?php echo $_product->getId(); ?>">+</span>
                 </div>
             </div>
             <?php endif; ?>
@@ -46,39 +46,38 @@
         }
     </script>
 	<?php if ($block->shouldRenderQuantity()): ?>
-		<script type="text/javascript">
-			function plusQty(qtyInput){
-				require([
-				'jquery'
-				], function(jQuery){
-					(function($) {
-						if($('#'+qtyInput).attr('disabled')!='disabled'){
-							qty = $('#'+qtyInput).attr('value');
-							qty = parseInt(qty);
-							qty++;
-							$('#'+qtyInput).val(qty);
-						}
-					})(jQuery);
-				});
-				
-			}
-			function minusQty(qtyInput){
-				require([
-				'jquery'
-				], function(jQuery){
-					(function($) {
-						if($('#'+qtyInput).attr('disabled')!='disabled'){
-							qty = $('#'+qtyInput).attr('value');
-							qty = parseInt(qty);
-							
-							if(qty>1){
-								qty--;
-								$('#'+qtyInput).val(qty);
-							}
-						}
-					})(jQuery);
-				});
-			}
-		</script>
+        <script type="text/javascript">
+            requirejs([
+                'jquery'
+            ], function($){
+                $(window).load(function() {
+                    $(document).on('click', '.edit-qty.plus', function (){
+                        let self = $(this);
+                        let element = $('input[name="qtyFront"][data-id="'+self.data('id')+'"]');
+                        if(element.attr('disabled')!='disabled'){
+                            qty = element.attr('value');
+                            qty = parseInt(qty);
+                            qty++;
+                            element.val(qty);
+                            $('#addto_'+self.data('id')).val(qty);
+                        }
+                    });
+                    $(document).on('click', '.edit-qty.minus', function (){
+                        let self = $(this);
+                        let element = $('input[name="qtyFront"][data-id="'+self.data('id')+'"]');
+                        if(element.attr('disabled')!='disabled'){
+                            qty = element.attr('value');
+                            qty = parseInt(qty);
+                            if(qty>1){
+                                qty--;
+                                element.val(qty);
+                                $('#addto_'+self.data('id')).val(qty);
+                            }
+                        }
+                    });
+                });
+            });
+
+        </script>
 	<?php endif; ?>
 <?php endif; ?>
