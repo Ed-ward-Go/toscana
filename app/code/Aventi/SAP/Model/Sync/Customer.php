@@ -539,7 +539,16 @@ class Customer extends AbstractSync
                 $error = 1;
             }
             if ($customer) {
-                $this->managerSummary($customer->getId(), $data['creditLine']);
+                try {
+                    $customer = $this->customer->get($data['email']);
+                    $this->managerSummary($customer->getId(), $data['creditLine']);
+                } catch (NoSuchEntityException $e) {
+                    $error = 1;
+                    $this->logger->error($e->getMessage());
+                } catch (LocalizedException $e) {
+                    $error = 1;
+                    $this->logger->error($e->getMessage());
+                }
             }
         }
 
