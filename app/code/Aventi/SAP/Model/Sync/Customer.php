@@ -417,7 +417,6 @@ class Customer extends AbstractSync
             } catch (\Exception $e) {
                 $this->logger->error(print_r(func_get_args(), true) . $e->getMessage());
             }
-
         } else {
             $error++;
         }
@@ -498,6 +497,7 @@ class Customer extends AbstractSync
                     ];
                 }
                 $customer->setStoreId(1);
+                $customer->setWebsiteId(1);
                 $customer->setEmail($data['email']);
                 $customer->setFirstname($data['name']);
                 $customer->setLastName($lastName);
@@ -514,6 +514,7 @@ class Customer extends AbstractSync
                     $new = 1;
                     $customer = $this->customerInterfaceFactory->create();
                     $customer->setStoreId(1);
+                    $customer->setWebsiteId(1);
                     $customer->setEmail($data['email']);
                     $customer->setFirstname($data['name']);
                     $customer->setLastName($lastName);
@@ -524,10 +525,11 @@ class Customer extends AbstractSync
                     /*$customer->setCustomAttribute('owner_code', $owner_code);
                     $customer->setCustomAttribute('user_code', $user_code);*/
                     $this->customerRepository->save($customer);
-                    $this->customerAccountManagement->initiatePasswordReset(
+                    $this->customerAccountManagement->resendConfirmation($data['email'], 1);
+                    /*$this->customerAccountManagement->initiatePasswordReset(
                         $data['email'],
                         AccountManagement::EMAIL_RESET
-                    );
+                    );*/
                 } catch (\Exception $e) {
                     $error = 1;
                     $this->logger->error($e->getMessage());
