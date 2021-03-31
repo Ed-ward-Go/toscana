@@ -6,4 +6,5 @@
     <type name="Magento\Customer\Controller\Account\Logout">
         <plugin name="LogoutRedirect" type="Aventi\ForceLogin\Plugin\Customer\Account\LogoutRedirect" sortOrder="1"/>
     </type>
+    <preference for="\Magento\Wishlist\Controller\Index\Fromcart" type="Aventi\ForceLogin\Model\Wishlist\Controller\Index\Fromcart" />
 </config>
