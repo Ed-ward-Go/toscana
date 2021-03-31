@@ -10,10 +10,10 @@ define([
 ], function ($, wrapper, validation, quote, rateRegistry,getTotalsAction,defaultTotal,cartCache) {
     'use strict';
     $(document).ready(function () {
-        
+
         setTimeout(function () {
             refreshRegion();
-            $('[name="shippingAddress.identification_customer"]').children('div').children('input').attr('maxlength', '12')         
+            $('[name="shippingAddress.identification_customer"]').children('div').children('input').attr('maxlength', '12')
         },4000);
 
 
@@ -46,7 +46,7 @@ define([
                     var deferred = $.Deferred();
                     getTotalsAction([], deferred);
                     $('body').trigger('processStop');
-                    var address = quote.shippingAddress();                    
+                    var address = quote.shippingAddress();
                     address.trigger_reload = new Date().getTime();
                     rateRegistry.set(address.getKey(), null);
                     rateRegistry.set(address.getCacheKey(), null);
@@ -146,23 +146,23 @@ define([
                     }
                     $('body').trigger('processStop');
                 })
-                .fail(function () {
-                    alert("error");
+                .fail(function (e) {
+                    console.log("error: ", e);
                 });
         }
 
     }
 
     function refreshRegion(){
-        if ($('[name="region_id"]').val() != '' && $('input[name="postcode"]') != '') {            
-            changeCity($('[name="region_id"]'), $('input[name="postcode"]').val());            
+        if ($('[name="region_id"]').val() != '' && $('input[name="postcode"]') != '') {
+            changeCity($('[name="region_id"]'), $('input[name="postcode"]').val());
         }
     }
 
-    $(window).bind('hashchange', function() {            
-        setTimeout(function(){            
-            refreshRegion();       
-        }, 3000);                                           
+    $(window).bind('hashchange', function() {
+        setTimeout(function(){
+            refreshRegion();
+        }, 3000);
     });
 
     return function (setShippingInformationAction) {

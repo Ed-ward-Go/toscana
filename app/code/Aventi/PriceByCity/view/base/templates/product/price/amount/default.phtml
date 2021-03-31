@@ -47,7 +47,7 @@ $priceModel = $block->getPriceType('regular_price');
                     }
                 })
                 .fail(function (e) {
-                    alert("error");
+                    console.log("error: ", e);
                 });
             $('body').trigger('processStop');
         }

@@ -38,7 +38,7 @@ require([
                 cache: false
             })
                 .done(function (json) {
-                    var count = Object.keys(json).length;                    
+                    var count = Object.keys(json).length;
                     if (count > 0) {
 
                         if ($('[name="city2"]').length == 0  && cityObject.is('input') ) {
@@ -66,8 +66,8 @@ require([
                     }
                     $('body').trigger('processStop');
                 })
-                .fail(function () {
-                    alert("error");
+                .fail(function (e) {
+                    console.log("error: ", e);
                 });
         }
     }
