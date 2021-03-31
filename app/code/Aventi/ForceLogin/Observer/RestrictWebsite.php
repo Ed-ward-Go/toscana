@@ -72,7 +72,6 @@ class RestrictWebsite implements ObserverInterface
         $request = $observer->getEvent()->getRequest();
         $isCustomerLoggedIn = $this->_context->getValue(Context::CONTEXT_AUTH);
         $actionFullName = strtolower($request->getFullActionName());
-        $this->_logger->debug("DEBUG : " . $actionFullName);
         if (!$isCustomerLoggedIn && !in_array($actionFullName, $allowedRoutes)) {
             $this->_response->setRedirect($this->_urlFactory->create()->getUrl('customer/account/login'));
         }
