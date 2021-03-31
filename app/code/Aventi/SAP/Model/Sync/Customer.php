@@ -522,10 +522,10 @@ class Customer extends AbstractSync
                     $customer->setCustomAttribute('slp_code', $data['slpCode']);
                     $customer->setCustomAttribute('identification_customer', $data['identification']);
                     $customer->setCustomAttribute('warehouse_group', $data['source']);
+                    $this->customerAccountManagement->createAccount($customer);
                     /*$customer->setCustomAttribute('owner_code', $owner_code);
                     $customer->setCustomAttribute('user_code', $user_code);*/
-                    $this->customerRepository->save($customer);
-                    $this->customerAccountManagement->resendConfirmation($data['email'], 1);
+                    //$this->customerRepository->save($customer);
                     /*$this->customerAccountManagement->initiatePasswordReset(
                         $data['email'],
                         AccountManagement::EMAIL_RESET
