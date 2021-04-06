@@ -18,7 +18,7 @@ class Product
 
     public function afterGetPrice(\Magento\Catalog\Model\Product $subject, $result)
     {
-        $result = $this->helper->calculatePriceBySource($subject->getId());
+        //$result = $this->helper->calculatePriceBySource($subject->getId());
         return $result;
     }
 }
