@@ -10,9 +10,9 @@
 		<column name="balance" nullable="true" xsi:type="float"/>
 		<column xsi:type="int" unsigned="true" padding="10" nullable="false" name="customer_id" default="0"/>
 
-        <constraint xsi:type="foreign" referenceId="AVENTI_CREDIT_CREDIT_CUSTOMER_ID_FOREIGN" table="aventi_credit_credit" column="customer_id" referenceTable="customer_entity" referenceColumn="entity_id" onDelete="CASCADE"/>
+        <!--<constraint xsi:type="foreign" referenceId="AVENTI_CREDIT_CREDIT_CUSTOMER_ID_FOREIGN" table="aventi_credit_credit" column="customer_id" referenceTable="customer_entity" referenceColumn="entity_id" onDelete="CASCADE"/>
         <index referenceId="AVENTI_CREDIT_CREDIT_CUSTOMER_ID_INDEX" indexType="btree">
             <column name="customer_id"/>
-        </index>
+        </index>-->
 	</table>
 </schema>
