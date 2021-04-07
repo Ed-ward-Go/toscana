@@ -51,10 +51,8 @@
 
                 if(!$("#accept_gdpr").is(':checked')){
                     if($("div.mage-error.error-gdpr").length > 0){
-                        console.log("ENTRA1");
                         $("div.mage-error.error-gdpr").css('display', 'block')
                     }else{
-                        console.log("ENTRA3");
                         $(".checkout-agreements.fieldset").append('<div for="login[accept_gdpr]" generated="true" class="mage-error error-gdpr" id="login[accept_gdpr]-error" style="display: block;">Este es un campo obligatorio.</div>');
                     }
                 }
