@@ -15710,3 +15710,72 @@ span.product-image-wrapper {
 		}
 	}
 }
+
+
+//CUSTOM LOGIN TERMS AND CONDITIONS
+.modal-popup.agreements-modal {
+
+	.modal-inner-wrap {
+		max-width: 500px;
+	}
+	
+	.modal-content {
+		border-radius: 25px;
+		border: none;
+
+		.checkout-agreements-item-content {
+			max-height: 500px;
+			padding: 20px 40px;
+			padding-top: 50px;
+			h2 {
+				font-weight: bold;
+				font-size: 36px;
+				line-height: 40px;
+				color: #1a8c43;
+				margin-bottom: 30px;
+			}
+			h3 {
+				font-family: Poppins;
+				font-weight: bold;
+				font-size: 18px;
+				line-height: 23px;
+				color: #1a8c43;
+				margin-bottom: 10px;
+				margin-top: 30px;
+			}
+			p {
+			font-family: Poppins;
+				font-size: 14px;
+				line-height: 200%;
+				color: #333;
+			}
+			@media (max-width: 580px) {
+				padding: 20px;
+				padding-top: 50px;
+			
+				h2 {
+					font-size: 24px;
+					line-height: 28px;
+					margin-bottom: 20px;
+				}
+			}
+		
+		}
+	}
+	
+	.modal-footer {
+		border: none;
+		button.action.secondary.action-hide-popup {
+			border: none;
+			background: white;
+			color: @base-color;
+			font-weight: 600;
+			padding: 10px 40px;
+			border-radius: 25px;
+			&:hover {
+				background:@base-color;
+				color: white;
+			}
+		}
+	}
+}
