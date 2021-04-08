@@ -8471,3 +8471,8 @@ Shop By Brand, Shop By Brand
 
 "The page you requested was not found, and we have a fine guess why.", "La página que solicitaste no se encontró, creemos saber porqué."
 "Related Products By Brand", "Otros productos de esta marca"
+
+"We received too many requests for password resets. ", "Hemos recibido muchas solicitudes para cambiar la contraseña. "
+"Please wait and try again later or contact %1.", "Espera e intenta conectarte más tarde o contacta a: %1."
+"Please wait and try again later or contact test@host.com.", "Espera e intenta contactarte más tarde o contacta a: test@host.com."
+"We received too many requests for password resets. Please wait and try again later or contact hello@example.com.", "Hemos recibido muchas solicitudes para cambiar la contraseña. Espera e intenta contactarte más tarde o contacta a: soporte@toscana.com."
