@@ -15,35 +15,35 @@ use Magento\Framework\Filesystem;
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
 	protected $_storeManager;
-	
+
 	protected $_date;
-	
+
 	protected $_url;
-	
+
 	protected $_filesystem;
-	
+
 	protected $_request;
-	
+
 	protected $_acceptToUsePanel = false;
-	
+
 	protected $_useBuilder = false;
-	
+
 	protected $_customer;
-	
+
 	/**
 	 * @var \Magento\Framework\Xml\Parser
 	 */
 	private $_parser;
-	
+
 	/**
      * Asset service
      *
      * @var \Magento\Framework\View\Asset\Repository
      */
     protected $_assetRepo;
-	
+
     protected $filterManager;
-	
+
 	/**
      * Block factory
      *
@@ -56,28 +56,28 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @var \Magento\Cms\Model\PageFactory
      */
     protected $_pageFactory;
-	
+
 	protected $_file;
-	
+
 	/**
      * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
-	
+
     protected $_fullActionName;
-	
+
     protected $_currentCategory;
-	
+
     protected $_currentProduct;
-	
+
     protected $_category;
-	
+
     protected $scopeConfig;
-	
+
 	protected $_ioFile;
-	
+
 	protected $_moduleManager;
-	
+
 	public function __construct(
 		\Magento\Store\Model\StoreManagerInterface $storeManager,
 		\Magento\Framework\Stdlib\DateTime\DateTime $date,
@@ -112,29 +112,29 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		$this->_ioFile = $ioFile;
 		$this->_moduleManager = $moduleManager;
 		$this->_parser = $parser;
-		
+
 		$this->_fullActionName = $this->_request->getFullActionName();
-		
+
 		if($this->_fullActionName == 'catalog_category_view'){
 			$this->_currentCategory = $this->getCurrentCategory();
 		}
-		
+
 		if($this->_fullActionName == 'catalog_product_view'){
 			$this->_currentProduct = $this->getCurrentProduct();
 		}
 	}
-	
+
 	public function getModel($model){
 		return $this->_objectManager->create($model);
 	}
-	
+
 	public function isActiveModule($module){
 		if($this->_moduleManager->isOutputEnabled($module) && $this->_moduleManager->isEnabled($module)){
 			return true;
 		}
 		return false;
 	}
-	
+
 	/**
      * Retrieve current url in base64 encoding
      *
@@ -144,7 +144,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
 		return strtr(base64_encode($this->_url->getCurrentUrl()), '+/=', '-_,');
     }
-	
+
 	/**
      * base64_decode() for URLs decoding
      *
@@ -167,7 +167,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		$customerInSession = $this->_objectManager->create('Magento\Customer\Model\Session');
         return $customerInSession->getCustomerId();
     }
-	
+
 	/* Get current customer */
 	public function getCustomer(){
 		if(!$this->_customer){
@@ -175,11 +175,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		}
 		return $this->_customer;
 	}
-	
+
 	public function getStore(){
 		return $this->_storeManager->getStore();
 	}
-	
+
 	/* Get system store config */
 	public function getStoreConfig($node, $storeId = NULL){
 		if($storeId != NULL){
@@ -187,7 +187,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		}
 		return $this->scopeConfig->getValue($node, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->getStore()->getId());
 	}
-	
+
 	// Check to accept to use builder panel
     public function acceptToUsePanel() {
 		if($this->_acceptToUsePanel){
@@ -200,7 +200,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			$this->_acceptToUsePanel = false;
 			return false;
 		}
-        
+
     }
 
 	/* Check to visible panel button */
@@ -216,11 +216,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         return false;
     }
-	
+
 	/* Get all settings of the theme */
 	public function getThemeSettings(){
 		return [
-			'catalog'=> 
+			'catalog'=>
 			[
 				'per_row' => $this->getStoreConfig('mpanel/catalog/product_per_row'),
 				'featured' => $this->getStoreConfig('mpanel/catalog/featured'),
@@ -234,15 +234,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				'compare_button' => $this->getStoreConfig('mpanel/catalog/compare_button'),
 				'sub_categories' => $this->getStoreConfig('mpanel/catalog/sub_categories')
 			],
-			'catalogsearch'=> 
+			'catalogsearch'=>
 			[
 				'per_row' => $this->getStoreConfig('mpanel/catalogsearch/product_per_row')
 			],
-			'catalog_brand'=> 
+			'catalog_brand'=>
 			[
 				'per_row' => $this->getStoreConfig('brand/list_page_settings/product_per_row')
 			],
-			'product_details'=> 
+			'product_details'=>
 			[
 				'sku' => $this->getStoreConfig('mpanel/product_details/sku'),
 				'reviews_summary' => $this->getStoreConfig('mpanel/product_details/reviews_summary'),
@@ -252,14 +252,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				'short_description' => $this->getStoreConfig('mpanel/product_details/short_description'),
 				'upsell_products' => $this->getStoreConfig('mpanel/product_details/upsell_products')
 			],
-			'product_tabs'=> 
+			'product_tabs'=>
 			[
 				'show_description' => $this->getStoreConfig('mpanel/product_tabs/show_description'),
 				'show_additional' => $this->getStoreConfig('mpanel/product_tabs/show_additional'),
 				'show_reviews' => $this->getStoreConfig('mpanel/product_tabs/show_reviews'),
 				'show_product_tag_list' => $this->getStoreConfig('mpanel/product_tabs/show_product_tag_list')
 			],
-			'contact_google_map'=> 
+			'contact_google_map'=>
 			[
 				'display_google_map' => $this->getStoreConfig('mpanel/contact_google_map/display_google_map'),
 				'api_key' => $this->getStoreConfig('mpanel/contact_google_map/api_key'),
@@ -267,7 +267,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				'html_google_map' => $this->getStoreConfig('mpanel/contact_google_map/html_google_map'),
 				'pin_google_map' => $this->getStoreConfig('mpanel/contact_google_map/pin_google_map')
 			],
-			'banner_slider'=> 
+			'banner_slider'=>
 			[
 				'slider_tyle' => $this->getStoreConfig('mgstheme/banner_slider/slider_tyle'),
 				'id_reslider' => $this->getStoreConfig('mgstheme/banner_slider/id_reslider'),
@@ -284,13 +284,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 	public function getEnableChangeProductPerRow() {
 		return $this->getStoreConfig('mpanel/catalog/change_product_per_row');
 	}
-	
+
 	/* Get col for responsive */
 	public function getColClass($perrow = NULL){
 		if(!$perrow){
 			$settings = $this->getThemeSettings();
 			$perrow = $settings['catalog']['per_row'];
-			
+
 			if($this->_request->getFullActionName() == 'catalog_category_view'){
 				$category = $this->getCurrentCategory();
 				$categoryPerrow = $category->getPerRow();
@@ -298,13 +298,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					$perrow = $categoryPerrow;
 				}
 			}
-			
+
 			if($this->_request->getFullActionName() == 'catalogsearch_result_index'){
 				$perrow = $settings['catalogsearch']['per_row'];
 			}
-			
+
 		}
-		
+
 		switch($perrow){
 			case 2:
 				return 'col-lg-6 col-md-6 col-sm-6 col-xs-6';
@@ -342,7 +342,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				}
 			}
 		}
-		
+
 		$maxWidth = $this->getStoreConfig('mpanel/catalog/max_width_image');
 		$result = [];
         switch ($ratio) {
@@ -378,7 +378,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         return $result;
 	}
-	
+
 	/* Get product image padding */
 	public function getImagePadding($ratio = NULL){
 		if(!$ratio){
@@ -424,12 +424,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 $result = 75;
                 break;
         }
-		
+
 		$result .= "%";
 
         return $result;
 	}
-	
+
 	/* Get product image size for product details page*/
 	public function getImageSizeForDetails() {
 		$ratio = $this->getStoreConfig('mpanel/catalog/picture_ratio');
@@ -468,7 +468,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         return $result;
     }
-	
+
 	public function getImageMinSize($ratio = NULL) {
 		if(!$ratio){
 			$ratio = $this->getStoreConfig('mpanel/catalog/picture_ratio');
@@ -507,12 +507,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         return $result;
     }
-	
+
 	public function getCurrentDateTime(){
 		$now = $this->_date->gmtDate();
 		return $now;
 	}
-	
+
 	public function getProductLabel($product){
 		$html = '';
 		$newLabel = $this->getStoreConfig('mpanel/catalog/new_label');
@@ -540,13 +540,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						$html.='<span class="product-label new-label"><span>'.$newLabel.'</span></span>';
 						$numberLabel = 1;
 					}
-				}	
+				}
 			}
-			
+
 			// Sale label
-			$price = $product->getOrigData('price');
-			$finalPrice = $product->getFinalPrice();
-			$fiPrice = $product->getPriceInfo()->getPrice('final_price')->getValue();
+			$price = number_format($product->getOrigData('price'), 2);
+			$finalPrice = number_format($product->getFinalPrice(), 2);
+			$fiPrice = number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2);
 			if($this->getStoreConfig('mpanel/catalog/sale_label_discount') == 1){
 				if(($finalPrice<$price)){
 					$save = $price - $finalPrice;
@@ -571,19 +571,19 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		}
 		return $html;
 	}
-	
+
 	public function getUrlBuilder(){
 		return $this->_url;
 	}
-	
+
 	public function getCssUrl(){
 		return $this->_url->getUrl('mpanel/index/css',['store'=>$this->getStore()->getId()]);
 	}
-	
+
 	public function getPanelCssUrl(){
 		return $this->_url->getUrl('mpanel/index/panelstyle');
 	}
-	
+
 	public function getFonts() {
         return [
             ['css-name' => 'Lato', 'font-name' => __('Lato')],
@@ -610,7 +610,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             ['css-name' => 'Poppins', 'font-name' => __('Poppins')]
         ];
     }
-	
+
 	public function getLinksFont() {
         $setting = [
 			'default_font' => $this->getStoreConfig('mgstheme/fonts/default_font'),
@@ -665,7 +665,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         return $links;
     }
-	
+
 	// get theme color
     public function getThemecolorSetting($storeId, $themeName) {
 		$setting = [];
@@ -683,10 +683,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $setting = array_filter($setting);
         return $setting;
     }
-	
+
 	// get header custom color
     public function getHeaderColorSetting($storeId, $themeName) {
-		
+
 		$setting = $arrAttribute = [];
 		$dir = $this->_filesystem->getDirectoryRead(DirectoryList::APP)->getAbsolutePath('code/MGS/Mpanel/data/themes/'.$themeName);
 		$themeStyleFile = $dir.'/theme_style.xml';
@@ -705,11 +705,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				}
 			}
 		}
-		
+
         $setting = array_filter($setting);
         return $setting;
     }
-	
+
 	// get main content custom color
     public function getMainColorSetting($storeId, $themeName) {
         $setting = [
@@ -783,7 +783,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $setting = array_filter($setting);
         return $setting;
     }
-	
+
 	// get main content custom color
     public function getFooterColorSetting($storeId, $themeName) {
         $setting = $arrAttribute = [];
@@ -804,18 +804,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				}
 			}
 		}
-		
+
         $setting = array_filter($setting);
         return $setting;
     }
-	
+
 	/* Get css content of panel */
 	public function getPanelStyle(){
 		$dir = $this->_filesystem->getDirectoryRead(DirectoryList::APP)->getAbsolutePath('code/MGS/Mpanel/view/frontend/web/css/panel.css');
 		$content = file_get_contents($dir);
 		return $content;
 	}
-	
+
 	/* Check store view has use homepage builder or not */
 	public function useBuilder(){
 		if($this->_useBuilder){
@@ -832,9 +832,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			$this->_useBuilder = false;
 			return false;
 		}
-		
+
 	}
-	
+
 	/* Check current page is homepage or not */
 	public function isHomepage(){
 		if ($this->_request->getFullActionName() == 'cms_index_index') {
@@ -842,7 +842,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		}
 		return false;
 	}
-	
+
 	/* Check current page is homepage or not */
 	public function isCmsPage(){
 		if ($this->_request->getFullActionName() == 'cms_page_view') {
@@ -850,7 +850,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		}
 		return false;
 	}
-	
+
 	/* Get Animation Effect */
 	public function getAnimationEffect(){
 		return [
@@ -889,7 +889,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			'zoomInUp' => 'Zoom In Up',
 		];
 	}
-	
+
 	public function getViewFileUrl($fileId, array $params = [])
     {
         try {
@@ -900,7 +900,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             return $this->_getNotFoundUrl();
         }
     }
-	
+
 	public function getColorAccept($type, $color = NULL) {
 		$dir = $this->_filesystem->getDirectoryRead(DirectoryList::APP)->getAbsolutePath('code/MGS/Mpanel/view/frontend/web/images/panel/colour/');
         $html = '';
@@ -933,7 +933,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
         return $html;
     }
-	
+
 	public function convertPerRowtoCol($perRow){
 		switch ($perRow) {
             case 1:
@@ -961,10 +961,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 $result = 'custom-8';
                 break;
         }
-		
+
 		return $result;
 	}
-	
+
 	public function convertColClass($col, $type){
 		if(($type=='row') && ($col=='custom-5' || $col=='custom-7' || $col=='custom-8')){
 			return 'row-'.$col;
@@ -986,13 +986,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				if($col==2){
 					$class .= ' col-sm-3 col-xs-6';
 				}
-				
+
 				return $class;
 			}
 		}
 	}
-	
-	
+
+
 	/* Get class clear left */
 	public function getClearClass($perrow = NULL, $nb_item){
 		if(!$perrow){
@@ -1076,15 +1076,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		}
 		return $clearClass;
 	}
-	
-	
+
+
 	public function getRootCategory(){
 		$store = $this->getStore();
 		$categoryId = $store->getRootCategoryId();
 		$category = $this->getModel('Magento\Catalog\Model\Category')->load($categoryId);
 		return $category;
 	}
-	
+
 	public function getTreeCategory($category, $parent, $ids = array(), $checkedCat){
 		$rootCategoryId = $this->getRootCategory()->getId();
 		$children = $category->getChildrenCategories();
@@ -1096,7 +1096,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		$ids[] = $category->getId();
 		//$this->_ids = implode(",", $ids);
 		//}
-		
+
 		$html[] = '<a id="node'.$category->getId().'">';
 
 		if($category->getId() != $rootCategoryId){
@@ -1106,12 +1106,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			}
 			$html[] = '/>';
 		}
-		
+
 
 		$html[] = '<label for="radio'.$category->getId().'">' . $category->getName() . '</label>';
 
 		$html[] = '</a>';
-		
+
 		$htmlChildren = '';
 		if($childrenCount>0){
 			foreach ($children as $child) {
@@ -1129,11 +1129,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $html = implode("\n", $html);
         return $html;
 	}
-	
+
 	public function truncate($content, $length){
 		return $this->filterManager->truncate($content, ['length' => $length, 'etc' => '']);
 	}
-	
+
 	public function convertToLayoutUpdateXml($child){
 		$settings = json_decode($child->getSetting(), true);
 		$content = $child->getBlockContent();
@@ -1147,15 +1147,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		$class = $arrContent[1];
 		$class = str_replace('type=','class=',$class);
 		unset($arrContent[0], $arrContent[1]);
-		
+
 		$lastData = end($arrContent);
 		//print_r($arrContent); die();
 		array_pop($arrContent);
-		
+
 		$arrContent = array_values($arrContent);
 
 		$argumentString = '&nbsp;&nbsp;&nbsp;&nbsp;&lt;arguments&gt;<br/>';
-		
+
 		if(isset($settings['title']) && ($settings['title']!='')){
 			$argumentString .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;argument name="mgs_panel_title" xsi:type="string"&gt;'.htmlspecialchars($this->encodeHtml($settings['title'])).'&lt;/argument&gt;<br/>';
 		}
@@ -1183,12 +1183,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			}else{
 				$template = $argumentData[1];
 			}
-			
+
 		}
-		
-		
+
+
 		$html = '&lt;block '.$class;
-		
+
 		$lastDataArr = explode('=',$lastData);
 		if(isset($lastDataArr[0]) && isset($lastDataArr[1])){
 			if($lastDataArr[0]=='template'){
@@ -1197,19 +1197,19 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				$argumentString .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;argument name="'.$lastDataArr[0].'" xsi:type="string"&gt;'.str_replace('"','',str_replace('}}','',$lastDataArr[1])).'&lt;/argument&gt;<br/>';
 			}
 		}
-		
-		
+
+
 		$html .= ' template='.$template;
-		
+
 		$argumentString .= '&nbsp;&nbsp;&nbsp;&nbsp;&lt;/arguments&gt;';
-		
+
 		$html .= '&gt;<br/>';
 		$html .= $argumentString;
 		$html .= '<br/>&lt;/block&gt;';
-		
+
 		return $html;
 	}
-	
+
 	/* Get all images from pub/media/wysiwyg/$type folder */
 	public function getPanelUploadImages($type){
 		$path = 'wysiwyg/'.$type.'/';
@@ -1229,12 +1229,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
         return $result;
 	}
-	
+
 	/* Convert short code to insert image */
 	public function convertImageWidgetCode($type, $image){
 		return '&lt;img src="{{media url="wysiwyg/'.$type.'/'.$image.'"}}" alt=""/&gt;';
 	}
-	
+
 	public function encodeHtml($html){
 		$result = str_replace("<","&lt;",$html);
 		$result = str_replace(">","&gt;",$result);
@@ -1242,7 +1242,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		$result = str_replace("'","&#39;",$result);
 		return $result;
 	}
-	
+
 	public function decodeHtmlTag($content){
 		$result = str_replace("&lt;","<",$content);
 		$result = str_replace("&gt;",">",$result);
@@ -1250,19 +1250,19 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		$result = str_replace("&#39;","'",$result);
 		return $result;
 	}
-	
+
 	public function getCmsBlockByIdentifier($identifier){
 		$block = $this->_blockFactory->create();
 		$block->setStoreId($this->getStore()->getId())->load($identifier);
 		return $block;
 	}
-	
+
 	public function getPageById($id){
 		$page = $this->_pageFactory->create();
 		$page->setStoreId($this->getStore()->getId())->load($id, 'identifier');
 		return $page;
 	}
-	
+
 	public function getHeaderClass(){
 		$header = $this->getStoreConfig('mgstheme/general/header');
 		if($header!='') {
@@ -1276,7 +1276,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		}
 		return $class;
 	}
-	
+
 	public function getFooterClass(){
 		if($this->getStoreConfig('mgstheme/general/footer')){
 			$footer = $this->getStoreConfig('mgstheme/general/footer');
@@ -1290,13 +1290,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		}
 		return $class;
 	}
-	
+
 	public function getContentVersion($type, $themeId){
 		$theme = $this->getModel('Magento\Theme\Model\Theme')->load($themeId);
 		$themePath = $theme->getThemePath();
         $themePath = substr($themePath, (strpos($themePath, "/" ) + 1));
 		$dir = $this->_filesystem->getDirectoryRead(DirectoryList::MEDIA)->getAbsolutePath('mgs/'.$themePath.'/'.$type);
-		
+
 		$result = [];
 		$files = [];
 		if(is_dir($dir)) {
@@ -1313,7 +1313,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 closedir($dh);
             }
         }
-		
+
 		if(count($result)==0){
 			$dir = $this->_filesystem->getDirectoryRead(DirectoryList::MEDIA)->getAbsolutePath('mgs/mgsblank/'.$type);
 			if(is_dir($dir)) {
@@ -1333,13 +1333,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		}
 		return $result;
 	}
-	
+
 	public function convertFilename($filename){
 		$filename = str_replace('_',' ',$filename);
 		$filename = ucfirst($filename);
 		return $filename;
 	}
-	
+
 	public function isFile($path, $type, $fileName){
 		$path = str_replace('Mgs/','',$path);
 		$filePath = $this->_filesystem->getDirectoryRead(DirectoryList::MEDIA)->getAbsolutePath('mgs/'.$path.'/'.$type.'s/') . $fileName.'.png';
@@ -1348,7 +1348,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		}
 		return false;
 	}
-	
+
 	public function getCurrentCategory(){
 
 		$id = $this->_request->getParam('id');
@@ -1356,7 +1356,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		return $this->_currentCategory;
 
 	}
-	
+
 	public function getCurrentProduct(){
 
 		$id = $this->_request->getParam('id');
@@ -1364,36 +1364,36 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		return $this->_currentProduct;
 
 	}
-	
+
 	public function isCategoryPage(){
 		if ($this->_request->getFullActionName() == 'catalog_category_view') {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public function isSearchPage(){
 		if ($this->_request->getFullActionName() == 'catalogsearch_result_index') {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public function isProductPage(){
 		if ($this->_request->getFullActionName() == 'catalog_product_view') {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public function isPopup(){
 		if (
-			$this->_request->getFullActionName() == 'mgs_quickview_catalog_product_view' || 
-			$this->_request->getFullActionName() == 'mpanel_edit_section' || 
-			$this->_request->getFullActionName() == 'mpanel_create_block' || 
-			$this->_request->getFullActionName() == 'mpanel_create_element' || 
-			$this->_request->getFullActionName() == 'mpanel_edit_footer' || 
-			$this->_request->getFullActionName() == 'mpanel_edit_header' || 
+			$this->_request->getFullActionName() == 'mgs_quickview_catalog_product_view' ||
+			$this->_request->getFullActionName() == 'mpanel_edit_section' ||
+			$this->_request->getFullActionName() == 'mpanel_create_block' ||
+			$this->_request->getFullActionName() == 'mpanel_create_element' ||
+			$this->_request->getFullActionName() == 'mpanel_edit_footer' ||
+			$this->_request->getFullActionName() == 'mpanel_edit_header' ||
 			$this->_request->getFullActionName() == 'mpanel_edit_staticblock'
 		) {
 			return true;
@@ -1438,7 +1438,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		}
 		return $categories;
 	}
-	
+
 	public function getCurrentlySelectedCategoryId()
 	{
 		$params = $this->getModel('Magento\Framework\App\Request\Http')->getParams();
@@ -1447,24 +1447,24 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		}
 		return '';
 	}
-	
+
 	public function getProductLayout($product){
 		$pageLayout = $product->getPageLayout();
-		
+
 		if($pageLayout==''){
 			$pageLayout = $this->getStoreConfig('mpanel/product_details/product_layout');
 		}
-		
+
 		if($pageLayout==''){
 			$pageLayout = '1column';
 		}
-		
+
 		return $pageLayout;
 	}
-	
+
 	public function getRotateImages($productId){
 		$dir = $this->_filesystem->getDirectoryRead(DirectoryList::MEDIA)->getAbsolutePath('wysiwyg/360/'.$productId);
-		
+
 		$result = [];
 		$files = [];
 		if(is_dir($dir)) {
@@ -1482,11 +1482,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
 		return $result;
 	}
-	
+
 	public function getMediaUrl(){
 		return $this ->_storeManager-> getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA );
 	}
-	
+
 	public function convertContent($layoutContent, $builderContent=NULL){
 		$class = "";
         if($this->getStoreConfig('mgstheme/general/header') == 'header_5'){
@@ -1504,27 +1504,27 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 	    }
 
 		$endMain = '</div>';
-		
+
 		$layoutContent = str_replace('<main>', '<main>'.$beginMain, $layoutContent);
 		$layoutContent = str_replace('</main>', $endMain.'</main>', $layoutContent);
-		
+
 		if($this->_acceptToUsePanel){
 			$beginHeader = '<div class="edit-panel edit-header"><ul><li><a class="popup-link" href="'.$this->getUrlBuilder()->getUrl('mpanel/edit/header', ['type'=>'header']).'" title="' .__('Edit Header'). '"><em class="fa fa-gear"></em></a></li></ul></div>';
 			$layoutContent = str_replace('<header class="header">', '<header class="header">'.$beginHeader, $layoutContent);
-			
+
 			$beginFooter = '<div class="edit-panel edit-footer"><ul><li><a class="popup-link" href="' .$this->getUrlBuilder()->getUrl('mpanel/edit/footer', ['type'=>'footer']).'" title="'.__('Edit Footer').'"><em class="fa fa-gear"></em></a></li></ul></div>';
 			$layoutContent = str_replace('<footer class="footer">', '<footer class="footer">'.$beginFooter, $layoutContent);
 		}
-		
+
 		if($this->_acceptToUsePanel && ($this->isCmsPage() || $this->isHomepage())){
 			$arrContent = explode('<section id="maincontent" class="page-main container">',$layoutContent);
-			
+
 			$topContent = $arrContent[0];
-			
+
 			$arrContent = explode('</section>',$arrContent[1]);
-			
+
 			$bottomContent = $arrContent[1];
-			
+
 
 			$condition = '#<\!--\[if[^\>]*>\s*<script.*</script>\s*<\!\[endif\]-->#isU';
 			preg_match_all($condition, $arrContent[0], $matches);
@@ -1536,38 +1536,38 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			$condition = '@(?:<script|<script)(.*)</script>@msU';
 			preg_match_all($condition,$temp,$matches);
 			$js = implode('',$matches[0]);
-			
+
 			$formKey = explode('<input name="form_key" type="hidden" value="',$layoutContent);
 			$formKey = explode('"',$formKey[1]);
 
 			$script = '<input name="form_key" type="hidden" value="' . $formKey[0] . '"/>'. $js . $ifJs;
-			
+
 			$builderContent = $script . $builderContent;
-			
+
 			$layoutContent = $topContent . $builderContent . $bottomContent;
 		}
-		
+
 		$layoutContent = str_replace('<header class="header">', '<header class="header '.$this->getHeaderClass().'">', $layoutContent);
 		$layoutContent = str_replace('<footer class="footer">', '<footer class="footer '.$this->getFooterClass().'">', $layoutContent);
-		
+
 		return $layoutContent;
 	}
-	
+
 	public function generateCssForAll(){
 		$stores = $this->_storeManager->getWebsite()->getStores();
 		foreach($stores as $_store){
 			$this->generateCssByStore($_store->getId());
 		}
 	}
-	
+
 	public function generateCssByStore($storeId){
 		$html = $this->getLinksFont();
-		
+
 		$themeId = $this->getStoreConfig('design/theme/theme_id', $storeId);
 		$theme = $this->getModel('Magento\Theme\Model\Theme')->load($themeId);
 		$themePath = $theme->getThemePath();
         $themeName = substr($themePath, (strpos($themePath, "/" ) + 1));
-		
+
 		$fontName = $this->getStoreConfig('mgstheme/custom_style/font_name', $storeId);
 		if($fontName!=''){
 			$fontDir = str_replace('http:','',$this->getUrlBuilder()->getBaseUrl(['_type' => \Magento\Framework\UrlInterface::URL_TYPE_MEDIA])) . \MGS\Mpanel\Model\Config\Backend\Font::UPLOAD_DIR.'/';
@@ -1590,7 +1590,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			}
 
 		}
-		
+
 		$html .= 'body{';
 		$backgroundColor = $this->getStoreConfig('mgstheme/background/background_color', $storeId);
 		$backgroundImage = $this->getStoreConfig('mgstheme/background/background_image', $storeId);
@@ -1615,16 +1615,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			$backgroundPositionY = $this->getStoreConfig('mgstheme/background/background_position_y', $storeId);
 			$html.= 'background-position:'.$backgroundPositionX.' '.$backgroundPositionY.';';
 		}
-	    
+
 		if($this->getStoreConfig('mgstheme/fonts/default_font', $storeId)!=''){
 			$html .= 'font-family: "' . str_replace('+', ' ', $this->getStoreConfig('mgstheme/fonts/default_font', $storeId)) . '", arial, tahoma;font-weight: normal;';
 		}
-		
+
 		$fontSize = $this->getStoreConfig('mgstheme/fonts/default_font_size', $storeId);
 		if ($fontSize != '') {
 			$html .= 'font-size:' . $fontSize . ';';
 		}
-	   
+
 	    $html .= '}';
 	    $custom_font = $this->getStoreConfig('mgstheme/fonts/custom_fonts_element', $storeId);
 		$fontStyle = [
@@ -1671,7 +1671,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				'font-size' => $this->getStoreConfig('mgstheme/fonts/custom_font_size', $storeId),
 			]
 		];
-		
+
 		$fontStyle = array_filter($fontStyle);
 
 		foreach ($fontStyle as $class => $style) {
@@ -1689,7 +1689,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				';
 			}
 		}
-		
+
 		if(($this->getStoreConfig('color/general/theme_color', $storeId) != '') && ($this->getStoreConfig('color/general/theme_color', $storeId) != 'transparent')){
 			$themeColorSetting = $this->getThemecolorSetting($storeId, $themeName);
 			if (count($themeColorSetting) > 0) {
@@ -1705,7 +1705,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				}
 			}
 		}
-		
+
 		if($this->getStoreConfig('color/header/header_custom', $storeId)){
 			$headerColorSetting = $this->getHeaderColorSetting($storeId, $themeName);
 			if (count($headerColorSetting) > 0) {
@@ -1721,7 +1721,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				}
 			}
 		}
-		
+
 		if($this->getStoreConfig('color/main/main_custom', $storeId)){
 			$mainColorSetting = $this->getMainColorSetting($storeId, $themeName);
 			if (count($mainColorSetting) > 0) {
@@ -1737,7 +1737,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				}
 			}
 		}
-		
+
 		if($this->getStoreConfig('color/footer/footer_custom', $storeId)){
 			$footerColorSetting = $this->getFooterColorSetting($storeId, $themeName);
 			if (count($footerColorSetting) > 0) {
@@ -1753,7 +1753,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				}
 			}
 		}
-		
+
 		if ($this->getStoreConfig('mgstheme/custom_style/style', $storeId) != '') {
             $html .= $this->getStoreConfig('mgstheme/custom_style/style', $storeId);
         }
@@ -1762,7 +1762,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 		return;
 	}
-	
+
 	public function generateFile($storeId, $content){
 		$filePath = $this->_filesystem->getDirectoryRead(DirectoryList::MEDIA)->getAbsolutePath('mgs/css/' . $storeId . '/');
 		$io = $this->_ioFile;
@@ -1772,7 +1772,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		$io->write($file, $content, 0644);
 		$io->streamClose();
 	}
-	
+
 	public function getFullActionName() {
 		$request = $this->_objectManager->get('\Magento\Framework\App\Request\Http');
 		return $request->getFullActionName();
