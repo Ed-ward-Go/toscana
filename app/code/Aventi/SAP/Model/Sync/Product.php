@@ -292,20 +292,11 @@ class Product extends AbstractSync
                 }
                 $result['found'] = 1;
                 $this->_saveFields($product, $checkProduct);
+                $this->saveCategories($param, $product);
                 $this->_eventManager->dispatch(
                     'catalog_product_update_after_sync',
                     ['product' => $product]
                 );
-                try {
-                    if ($param['categoryId']) {
-                        $this->categoryLinkManagement->assignProductToCategories(
-                            $sku,
-                            $param['categoryId']
-                        );
-                    }
-                } catch (\Exception $e) {
-                    $this->logger->error($e->getMessage());
-                }
             }
         } catch (\Magento\Framework\Exception\NoSuchEntityException $e) { // Product no found
 
@@ -346,20 +337,11 @@ class Product extends AbstractSync
                 $stockItem->setQuantity($stock);
                 $stockItem->setStatus($stock > -1 ? 1 : 0);
                 $this->sourceItemSave->execute([$stockItem]);
+                $this->_assignProductToCategories($param, $product);
             } catch (\Exception $e) {
                 $this->logger->error("El product {$sku} no actulizó " . $e->getMessage());
             }
 
-            try {
-                if ($param['categoryId']) {
-                    $this->categoryLinkManagement->assignProductToCategories(
-                        $sku,
-                        $param['categoryId']
-                    );
-                }
-            } catch (\Exception $e) {
-                $this->logger->error($e->getMessage());
-            }
         } catch (\Exception $e) {
             $this->logger->error($sku . '-->' . $e->getMessage());
         }
@@ -908,5 +890,44 @@ SQL;
         }
         $this->setArrayItems($stockItem);
         $this->setLastItem($sku);
+    }
+
+    /**
+     * check categories
+     *
+     * @param $data
+     * @param $product
+     * @return true
+     * @author <adria.olave@gmail.com>
+     * @date 15/04/20
+     *
+     * */
+
+    public function saveCategories($data, $product)
+    {
+        $categoriesDiff = array_diff($product->getCategoryIds(), $data['categoryId']);
+        if (!empty($categoriesDiff)) {
+            $this->_assignProductToCategories($data, $product);
+        }
+    }
+
+    /**
+     * @param $data
+     * @param $product
+     * @return void
+     * @author by aventi <adrian.oalve@gmail.com>
+     */
+    private function _assignProductToCategories($data, $product)
+    {
+        try {
+            if ($data['categoryId'] != null) {
+                $this->categoryLinkManagement->assignProductToCategories(
+                    $product->getSku(),
+                    $data['categoryId']
+                );
+            }
+        } catch (\Exception $e) {
+            $this->logger->error($e->getMessage());
+        }
     }
 }
