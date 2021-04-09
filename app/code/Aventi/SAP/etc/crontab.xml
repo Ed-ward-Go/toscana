@@ -2,7 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
 	<group id="default">
 		<job instance="Aventi\SAP\Cron\Product" method="execute" name="aventi_sap_product">
-			<schedule>20 0 * * 6</schedule>
+			<schedule>10 */23 * * *</schedule>
 		</job>
 		<job instance="Aventi\SAP\Cron\ProductFaster" method="execute" name="aventi_sap_productfaster">
 			<schedule>1 */1 * * *</schedule>
@@ -27,10 +27,10 @@
 		</job>
 		<job instance="Aventi\SAP\Cron\DraftSent" method="execute" name="aventi_sap_order_draft_status">
 			<schedule>30 */6 * * *</schedule>
-		</job>
+		</job>-->
 		<job instance="Aventi\SAP\Cron\OrderError" method="execute" name="aventi_sap_order_error">
 			<schedule>*/45 * * * *</schedule>
-		</job>-->
+		</job>
 		<job instance="Aventi\SAP\Cron\Customer" method="execute" name="aventi_sap_customer">
 			<schedule>2 */15 * * *</schedule>
 		</job>
@@ -41,7 +41,7 @@
 			<schedule>10 */16 * * *</schedule>
 		</job>
 		<job instance="Aventi\SAP\Cron\CustomerAddressFast" method="execute" name="aventi_sap_customer_address_fast">
-			<schedule>30 */2 * * *</schedule>
+			<schedule>20 */1 * * *</schedule>
 		</job>
 
 	</group>
