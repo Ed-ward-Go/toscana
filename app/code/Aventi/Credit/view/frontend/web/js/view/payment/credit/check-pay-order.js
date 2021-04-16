@@ -12,7 +12,6 @@ define([
         var baseGrandTotal = !_.isUndefined(checkoutTotal)
             ? checkoutTotal
             : quote.totals()['base_grand_total'];
-        console.log(quote.totals());
         return paymentData.available >= baseGrandTotal;
     }
 });
