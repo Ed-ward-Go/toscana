@@ -453,6 +453,7 @@ class Customer extends AbstractSync
                         "email" => $customer['E_Mail'],
                         "name" => $customer['CardName'],
                         "slpCode" => $customer['SlpCode'],
+                        "status" => (($customer['frozenFor'] == 'Y') ? 1 : 0),
                         "creditLine" => $customer['CreditLine'],
                         "identification" => $customer['LicTradNum'],
                         "source" => $customer['U_GC_SUCURSAL']
@@ -505,31 +506,35 @@ class Customer extends AbstractSync
                 $customer->setCustomAttribute('slp_code', $data['slpCode']);
                 $customer->setCustomAttribute('identification_customer', $data['identification']);
                 $customer->setCustomAttribute('warehouse_group', $data['source']);
+                $customer->setCustomAttribute('is_blocked', $data['status']);
                 /*$customer->setCustomAttribute('owner_code', $owner_code);
                 $customer->setCustomAttribute('user_code', $user_code);*/
                 //$customer->setCustomAttribute('type_customer', $typeCustomer);
                 $this->customerRepository->save($customer);
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                 try {
-                    $new = 1;
-                    $customer = $this->customerInterfaceFactory->create();
-                    $customer->setStoreId(1);
-                    $customer->setWebsiteId(1);
-                    $customer->setEmail($data['email']);
-                    $customer->setFirstname($data['name']);
-                    $customer->setLastName($lastName);
-                    $customer->setCustomAttribute('sap_customer_id', $data['code']);
-                    $customer->setCustomAttribute('slp_code', $data['slpCode']);
-                    $customer->setCustomAttribute('identification_customer', $data['identification']);
-                    $customer->setCustomAttribute('warehouse_group', $data['source']);
-                    $this->customerAccountManagement->createAccount($customer);
-                    /*$customer->setCustomAttribute('owner_code', $owner_code);
-                    $customer->setCustomAttribute('user_code', $user_code);*/
-                    //$this->customerRepository->save($customer);
-                    /*$this->customerAccountManagement->initiatePasswordReset(
-                        $data['email'],
-                        AccountManagement::EMAIL_RESET
-                    );*/
+                    if($data['status'] == 0){
+
+                        $new = 1;
+                        $customer = $this->customerInterfaceFactory->create();
+                        $customer->setStoreId(1);
+                        $customer->setWebsiteId(1);
+                        $customer->setEmail($data['email']);
+                        $customer->setFirstname($data['name']);
+                        $customer->setLastName($lastName);
+                        $customer->setCustomAttribute('sap_customer_id', $data['code']);
+                        $customer->setCustomAttribute('slp_code', $data['slpCode']);
+                        $customer->setCustomAttribute('identification_customer', $data['identification']);
+                        $customer->setCustomAttribute('warehouse_group', $data['source']);
+                        $this->customerAccountManagement->createAccount($customer);
+                        /*$customer->setCustomAttribute('owner_code', $owner_code);
+                        $customer->setCustomAttribute('user_code', $user_code);*/
+                        //$this->customerRepository->save($customer);
+                        /*$this->customerAccountManagement->initiatePasswordReset(
+                            $data['email'],
+                            AccountManagement::EMAIL_RESET
+                        );*/
+                    }
                 } catch (\Exception $e) {
                     $error = 1;
                     $this->logger->error($e->getMessage());

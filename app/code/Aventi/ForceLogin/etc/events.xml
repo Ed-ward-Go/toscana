@@ -9,4 +9,7 @@
     <event name="controller_action_predispatch_customer_account_loginPost">
         <observer name="accept_agreements" instance="Aventi\ForceLogin\Observer\CheckUserLoginObserver" />
     </event>
+    <event name="customer_login">
+        <observer name="customer_login_observer" instance="Aventi\ForceLogin\Observer\CustomerLogin" />
+    </event>
 </config>
