@@ -9,9 +9,9 @@ define([
     "use strict";
 
     return function (paymentData, checkoutTotal) {
-        var grandTotal = !_.isUndefined(checkoutTotal)
+        var baseGrandTotal = !_.isUndefined(checkoutTotal)
             ? checkoutTotal
-            : quote.totals()['grand_total'];
-        return paymentData.available >= grandTotal;
+            : quote.totals()['base_grand_total'];
+        return paymentData.available >= baseGrandTotal;
     }
 });
