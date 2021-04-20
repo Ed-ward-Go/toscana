@@ -455,6 +455,8 @@ class Customer extends AbstractSync
                         "slpCode" => $customer['SlpCode'],
                         "status" => (($customer['frozenFor'] == 'Y') ? 1 : 0),
                         "creditLine" => $customer['CreditLine'],
+                        "orderTotal" => $customer['TOTALPEDIDO'],
+                        "toPurchase" => $customer['PORCOBRAR'],
                         "identification" => $customer['LicTradNum'],
                         "source" => $customer['U_GC_SUCURSAL']
                     ];
@@ -567,7 +569,7 @@ class Customer extends AbstractSync
 
     public function managerSummary($customerId, $data)
     {
-        $balance = $data['creditLine'] - $data['PORCOBRAR'] - $data['TOTALPEDIDO'];
+        $balance = $data['creditLine'] - $data['toPurchase'] - $data['orderTotal'];
         $balance = $balance - $data['creditLine'];
         try {
             $summary = $this->creditRepositoryInterface->getByCustomerId($customerId);
