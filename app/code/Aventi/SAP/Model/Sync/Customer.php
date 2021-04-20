@@ -546,7 +546,7 @@ class Customer extends AbstractSync
             if ($customer) {
                 try {
                     $customer = $this->customer->get($data['email']);
-                    $this->managerSummary($customer->getId(), $data['creditLine']);
+                    $this->managerSummary($customer->getId(), $data);
                 } catch (NoSuchEntityException $e) {
                     $error = 1;
                     $this->logger->error($e->getMessage());
@@ -565,16 +565,20 @@ class Customer extends AbstractSync
         ];
     }
 
-    public function managerSummary($customerId, $creditLimit)
+    public function managerSummary($customerId, $data)
     {
+        $balance = $data['creditLine'] - $data['PORCOBRAR'] - $data['TOTALPEDIDO'];
+        $balance = $balance - $data['creditLine'];
         try {
             $summary = $this->creditRepositoryInterface->getByCustomerId($customerId);
-            $summary->setCredit($creditLimit);
+            $summary->setCredit($data['creditLine']);
+            $summary->setBalance($balance);
             $this->creditRepository->save($summary);
         } catch (\Exception $e) {
             $summary = $this->creditInterfaceFactory->create();
             $summary->setCustomerId($customerId);
-            $summary->setCredit($creditLimit);
+            $summary->setCredit($data['creditLine']);
+            $summary->setBalance($balance);
             try {
                 $this->creditRepository->save($summary);
             } catch (LocalizedException $e) {
