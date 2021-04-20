@@ -8357,6 +8357,7 @@ Home,"Inicio"
 "Enter your destination to get a shipping estimate.", "Ingresa el lugar de destino para obtener un costo de envío estimado."
 "Identification customer", "Número de identificación"
 "There are no products matching the selection.", "No hay productos que coincidan con la selección."
+"We can\'t find categories matching the selection.", "No hay categorías que coincidan con esta s."
 "Quality","Calidad"
 "Featured Product", "Producto Destacado"
 "BestSeller Product", "Producto más vendido"
@@ -8432,6 +8433,7 @@ Home,"Inicio"
 "Have not available units", "No tiene unidades disponibles",
 "Available: ", "Disponible: "
 "If you exceed your credit limit you still can pay with cash.", "Si excedes el crédito, puedes pagar en efectivo."
+"If you exceed your credit limit you still can pay with cash.", ""
 'Available', 'Disponible'
 'Available: ', 'Disponible: '
 "Search for...", "Buscar..."
