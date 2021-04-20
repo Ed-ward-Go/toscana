@@ -572,6 +572,9 @@ class Customer extends AbstractSync
         $balance = $data['creditLine'] - $data['toPurchase'] - $data['orderTotal'];
         $balance = $balance - $data['creditLine'];
         $available = $data['creditLine'] - $balance;
+        if($balance < 0){
+            $available = $data['creditLine'] + $balance;
+        }
         try {
             $summary = $this->creditRepositoryInterface->getByCustomerId($customerId);
             $summary->setCredit($data['creditLine']);
