@@ -571,16 +571,19 @@ class Customer extends AbstractSync
     {
         $balance = $data['creditLine'] - $data['toPurchase'] - $data['orderTotal'];
         $balance = $balance - $data['creditLine'];
+        $available = $data['creditLine'] - $balance;
         try {
             $summary = $this->creditRepositoryInterface->getByCustomerId($customerId);
             $summary->setCredit($data['creditLine']);
             $summary->setBalance($balance);
+            $summary->setAvailable($available);
             $this->creditRepository->save($summary);
         } catch (\Exception $e) {
             $summary = $this->creditInterfaceFactory->create();
             $summary->setCustomerId($customerId);
             $summary->setCredit($data['creditLine']);
             $summary->setBalance($balance);
+            $summary->setAvailable($available);
             try {
                 $this->creditRepository->save($summary);
             } catch (LocalizedException $e) {
