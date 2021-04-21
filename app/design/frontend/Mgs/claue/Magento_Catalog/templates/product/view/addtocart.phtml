@@ -50,6 +50,7 @@
 					<input type="number"
 						   name="qty"
 						   id="qty"
+                           data-id="<?php echo $_product->getId(); ?>"
 						   maxlength="12"
 						   value="<?php /* @escapeNotVerified */ echo $block->getProductDefaultQty() * 1 ?>"
 						   title="<?php /* @escapeNotVerified */ echo __('Qty') ?>" class="input-text qty"
@@ -171,8 +172,9 @@
         ], function($){
             $(window).load(function() {
                 $(document).on('click', '.edit-qty.plus', function (){
+                    console.log("EVEVEV");
                     let self = $(this);
-                    let element = $('input[name="qtyFront"][data-id="'+self.data('id')+'"]');
+                    let element = $('input[name="qty"][data-id="'+self.data('id')+'"]');
                     if(element.attr('disabled')!='disabled'){
                         qty = element.attr('value');
                         qty = parseInt(qty);
@@ -182,8 +184,9 @@
                     }
                 });
                 $(document).on('click', '.edit-qty.minus', function (){
+                    console.log("EVEVEV121212");
                     let self = $(this);
-                    let element = $('input[name="qtyFront"][data-id="'+self.data('id')+'"]');
+                    let element = $('input[name="qty"][data-id="'+self.data('id')+'"]');
                     if(element.attr('disabled')!='disabled'){
                         qty = element.attr('value');
                         qty = parseInt(qty);
