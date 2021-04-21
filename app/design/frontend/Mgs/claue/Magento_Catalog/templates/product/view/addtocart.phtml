@@ -172,7 +172,6 @@
         ], function($){
             $(window).load(function() {
                 $(document).on('click', '.edit-qty.plus', function (){
-                    console.log("EVEVEV");
                     let self = $(this);
                     let element = $('input[name="qty"][data-id="'+self.data('id')+'"]');
                     if(element.attr('disabled')!='disabled'){
@@ -184,7 +183,6 @@
                     }
                 });
                 $(document).on('click', '.edit-qty.minus', function (){
-                    console.log("EVEVEV121212");
                     let self = $(this);
                     let element = $('input[name="qty"][data-id="'+self.data('id')+'"]');
                     if(element.attr('disabled')!='disabled'){
