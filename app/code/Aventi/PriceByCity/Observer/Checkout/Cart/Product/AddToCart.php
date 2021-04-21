@@ -33,11 +33,11 @@ class AddToCart implements ObserverInterface
 
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
-        $item = $observer->getEvent()->getData('quote_item');
+        /*$item = $observer->getEvent()->getData('quote_item');
         $item = ($item->getParentItem() ? $item->getParentItem() : $item);
         $price = $this->helper->calculatePriceBySource($item->getProductId());
         $item->setCustomPrice($price);
         $item->setOriginalCustomPrice($price);
-        $item->getProduct()->setIsSuperMode(true);
+        $item->getProduct()->setIsSuperMode(true);*/
     }
 }
