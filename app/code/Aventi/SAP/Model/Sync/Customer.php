@@ -515,8 +515,7 @@ class Customer extends AbstractSync
                 $this->customerRepository->save($customer);
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                 try {
-                    if($data['status'] == 0){
-
+                    if ($data['status'] == 0) {
                         $new = 1;
                         $customer = $this->customerInterfaceFactory->create();
                         $customer->setStoreId(1);
@@ -572,7 +571,7 @@ class Customer extends AbstractSync
         $balance = $data['creditLine'] - $data['toPurchase'] - $data['orderTotal'];
         $balance = $balance - $data['creditLine'];
         $available = $data['creditLine'] - $balance;
-        if($balance < 0){
+        if ($balance < 0) {
             $available = $data['creditLine'] + $balance;
         }
         try {
