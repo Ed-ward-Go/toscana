@@ -4435,7 +4435,7 @@ unhold,Reactivar,module,Magento_Sales
 "Invoice and Ship","Factura y albarán",module,Magento_Sales
 Invoice,Factura,module,Magento_Sales
 Ship,Enviar,module,Magento_Sales
-Reorder,"Repetir pedido",module,Magento_Sales
+Reorder,"Agregar al carrito",module,Magento_Sales
 "Order # %1 %2 | %3","Pedido nº %1 %2 | %3",module,Magento_Sales
 "This order contains (%1) items and therefore cannot be edited through the admin interface. If you wish to continue editing, the (%2) items will be removed,  the order will be canceled and a new order will be placed.","Este pedido contiene (%s) artículos y por tanto no puede editarse mediante la interfaz de administración en este momento. Si deseas continuar, los (%s) artículos se eliminarán, el pedido se cancelará y se creará un nuevo pedido.",module,Magento_Sales
 "Are you sure? This order will be canceled and a new one will be created instead.","¿Está seguro? Este pedido será cancelado y uno nuevo será creado en su lugar.",module,Magento_Sales
@@ -8483,3 +8483,5 @@ Shop By Brand, Shop By Brand
 "Total Credit", "Crédito Total"
 "Used Credit", "Crédito Usado"
 "Available Credit", "Crédito Disponible"
+
+"If you created this account using Amazon Pay, you might not know your site password.", ""
