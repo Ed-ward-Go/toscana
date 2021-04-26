@@ -32,9 +32,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
             if ($credit) {
                 $data = [
-                    'Available' => $this->getFormatedPrice($credit->getAvailable()),
-                    'Credit' => $this->getFormatedPrice($credit->getCredit()),
-                    'Balance' => $this->getFormatedPrice($credit->getBalance())
+                    'Total Credit' => $this->getFormatedPrice($credit->getCredit()),
+                    'Used Credit' => $this->getFormatedPrice($credit->getBalance()),
+                    'Available Credit' => $this->getFormatedPrice($credit->getAvailable())
                 ];
             }
         }catch (\Exception $e){
