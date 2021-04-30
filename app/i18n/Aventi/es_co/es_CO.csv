@@ -2335,7 +2335,7 @@ Country,País,module,Magento_Customer
 "Send confirmation link","Enviar enlace de confirmación",module,Magento_Customer
 "Back to Sign In","Volver a iniciar sesión",module,Magento_Customer
 "Change Email","Cambiar correo electrónico",module,Magento_Customer
-"Change Email and Password","Cambiar Email y contraseña",module,Magento_Customer
+"Change Email and Password","Cambiar contraseña",module,Magento_Customer
 "Current Password","Contraseña actual",module,Magento_Customer
 "New Password","Nueva Contraseña",module,Magento_Customer
 "Password Strength","Fuerza de la contraseña",module,Magento_Customer
