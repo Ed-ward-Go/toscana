@@ -18,7 +18,14 @@
                 <label class="label" for="qty"><span><?php /* @escapeNotVerified */ echo __('Qty') ?></span></label>
                 <div class="control">
 					<span class="edit-qty minus" data-id="<?php echo $_product->getId(); ?>">-</span>
-                    <input type="number" name="qty" id="qty" maxlength="12" value="<?php /* @escapeNotVerified */ echo $block->getProductDefaultQty() * 1 ?>" title="<?php /* @escapeNotVerified */ echo __('Qty') ?>" class="input-text qty" data-validate="{'required-number':true,digits:true}"/>
+                    <input type="number"
+                        name="qty" 
+                        id="qty" maxlength="12" 
+                        data-id="<?php echo $_product->getId(); ?>"
+                        value="<?php /* @escapeNotVerified */ echo $block->getProductDefaultQty() * 1 ?>" 
+                        title="<?php /* @escapeNotVerified */ echo __('Qty') ?>" 
+                        class="input-text qty" 
+                        data-validate="{'required-number':true,digits:true}"/>
 					<span class="edit-qty plus" data-id="<?php echo $_product->getId(); ?>">+</span>
                 </div>
             </div>
@@ -50,10 +57,10 @@
             requirejs([
                 'jquery'
             ], function($){
-                $(window).load(function() {
+                $(document).ready(function() {
                     $(document).on('click', '.edit-qty.plus', function (){
                         let self = $(this);
-                        let element = $('input[name="qtyFront"][data-id="'+self.data('id')+'"]');
+                        let element = $('input[name="qty"][data-id="'+self.data('id')+'"]');
                         if(element.attr('disabled')!='disabled'){
                             qty = element.attr('value');
                             qty = parseInt(qty);
@@ -64,7 +71,7 @@
                     });
                     $(document).on('click', '.edit-qty.minus', function (){
                         let self = $(this);
-                        let element = $('input[name="qtyFront"][data-id="'+self.data('id')+'"]');
+                        let element = $('input[name="qty"][data-id="'+self.data('id')+'"]');
                         if(element.attr('disabled')!='disabled'){
                             qty = element.attr('value');
                             qty = parseInt(qty);
