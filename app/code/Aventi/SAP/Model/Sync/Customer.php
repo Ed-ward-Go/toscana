@@ -566,26 +566,40 @@ class Customer extends AbstractSync
         ];
     }
 
+    /** Credit 
+     * @param $customerId
+     * @param $data
+     * @return 
+     */
     public function managerSummary($customerId, $data)
     {
-        $balance = $data['creditLine'] - $data['toPurchase'] - $data['orderTotal'];
-        $balance = $balance - $data['creditLine'];
-        $available = $data['creditLine'] - $balance;
-        if ($balance < 0) {
+
+        $balanceCredit = 0;
+        $availableCredit = 0;
+
+        $creditLine = floatval($data['creditLine']); // credito total 
+        $toPurchase = floatval($data['toPurchase']); 
+        $orderTotal = floatval($data['orderTotal']);
+
+        $balanceCredit = $orderTotal + $toPurchase;
+        $availableCredit =  $creditLine - $balanceCredit;
+
+        /*if ($balance < 0) {
             $available = $data['creditLine'] + $balance;
-        }
+        }*/
+
         try {
             $summary = $this->creditRepositoryInterface->getByCustomerId($customerId);
-            $summary->setCredit($data['creditLine']);
-            $summary->setBalance($balance);
-            $summary->setAvailable($available);
+            $summary->setCredit($creditLine);
+            $summary->setBalance($balanceCredit);
+            $summary->setAvailable($availableCredit);
             $this->creditRepository->save($summary);
         } catch (\Exception $e) {
             $summary = $this->creditInterfaceFactory->create();
             $summary->setCustomerId($customerId);
-            $summary->setCredit($data['creditLine']);
-            $summary->setBalance($balance);
-            $summary->setAvailable($available);
+            $summary->setCredit($creditLine);
+            $summary->setBalance($balanceCredit);
+            $summary->setAvailable($availableCredit);
             try {
                 $this->creditRepository->save($summary);
             } catch (LocalizedException $e) {
