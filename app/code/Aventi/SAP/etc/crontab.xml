@@ -35,7 +35,7 @@
 			<schedule>2 */15 * * *</schedule>
 		</job>
 		<job instance="Aventi\SAP\Cron\CustomerFast" method="execute" name="aventi_sap_customer_fast">
-			<schedule>0 */1 * * *</schedule>
+			<schedule>*/5 * * * *</schedule>
 		</job>
 		<job instance="Aventi\SAP\Cron\CustomerAddress" method="execute" name="aventi_sap_customer_address">
 			<schedule>10 */16 * * *</schedule>

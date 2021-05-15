@@ -389,7 +389,7 @@ class Customer extends AbstractSync
                 $region = $this->regionFactory->loadByCode($region, 'EC');
                 $regionId = $region->getId();
             } else {
-                $region = $this->helperSAP->getRegionByCity($city);
+                $region = $this->help303,23erSAP->getRegionByCity($city);
                 $region = $this->regionFactory->load($region);
                 $regionId = 0;
                 if ($region) {
@@ -404,7 +404,7 @@ class Customer extends AbstractSync
                 ->setLastname('.')
                 ->setCountryId('EC')
                 //->setRegion($region)
-                ->setRegionId($regionId)
+                ->setRegionId($regionId)option
                 ->setPostcode($postalCode)
                 ->setCity($city)
                 ->setTelephone($telefono)
@@ -433,7 +433,7 @@ class Customer extends AbstractSync
         $start =  $new = $check =  $error= 0;
         $rows = 1000;
         $siguiente = true;
-        $date = date('Y-m-d', strtotime($this->_timezone->date('Y-m-d')));
+        //$date = date('Y-m-d', strtotime($this->_timezone->date('Y-m-d')));
         if ($option != 0) {
             $date = "1900-01-01";
         }
@@ -490,7 +490,7 @@ class Customer extends AbstractSync
             try {
                 $customer = $this->customer->get($data['email']);
                 $checkCustomer = $this->checkCustomer($data, $customer);
-                if ($checkCustomer) {
+                /*if ($checkCustomer) {
                     $check = 1;
                     return [
                         'new' => $new,
@@ -498,7 +498,7 @@ class Customer extends AbstractSync
                         'check' => $check,
                         'error' => $error
                     ];
-                }
+                }*/
                 $customer->setStoreId(1);
                 $customer->setWebsiteId(1);
                 $customer->setEmail($data['email']);
@@ -571,22 +571,19 @@ class Customer extends AbstractSync
      * @param $data
      * @return 
      */
+
     public function managerSummary($customerId, $data)
     {
 
         $balanceCredit = 0;
         $availableCredit = 0;
 
-        $creditLine = floatval($data['creditLine']); // credito total 
-        $toPurchase = floatval($data['toPurchase']); 
-        $orderTotal = floatval($data['orderTotal']);
+        $creditLine = (float) $data['creditLine']; // credito total
+        $toPurchase = (float) $data['toPurchase'];
+        $orderTotal = (float) $data['orderTotal'];
 
-        $balanceCredit = $orderTotal + $toPurchase;
-        $availableCredit =  $creditLine - $balanceCredit;
-
-        /*if ($balance < 0) {
-            $available = $data['creditLine'] + $balance;
-        }*/
+        $balanceCredit = ($orderTotal + $toPurchase) * -1;
+        $availableCredit = $creditLine + $balanceCredit;
 
         try {
             $summary = $this->creditRepositoryInterface->getByCustomerId($customerId);
