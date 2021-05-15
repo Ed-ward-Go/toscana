@@ -384,12 +384,11 @@ class Customer extends AbstractSync
                 $new++;
             }
             $regionId = 0;
-            $regionParent = $region;
             if (!is_null($region)) {
                 $region = $this->regionFactory->loadByCode($region, 'EC');
                 $regionId = $region->getId();
             } else {
-                $region = $this->help303,23erSAP->getRegionByCity($city);
+                $region = $this->helperSAP->getRegionByCity($city);
                 $region = $this->regionFactory->load($region);
                 $regionId = 0;
                 if ($region) {
@@ -404,7 +403,7 @@ class Customer extends AbstractSync
                 ->setLastname('.')
                 ->setCountryId('EC')
                 //->setRegion($region)
-                ->setRegionId($regionId)option
+                ->setRegionId($regionId)
                 ->setPostcode($postalCode)
                 ->setCity($city)
                 ->setTelephone($telefono)
