@@ -432,7 +432,7 @@ class Customer extends AbstractSync
         $start =  $new = $check =  $error= 0;
         $rows = 1000;
         $siguiente = true;
-        //$date = date('Y-m-d', strtotime($this->_timezone->date('Y-m-d')));
+        $date = date('Y-m-d', strtotime($this->_timezone->date('Y-m-d')));
         if ($option != 0) {
             $date = "1900-01-01";
         }
