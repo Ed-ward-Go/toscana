@@ -31,12 +31,18 @@
 		<job instance="Aventi\SAP\Cron\OrderError" method="execute" name="aventi_sap_order_error">
 			<schedule>*/45 * * * *</schedule>
 		</job>
-		<job instance="Aventi\SAP\Cron\Customer" method="execute" name="aventi_sap_customer">
+
+		<!--<job instance="Aventi\SAP\Cron\Customer" method="execute" name="aventi_sap_customer">
 			<schedule>2 */15 * * *</schedule>
 		</job>
 		<job instance="Aventi\SAP\Cron\CustomerFast" method="execute" name="aventi_sap_customer_fast">
 			<schedule>*/5 * * * *</schedule>
+		</job>-->
+
+		<job instance="Aventi\SAP\Cron\Customer" method="execute" name="aventi_sap_customer">
+			<schedule>*/59 * * * *</schedule>
 		</job>
+
 		<job instance="Aventi\SAP\Cron\CustomerAddress" method="execute" name="aventi_sap_customer_address">
 			<schedule>10 */16 * * *</schedule>
 		</job>

@@ -432,14 +432,16 @@ class Customer extends AbstractSync
         $start =  $new = $check =  $error= 0;
         $rows = 1000;
         $siguiente = true;
-        $date = date('Y-m-d', strtotime($this->_timezone->date('Y-m-d')));
-        if ($option != 0) {
+        
+        //$date = date('Y-m-d', strtotime($this->_timezone->date('Y-m-d')));
+        //if ($option != 0) {
             $date = "1900-01-01";
-        }
+        //}
+
         while ($siguiente) {
             $jsonPath = $this->data->getRecourse(sprintf('api/SocioNegocio/%s/%s/%s', $start, $rows, $date));
             $total = 0;
-            if (is_string($jsonPath) and !empty($jsonPath)) {
+            if (is_string($jsonPath) && !empty($jsonPath)) {
                 $reader = $this->getJsonReader($jsonPath);
                 $reader->enter(\Bcn\Component\Json\Reader::TYPE_OBJECT);
                 $total = $reader->read("total");
@@ -577,9 +579,9 @@ class Customer extends AbstractSync
         $balanceCredit = 0;
         $availableCredit = 0;
 
-        $creditLine = (float) $data['creditLine']; // credito total
-        $toPurchase = (float) $data['toPurchase'];
-        $orderTotal = (float) $data['orderTotal'];
+        $creditLine = $data['creditLine']; // credito total
+        $toPurchase = $data['toPurchase'];
+        $orderTotal = $data['orderTotal'];
 
         $balanceCredit = ($orderTotal + $toPurchase) * -1;
         $availableCredit = $creditLine + $balanceCredit;
