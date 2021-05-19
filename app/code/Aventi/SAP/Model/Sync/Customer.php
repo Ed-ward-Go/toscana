@@ -489,8 +489,10 @@ class Customer extends AbstractSync
 
         if (filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
             try {
+
                 $customer = $this->customer->get($data['email']);
-                $checkCustomer = $this->checkCustomer($data, $customer);
+                
+                //$checkCustomer = $this->checkCustomer($data, $customer);
                 /*if ($checkCustomer) {
                     $check = 1;
                     return [
@@ -500,6 +502,7 @@ class Customer extends AbstractSync
                         'error' => $error
                     ];
                 }*/
+
                 $customer->setStoreId(1);
                 $customer->setWebsiteId(1);
                 $customer->setEmail($data['email']);
@@ -513,7 +516,7 @@ class Customer extends AbstractSync
                 /*$customer->setCustomAttribute('owner_code', $owner_code);
                 $customer->setCustomAttribute('user_code', $user_code);*/
                 //$customer->setCustomAttribute('type_customer', $typeCustomer);
-                $this->customerRepository->save($customer);
+                $customer = $this->customerRepository->save($customer);
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                 try {
                     if ($data['status'] == 0) {
@@ -528,7 +531,7 @@ class Customer extends AbstractSync
                         $customer->setCustomAttribute('slp_code', $data['slpCode']);
                         $customer->setCustomAttribute('identification_customer', $data['identification']);
                         $customer->setCustomAttribute('warehouse_group', $data['source']);
-                        $this->customerAccountManagement->createAccount($customer);
+                        $customer = $this->customerAccountManagement->createAccount($customer);
                         /*$customer->setCustomAttribute('owner_code', $owner_code);
                         $customer->setCustomAttribute('user_code', $user_code);*/
                         //$this->customerRepository->save($customer);
@@ -545,10 +548,15 @@ class Customer extends AbstractSync
                 $this->logger->error($e->getMessage());
                 $error = 1;
             }
+
             if ($customer) {
                 try {
-                    $customer = $this->customer->get($data['email']);
-                    $this->managerSummary($customer->getId(), $data);
+                    //$customer = $this->customer->get($data['email']);
+                    //$this->managerSummary($customer->getId(), $data);
+                    $customerId = $this->helperSAP->getCustomerId( $data['code'] );
+                    if($customerId){
+                        $this->managerSummary($customerId, $data);
+                    }
                 } catch (NoSuchEntityException $e) {
                     $error = 1;
                     $this->logger->error($e->getMessage());
@@ -557,6 +565,8 @@ class Customer extends AbstractSync
                     $this->logger->error($e->getMessage());
                 }
             }
+
+
         }
 
         return [
@@ -575,8 +585,7 @@ class Customer extends AbstractSync
 
     public function managerSummary($customerId, $data)
     {
-
-        $balanceCredit = 0;
+   	    $balanceCredit = 0;
         $availableCredit = 0;
 
         $creditLine = $data['creditLine']; // credito total
