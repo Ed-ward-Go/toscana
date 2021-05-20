@@ -207,7 +207,9 @@ class SendToSAP
 
         foreach ($historiesModel as $history) {
             $iterations = intval(preg_replace('/[^0-9]+/i', '', $history->getData('comment')));
-            $history->delete();
+            if ($iterations != 10) {
+                $history->delete();
+            }
         }
         $historiesModel->save();
         return ++$iterations;
@@ -550,6 +552,11 @@ class SendToSAP
                 $order = $this->orderRepository->get($orderData['entity_id']);
                 $iteration = $this->getNumberInteration(['syncing', 'error_creacion'], $order->getId());
                 if ($iteration == 10) {
+                    $order->addStatusToHistory(
+                        'syncing',
+                        sprintf('Sincronizando pedido con SAP Server (%s intento)', $iteration)
+                    );
+                    $this->orderRepository->save($order);
                     $order->addStatusToHistory('syncing', 'Número de intentos máximos superados');
                     $this->orderRepository->save($order);
                     continue;

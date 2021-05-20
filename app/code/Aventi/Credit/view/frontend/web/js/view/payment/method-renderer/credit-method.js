@@ -23,7 +23,7 @@ define(
                 return CreditManagment.canPayOrder();
             },
             getNotPayMessage: function () {
-                return $t('If you exceed your credit limit you still can pay with cash.');
+                return $t('You have exceded your credit.');
             },
             isActionToolbarVisible: function () {
                 return this.canPayOrder();

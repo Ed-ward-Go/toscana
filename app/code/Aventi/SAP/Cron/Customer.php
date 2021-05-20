@@ -37,8 +37,8 @@ class Customer
      */
     public function execute()
     {
-        $this->logger->addInfo("Cronjob Customer is executed.");
-        $this->customer->customer(1);
+        $this->logger->addInfo("------------------Cronjob Customer is executed-------------------");
+        $this->customer->customer(0);
     }
 }
 

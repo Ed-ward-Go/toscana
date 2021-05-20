@@ -384,7 +384,6 @@ class Customer extends AbstractSync
                 $new++;
             }
             $regionId = 0;
-            $regionParent = $region;
             if (!is_null($region)) {
                 $region = $this->regionFactory->loadByCode($region, 'EC');
                 $regionId = $region->getId();
@@ -433,14 +432,16 @@ class Customer extends AbstractSync
         $start =  $new = $check =  $error= 0;
         $rows = 1000;
         $siguiente = true;
-        $date = date('Y-m-d', strtotime($this->_timezone->date('Y-m-d')));
-        if ($option != 0) {
+        
+        //$date = date('Y-m-d', strtotime($this->_timezone->date('Y-m-d')));
+        //if ($option != 0) {
             $date = "1900-01-01";
-        }
+        //}
+
         while ($siguiente) {
             $jsonPath = $this->data->getRecourse(sprintf('api/SocioNegocio/%s/%s/%s', $start, $rows, $date));
             $total = 0;
-            if (is_string($jsonPath) and !empty($jsonPath)) {
+            if (is_string($jsonPath) && !empty($jsonPath)) {
                 $reader = $this->getJsonReader($jsonPath);
                 $reader->enter(\Bcn\Component\Json\Reader::TYPE_OBJECT);
                 $total = $reader->read("total");
@@ -488,9 +489,11 @@ class Customer extends AbstractSync
 
         if (filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
             try {
+
                 $customer = $this->customer->get($data['email']);
-                $checkCustomer = $this->checkCustomer($data, $customer);
-                if ($checkCustomer) {
+                
+                //$checkCustomer = $this->checkCustomer($data, $customer);
+                /*if ($checkCustomer) {
                     $check = 1;
                     return [
                         'new' => $new,
@@ -498,7 +501,8 @@ class Customer extends AbstractSync
                         'check' => $check,
                         'error' => $error
                     ];
-                }
+                }*/
+
                 $customer->setStoreId(1);
                 $customer->setWebsiteId(1);
                 $customer->setEmail($data['email']);
@@ -512,7 +516,7 @@ class Customer extends AbstractSync
                 /*$customer->setCustomAttribute('owner_code', $owner_code);
                 $customer->setCustomAttribute('user_code', $user_code);*/
                 //$customer->setCustomAttribute('type_customer', $typeCustomer);
-                $this->customerRepository->save($customer);
+                $customer = $this->customerRepository->save($customer);
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                 try {
                     if ($data['status'] == 0) {
@@ -527,7 +531,7 @@ class Customer extends AbstractSync
                         $customer->setCustomAttribute('slp_code', $data['slpCode']);
                         $customer->setCustomAttribute('identification_customer', $data['identification']);
                         $customer->setCustomAttribute('warehouse_group', $data['source']);
-                        $this->customerAccountManagement->createAccount($customer);
+                        $customer = $this->customerAccountManagement->createAccount($customer);
                         /*$customer->setCustomAttribute('owner_code', $owner_code);
                         $customer->setCustomAttribute('user_code', $user_code);*/
                         //$this->customerRepository->save($customer);
@@ -544,10 +548,15 @@ class Customer extends AbstractSync
                 $this->logger->error($e->getMessage());
                 $error = 1;
             }
+
             if ($customer) {
                 try {
-                    $customer = $this->customer->get($data['email']);
-                    $this->managerSummary($customer->getId(), $data);
+                    //$customer = $this->customer->get($data['email']);
+                    //$this->managerSummary($customer->getId(), $data);
+                    $customerId = $this->helperSAP->getCustomerId( $data['code'] );
+                    if($customerId){
+                        $this->managerSummary($customerId, $data);
+                    }
                 } catch (NoSuchEntityException $e) {
                     $error = 1;
                     $this->logger->error($e->getMessage());
@@ -556,6 +565,8 @@ class Customer extends AbstractSync
                     $this->logger->error($e->getMessage());
                 }
             }
+
+
         }
 
         return [
@@ -566,26 +577,36 @@ class Customer extends AbstractSync
         ];
     }
 
+    /** Credit 
+     * @param $customerId
+     * @param $data
+     * @return 
+     */
+
     public function managerSummary($customerId, $data)
     {
-        $balance = $data['creditLine'] - $data['toPurchase'] - $data['orderTotal'];
-        $balance = $balance - $data['creditLine'];
-        $available = $data['creditLine'] - $balance;
-        if ($balance < 0) {
-            $available = $data['creditLine'] + $balance;
-        }
+   	    $balanceCredit = 0;
+        $availableCredit = 0;
+
+        $creditLine = $data['creditLine']; // credito total
+        $toPurchase = $data['toPurchase'];
+        $orderTotal = $data['orderTotal'];
+
+        $balanceCredit = ($orderTotal + $toPurchase) * -1;
+        $availableCredit = $creditLine + $balanceCredit;
+
         try {
             $summary = $this->creditRepositoryInterface->getByCustomerId($customerId);
-            $summary->setCredit($data['creditLine']);
-            $summary->setBalance($balance);
-            $summary->setAvailable($available);
+            $summary->setCredit($creditLine);
+            $summary->setBalance($balanceCredit);
+            $summary->setAvailable($availableCredit);
             $this->creditRepository->save($summary);
         } catch (\Exception $e) {
             $summary = $this->creditInterfaceFactory->create();
             $summary->setCustomerId($customerId);
-            $summary->setCredit($data['creditLine']);
-            $summary->setBalance($balance);
-            $summary->setAvailable($available);
+            $summary->setCredit($creditLine);
+            $summary->setBalance($balanceCredit);
+            $summary->setAvailable($availableCredit);
             try {
                 $this->creditRepository->save($summary);
             } catch (LocalizedException $e) {
