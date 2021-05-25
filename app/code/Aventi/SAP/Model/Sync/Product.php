@@ -428,16 +428,21 @@ class Product extends AbstractSync
         $found = $notFound = $check = 0;
         try {
             if ($productFull = $this->productRepository->get($sku)) {
+                
                 $source = $this->priceByCityHelper->getSourceByPriceList($priceList);
+
                 if ($source) {
                     $sourceCode = $source->getSourceCode();
                     $productId = $productFull->getId();
+
                     $priceBySource = $this->priceByCityHelper->getPriceByProductAndSource($productId, $sourceCode);
+
                     $checkPrice = [];
                     if (!$priceBySource) {
                         $priceBySource = $this->priceByCityInterfaceFactory->create();
                     } else {
-                        $checkPrice = $this->checkPrice($priceBySource, $productFull);
+                        //$checkPrice = $this->checkPrice($priceBySource, $productFull);
+                        $checkPrice = $this->checkPrice($price, $productFull);
                     }
 
                     if ($checkPrice == 0) {
@@ -452,9 +457,12 @@ class Product extends AbstractSync
                     $priceBySource->setPrice($price);
                     $priceBySource->setProductId($productId);
                     $this->priceByCityRepository->save($priceBySource);
-                    $this->_saveFields($productFull, $checkPrice);
-                    /*$productFull->setPrice($price);
-                    $this->productRepository->save($productFull);*/
+                   
+                    //$this->_saveFields($productFull, $checkPrice);
+                   
+                    $productFull->setPrice($price);
+                    $this->productRepository->save($productFull);
+                    
                     $found = 1;
                 }
             }
@@ -814,7 +822,7 @@ SQL;
     public function checkPrice($data, $product)
     {
         $current = [
-            'price' => $this->formatDecimalNumber($data->getPrice())
+            'price' => $this->formatDecimalNumber($data)
         ];
 
         $head = [
