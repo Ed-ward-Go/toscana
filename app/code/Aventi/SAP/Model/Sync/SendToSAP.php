@@ -173,7 +173,7 @@ class SendToSAP
      */
     public function completedOrderToSAP()
     {
-        return $this->processOrder(['complete', 'syncing', 'pending', 'paid_tucompra']);
+        return $this->processOrder(['pending', 'processing', 'syncing']);
     }
 
     /**
