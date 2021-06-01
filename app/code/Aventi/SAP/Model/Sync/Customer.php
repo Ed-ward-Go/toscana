@@ -491,9 +491,15 @@ class Customer extends AbstractSync
             try {
 
                 $customer = $this->customer->get($data['email']);
-                
-                //$checkCustomer = $this->checkCustomer($data, $customer);
-                /*if ($checkCustomer) {
+                $checkCustomer = $this->checkCustomer($data, $customer);
+
+                if ($checkCustomer) {
+
+                    $customerId = $this->helperSAP->getCustomerId( $data['code'] );
+                    if($customerId){
+                        $this->managerSummary($customerId, $data);
+                    }
+
                     $check = 1;
                     return [
                         'new' => $new,
@@ -501,7 +507,7 @@ class Customer extends AbstractSync
                         'check' => $check,
                         'error' => $error
                     ];
-                }*/
+                }
 
                 $customer->setStoreId(1);
                 $customer->setWebsiteId(1);
@@ -517,6 +523,7 @@ class Customer extends AbstractSync
                 $customer->setCustomAttribute('user_code', $user_code);*/
                 //$customer->setCustomAttribute('type_customer', $typeCustomer);
                 $customer = $this->customerRepository->save($customer);
+
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                 try {
                     if ($data['status'] == 0) {
@@ -636,22 +643,24 @@ class Customer extends AbstractSync
 
     public function checkCustomer($data, $customer)
     {
-        $summaryCredit = 0;
+        //$summaryCredit = 0;
         $current = [
             "code" => $data['code'],
             "email" => $data['email'],
             "name" => $data['name'],
             "slpCode" => $data['slpCode'],
-            "creditLine" => $data['creditLine'],
             "identification" => $data['identification'],
-            "source" => $data['source']
+            "source" => $data['source'],
+            //"creditLine" => $data['creditLine'],
         ];
-        try {
+
+       /*try {
             $summary = $this->creditRepository->getByCustomerId($customer->getId());
             $summaryCredit = $summary->getCredit();
         } catch (NoSuchEntityException $e) {
             $summaryCredit = 0;
-        }
+        }*/
+
         $head = [
             "code" => ($customer->getCustomAttribute('sap_customer_id')) ? $customer->getCustomAttribute('sap_customer_id')->getValue() : 0 ,
             "email" => $customer->getEmail(),
@@ -659,7 +668,7 @@ class Customer extends AbstractSync
             "slpCode" => ($customer->getCustomAttribute('slp_code')) ? $customer->getCustomAttribute('slp_code')->getValue() : 0 ,
             "identification" => ($customer->getCustomAttribute('identification_customer')) ? $customer->getCustomAttribute('identification_customer')->getValue() : 0 ,
             "source" => ($customer->getCustomAttribute('warehouse_group')) ? $customer->getCustomAttribute('warehouse_group')->getValue() : 0 ,
-            "creditLine" => $summaryCredit
+            //"creditLine" => $summaryCredit
         ];
 
         $checkStock = array_diff($current, $head);
