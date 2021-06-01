@@ -541,6 +541,7 @@ class SendToSAP
         $start = $this->microtime_float();
         $orders = $this->orderCollectionFactory->create()
             ->addAttributeToFilter('status', $status)
+            ->addAttributeToFilter('sap_id', ['null' => true])
             ->setOrder('created_at', 'ASC');
         $totalOrders = count($orders);
         $totalOrderSentSAP = $totalOrderError = 0;
