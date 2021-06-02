@@ -429,7 +429,7 @@ class Customer extends AbstractSync
 
     public function customer($option = 0)
     {
-        $start =  $new = $check =  $error= 0;
+        $start =  $new = $check = $error= 0;
         $rows = 1000;
         $siguiente = true;
         
@@ -492,14 +492,12 @@ class Customer extends AbstractSync
 
                 $customer = $this->customer->get($data['email']);
                 $checkCustomer = $this->checkCustomer($data, $customer);
-
+                $customerId = $this->helperSAP->getCustomerId( $data['code'] );
+             
                 if ($checkCustomer) {
-
-                    $customerId = $this->helperSAP->getCustomerId( $data['code'] );
                     if($customerId){
                         $this->managerSummary($customerId, $data);
                     }
-
                     $check = 1;
                     return [
                         'new' => $new,
@@ -522,7 +520,12 @@ class Customer extends AbstractSync
                 /*$customer->setCustomAttribute('owner_code', $owner_code);
                 $customer->setCustomAttribute('user_code', $user_code);*/
                 //$customer->setCustomAttribute('type_customer', $typeCustomer);
+                
                 $customer = $this->customerRepository->save($customer);
+                    
+                if($customer && $customerId){
+                    $this->managerSummary($customerId, $data);
+                }
 
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                 try {
@@ -556,7 +559,7 @@ class Customer extends AbstractSync
                 $error = 1;
             }
 
-            if ($customer) {
+            if ($customer && $new == 1) {
                 try {
                     //$customer = $this->customer->get($data['email']);
                     //$this->managerSummary($customer->getId(), $data);

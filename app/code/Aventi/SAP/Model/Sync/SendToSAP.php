@@ -85,6 +85,11 @@ class SendToSAP
      */
     private $sourceRepository;
 
+      /**
+     * @var \Aventi\SAP\Model\Sync\Customer
+     */
+    private $_customer;
+
     /**
      * SendToSAP constructor.
      * @param \Magento\Sales\Model\ResourceModel\Order\Status\History\CollectionFactory $historyCollectionFactory
@@ -92,6 +97,7 @@ class SendToSAP
      * @param \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory
      * @param \Aventi\SAP\Helper\Data $data
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
+     * @param \Aventi\SAP\Model\Sync\Customer $customer
      */
     public function __construct(
         \Magento\Sales\Model\ResourceModel\Order\Status\History\CollectionFactory $historyCollectionFactory,
@@ -111,7 +117,8 @@ class SendToSAP
         \Aventi\SAP\Helper\DataEmail $dataEmail,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Api\OrderManagementInterface $orderManagement,
-        \Magento\InventoryApi\Api\SourceRepositoryInterface $sourceRepository
+        \Magento\InventoryApi\Api\SourceRepositoryInterface $sourceRepository,
+        \Aventi\SAP\Model\Sync\Customer $customer
     ) {
         $this->historyCollectionFactory = $historyCollectionFactory;
         $this->logger = $logger;
@@ -131,6 +138,7 @@ class SendToSAP
         $this->_orderFactory = $orderFactory;
         $this->orderManagement = $orderManagement;
         $this->sourceRepository = $sourceRepository;
+        $this->_customer = $customer;
     }
 
     /**
@@ -629,7 +637,13 @@ class SendToSAP
                         break;
 
                 }
-                $this->orderRepository->save($order);
+                
+                $orderSave = $this->orderRepository->save($order);
+
+                if($orderSave){
+                    $this->_customer->customer(0);
+                }
+
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage());
                 //throw new \Exception($e->getMessage(), 6);
