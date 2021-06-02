@@ -37,6 +37,8 @@ class Customer
      */
     public function execute()
     {
+        $this->logger->addInfo("Cronjob Customer is executed.");
+        // 1=slow, 0=fast 
         $this->customer->customer(0);
     }
 }

@@ -5,6 +5,7 @@
 		<job instance="Aventi\SAP\Cron\Product" method="execute" name="aventi_sap_product">
 			<schedule>10 */23 * * *</schedule>
 		</job>
+
 		<job instance="Aventi\SAP\Cron\ProductFaster" method="execute" name="aventi_sap_productfaster">
 			<schedule>1 */1 * * *</schedule>
 		</job>
@@ -21,12 +22,12 @@
 			<schedule>*/7 * * * *</schedule>
 		</job>
 
-		<job instance="Aventi\SAP\Cron\OrderError" method="execute" name="aventi_sap_order_error">
-			<schedule>*/42 * * * *</schedule>
-		</job>
-
 		<job instance="Aventi\SAP\Cron\Customer" method="execute" name="aventi_sap_customer">
 			<schedule>*/8 * * * *</schedule>
+		</job>
+
+		<job instance="Aventi\SAP\Cron\OrderError" method="execute" name="aventi_sap_order_error">
+			<schedule>*/42 * * * *</schedule>
 		</job>
 
 		<job instance="Aventi\SAP\Cron\CustomerAddress" method="execute" name="aventi_sap_customer_address">
