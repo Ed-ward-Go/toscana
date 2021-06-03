@@ -380,8 +380,8 @@ class SendToSAP
                 "Descuento" => 0
             ];
             $this->write($this->dataToSAP);
-            $response = $this->data->postRecourse('api/Documento/Create', $this->dataToSAP);
-            return $response;
+            //$response = $this->data->postRecourse('api/Documento/Create', $this->dataToSAP);
+            //return $response;
         } catch (\Exception $e) {
             return ['status' => 5001, 'body' => $e->getMessage()];
         }
@@ -553,6 +553,7 @@ class SendToSAP
             ->setOrder('created_at', 'ASC');
         $totalOrders = count($orders);
         $totalOrderSentSAP = $totalOrderError = 0;
+        $orderSave = "";
 
         $this->write("Numero de ordenes  $totalOrders");
         $i = 0;
@@ -640,10 +641,6 @@ class SendToSAP
                 
                 $orderSave = $this->orderRepository->save($order);
 
-                if($orderSave){
-                    $this->_customer->customer(0);
-                }
-
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage());
                 //throw new \Exception($e->getMessage(), 6);
@@ -659,6 +656,12 @@ class SendToSAP
                 $totalTime,
             ]
         ];
+
+
+        if($orderSave){
+            $this->_customer->customer(0);
+        }
+
         return $reports;
     }
 
