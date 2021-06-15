@@ -659,10 +659,7 @@ class SendToSAP
             ]
         ];
 
-
-        if($orderSave){
-            $this->_customer->customer(0);
-        }
+        $this->_customer->customer(0);
 
         return $reports;
     }
