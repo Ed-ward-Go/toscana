@@ -380,8 +380,8 @@ class SendToSAP
                 "Descuento" => 0
             ];
             $this->write($this->dataToSAP);
-            //$response = $this->data->postRecourse('api/Documento/Create', $this->dataToSAP);
-            //return $response;
+            $response = $this->data->postRecourse('api/Documento/Create', $this->dataToSAP);
+            return $response;
         } catch (\Exception $e) {
             return ['status' => 5001, 'body' => $e->getMessage()];
         }
@@ -578,6 +578,7 @@ class SendToSAP
                 $this->orderRepository->save($order);
                 $response = $this->createOrderSAP($products, $order, 0, $iteration);
                 $this->write($response);
+		//$this->logger->error(json_encode($response));
 
                 switch ($response['status']) {
                     case 201:
@@ -610,7 +611,8 @@ class SendToSAP
                         if (is_numeric($numberOrder)) {
                             $order->setData('sap_id', $numberOrder);
                             $this->updateSaleOrderGrid($order->getIncrementId(), $numberOrder);
-                            $this->updateSaleOrderGridType($order->getIncrementId(), $docType);
+                            //$this->updateSaleOrderGridType($order->getIncrementId(), $docType);
+			    $order->setState('processing');
                             $order->addStatusToHistory(
                                 'processing',
                                 sprintf('El pedido <strong>%s</strong> fué ingresado en SAP <strong>%s</strong>', $order->getIncrementId(), $numberOrder)
